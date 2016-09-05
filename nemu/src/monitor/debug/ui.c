@@ -36,6 +36,21 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_si(char *args) {
+	int args_length = strlen(args);
+	for (int args_loop = 0; args_loop < args_length; args_loop++) {
+		int args_temp = (int)args[args_loop];
+		if (args_temp > 57 || args_temp < 48) {
+			printf("Unknown command '%s'\n", args);
+			return 0;
+		}
+	}
+	int args_num;
+	sscanf(args, "%d", &args_num);
+	cpu_exec(args_num);
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -44,10 +59,18 @@ static struct {
 	int (*handler) (char *);
 } cmd_table [] = {
 	{ "help", "Display informations about all supported commands", cmd_help },
-	{ "c", "Continue the execution of the program", cmd_c },
-	{ "q", "Exit NEMU", cmd_q },
+	{ "c", "Continue the exeution of the program", cmd_c },
+	{ "q", "Exit NEMU", cmd_q };
 
 	/* TODO: Add more commands */
+
+	{ "si", "Execute one step", cmd_si};
+	{ "info", "Print out information about the programme", cmd_info};
+	{ "p", "Calculate the value of the expression", cmd_p};
+	{ "x", "Examine the internal storage", cmd_x};
+	{ "w", "Set watchpoint", cmd_w};
+	{ "d", "Delete watchpoint", cmd_d};
+	{ "bt", "Print the phase chain", cmd_bt};
 
 };
 
