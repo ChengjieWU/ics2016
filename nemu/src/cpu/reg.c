@@ -21,6 +21,9 @@ void reg_test() {
 		assert(reg_w(i) == (sample[i] & 0xffff));
 	}
 
+	printf("%x\n", sample[R_EAX]);
+	printf("%x\n", reg_l(R_EAX));
+	printf("%x\n", cpu.eax);
 	assert(reg_b(R_AL) == (sample[R_EAX] & 0xff));
 	assert(reg_b(R_AH) == ((sample[R_EAX] >> 8) & 0xff));
 	assert(reg_b(R_BL) == (sample[R_EBX] & 0xff));
