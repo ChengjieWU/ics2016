@@ -71,6 +71,7 @@ static int cmd_info(char *args) {
 		printf("ebp\t%x\t%x\n", cpu.ebp, cpu.ebp);
 		printf("esi\t%x\t%d\n", cpu.esi, cpu.esi);
 		printf("edi\t%x\t%d\n", cpu.edi, cpu.edi);
+		printf("eip\t%x\t%x\n", cpu.eip, cpu.eip);
 	}
 	else printf("Unknown command '%s'\n", args);
 	return 0;	
