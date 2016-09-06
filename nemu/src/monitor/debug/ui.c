@@ -58,8 +58,13 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_info(char *args) {
+	if (args == NULL) {
+		printf("Unknown command\n");
+		return 0;
+	}
 	if (strcmp(args, "r") == 0) {
 		printf("%x\n", cpu.eax);
+		printf("%x\n", cpu.ecx);
 	}
 	else printf("Unknown command '%s'\n", args);
 	return 0;	
