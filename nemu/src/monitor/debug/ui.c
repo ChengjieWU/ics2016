@@ -157,7 +157,7 @@ static int cmd_x(char *args) {
 		
 		int wcj = 0;
 		for (; wcj < 8; wcj++) {
-			printf("%d", (int)hwa_to_va(0));
+			printf("%x", (int)hwa_to_va(0));
 		}		
 	}
 	return 0;
