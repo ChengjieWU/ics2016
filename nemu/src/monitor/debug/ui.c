@@ -156,10 +156,10 @@ static int cmd_x(char *args) {
 		sscanf(args_EXPR, "%d", &args_EXPR_num);
 		
 		int wcj = 0;
-		for (; wcj < 8; wcj++) {
-			printf("%x", (int)hwa_to_va(0));
-		}		
-	}
+		for (; wcj < 10; wcj++) {
+			printf("%x\n", swaddr_read(0, 4));
+		}
+	}	
 	return 0;
 }
 
