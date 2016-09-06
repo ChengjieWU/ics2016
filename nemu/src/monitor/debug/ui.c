@@ -165,7 +165,7 @@ static int cmd_x(char *args) {
 		
 		int loop_num = 0;
 		for (; loop_num < args_N_num; loop_num++) {
-			printf("0x%d:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
+			printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
 		}
 	}	
 	return 0;
