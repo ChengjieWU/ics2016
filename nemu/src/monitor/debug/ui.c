@@ -77,9 +77,7 @@ static int cmd_info(char *args) {
 	return 0;	
 }
 
-/*static int cmd_x(char *args) {
-	
-}*/
+static int cmd_x(char *args);
 
 static int cmd_help(char *args);
 
@@ -97,7 +95,7 @@ static struct {
 	{ "si", "argument [N] - Eexecute N steps. When the argument is omitted, execute one step.", cmd_si},
 	{ "info", "Print out information about the programme", cmd_info},
 	//{ "p", "Calculate the value of the expression", cmd_p},
-	//{ "x", "Examine the internal storage", cmd_x},
+	{ "x", "argument [N] [EXPR] - Print the content of the continuous 4 * N bytes starting at address EXPR.", cmd_x},
 	//{ "w", "Set watchpoint", cmd_w},
 	//{ "d", "Delete watchpoint", cmd_d},
 	//{ "bt", "Print the phase chain", cmd_bt},
@@ -125,6 +123,42 @@ static int cmd_help(char *args) {
 			}
 		}
 		printf("Unknown command '%s'\n", arg);
+	}
+	return 0;
+}
+
+static int cmd_x(char *args) {
+	char *args_N;
+	char *args_EXPR;
+	args_N = strtok(NULL, " ");
+	args_EXPR = strtok(NULL, " ");
+	if (args_N == NULL || args_EXPR == NULL) printf("Unknown command\n");
+	else {
+		int args_N_length = strlen(args_N);
+		int args_EXPR_length = strlen(args_EXPR);
+		int args_loop = 0;
+		for (args_loop = 0; args_loop < args_N_length; args_loop++) {
+			int args_temp = (int)args_N[args_loop];
+			if (args_temp > 57 || args_temp < 48) {
+				printf("Unknown command '%s'\n", args);
+				return 0;
+			}
+		}
+		for (args_loop = 0; args_loop < args_EXPR_length; args_loop++) {
+			int args_temp = (int)args_EXPR[args_loop];
+			if (args_temp > 57 || args_temp < 48) {
+				printf("Unknown command '%s'\n", args);
+				return 0;
+			}
+		}
+		int args_N_num, args_EXPR_num;
+		sscanf(args_N, "%d", &args_N_num);
+		sscanf(args_EXPR, "%d", &args_EXPR_num);
+		
+		int wcj = 0;
+		for (; wcj < 8; wcj++) {
+			printf("%d", (int)hwa_to_va(0));
+		}		
 	}
 	return 0;
 }
