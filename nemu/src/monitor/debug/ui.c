@@ -155,9 +155,9 @@ static int cmd_x(char *args) {
 		sscanf(args_N, "%d", &args_N_num);
 		sscanf(args_EXPR, "%d", &args_EXPR_num);
 		
-		int wcj = 0;
-		for (; wcj < 10; wcj++) {
-			printf("%x\n", swaddr_read(0, 4));
+		int loop_num = 0;
+		for (; loop_num < args_N_num; loop_num++) {
+			printf("%x\n", swaddr_read(args_EXPR_num + 4 * loop_num, 4));
 		}
 	}	
 	return 0;
