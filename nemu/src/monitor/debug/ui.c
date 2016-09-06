@@ -57,6 +57,14 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
+static int cmd_info(char *args) {
+	if (strcmp(args, "r") == 0) {
+		printf("%x\n", cpu.eax);
+	}
+	else printf("Unknown command '%s'\n", args);
+	return 0;	
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -71,7 +79,7 @@ static struct {
 	/* TODO: Add more commands */
 
 	{ "si", "argument [N] - Eexecute N steps. When the argument is omitted, execute one step.", cmd_si},
-	//{ "info", "Print out information about the programme", cmd_info},
+	{ "info", "Print out information about the programme", cmd_info},
 	//{ "p", "Calculate the value of the expression", cmd_p},
 	//{ "x", "Examine the internal storage", cmd_x},
 	//{ "w", "Set watchpoint", cmd_w},
