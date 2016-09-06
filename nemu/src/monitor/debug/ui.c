@@ -128,10 +128,13 @@ static int cmd_help(char *args) {
 }
 
 static int cmd_x(char *args) {
+	printf("%s\n", args);
 	char *args_N;
 	char *args_EXPR;
 	args_N = strtok(NULL, " ");
+	printf("%s\n", args);
 	args_EXPR = strtok(NULL, " ");
+	printf("%s\n", args);
 	if (args_N == NULL || args_EXPR == NULL) printf("Unknown command\n");
 	else {
 		int args_N_length = strlen(args_N);
