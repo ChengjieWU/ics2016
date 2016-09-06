@@ -70,7 +70,7 @@ static struct {
 
 	/* TODO: Add more commands */
 
-	{ "si", "[N] Execute N steps. When the argument is omitted, execute one step.", cmd_si},
+	{ "si", "argument [N] - Eexecute N steps. When the argument is omitted, execute one step.", cmd_si},
 	//{ "info", "Print out information about the programme", cmd_info},
 	//{ "p", "Calculate the value of the expression", cmd_p},
 	//{ "x", "Examine the internal storage", cmd_x},
