@@ -64,13 +64,13 @@ static struct {
 	char *description;
 	int (*handler) (char *);
 } cmd_table [] = {
-	{ "help", "Display informations about all supported commands", cmd_help },
-	{ "c", "Continue the exeution of the program", cmd_c },
-	{ "q", "Exit NEMU", cmd_q },
+	{ "help", "Display informations about all supported commands.", cmd_help },
+	{ "c", "Continue the exeution of the program.", cmd_c },
+	{ "q", "Exit NEMU.", cmd_q },
 
 	/* TODO: Add more commands */
 
-	{ "si", "Execute one step", cmd_si},
+	{ "si", "[N] Execute N steps. When the argument is omitted, execute one step.", cmd_si},
 	//{ "info", "Print out information about the programme", cmd_info},
 	//{ "p", "Calculate the value of the expression", cmd_p},
 	//{ "x", "Examine the internal storage", cmd_x},
