@@ -154,7 +154,7 @@ static int cmd_x(char *args) {
 		args_EXPR_length = args_EXPR_length - 2;
 		for (args_loop = 0; args_loop < args_EXPR_length; args_loop++) {
 			int args_temp = (int)args_EXPR[args_loop];
-			if (args_temp > 57 || args_temp < 48) {
+			if ((args_temp > 57 || args_temp < 48) && (args_temp < 97 || args_temp > 102))  {
 				printf("Unknown command '%s'\n", args_backup);
 				return 0;
 			}
