@@ -181,7 +181,9 @@ float eval(int p, int q, bool* legal) {
 			float val1 = eval(op + 1, q, legal);
 			switch(tokens[op].type) {
 				case NEG: return -1 * val1;
-				case NOT: return !val1;
+				case NOT: { if (val1 == 0) return 0;
+						else return 1;
+					  }
 				case DEREF: return 0;
 			}
 		}
