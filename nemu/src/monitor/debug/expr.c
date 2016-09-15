@@ -93,9 +93,9 @@ static bool make_token(char *e) {
 					tokens[nr_token].str[substr_len] = '\0';
 					nr_token++; 	
 
-					switch(rules[i].token_type) {
+					/*switch(rules[i].token_type) {
 						default: panic("please implement me");
-					}
+					}*/
 				}
 				break;
 			}
