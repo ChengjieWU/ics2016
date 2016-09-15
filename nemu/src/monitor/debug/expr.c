@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, G, GE, L, LE, NUM
+	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ
 
 	/* TODO: Add more token types */
 
@@ -28,7 +28,11 @@ static struct rule {
 	{">=", GE},
 	{">", G},
 	{"\\+", '+'},					// plus
-	{"==", EQ},						// equal
+	{"==", EQ},	// equal
+	{"!=", NEQ},
+	{"!", NOT},
+	{"&&", AND},
+	{"\\|\\|", OR},
 	{"\\-", '-'},
 	{"\\*", '*'},
 	{"\\/", '/'},
@@ -133,7 +137,8 @@ int priority_request(int x) {
 	if (tokens[x].type == '+' || tokens[x].type == '-') return 1;
 	else if (tokens[x].type == '*' || tokens[x].type == '/') return 2;
 	else if (tokens[x].type == G || tokens[x].type == GE || tokens[x].type == L
-			|| tokens[x].type == LE || tokens[x].type == EQ) return 0;
+			|| tokens[x].type == LE || tokens[x].type == EQ || tokens[x].type == NEQ) return 0;
+	else if (tokens[x].type == AND || tokens[x].type == OR) return -1;
 	else return 9;
 }
 
@@ -181,6 +186,9 @@ float eval(int p, int q, bool* legal) {
 			case GE: return val1 >= val2;
 			case L: return val1 < val2;
 			case LE: return val1 <= val2;
+			case NEQ: return val1 != val2;
+			case AND: return val1 && val2;
+			case OR: return val1 || val2;
 			default: assert(0);
 		}	
 	}
