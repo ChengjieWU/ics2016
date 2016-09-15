@@ -125,6 +125,13 @@ bool check_parentheses(int p, int q) {
 	else return false;
 }
 
+int priority_request(int x) {
+	if (tokens[x].type == '+' || tokens[x].type == '-') return 1;
+	else if (tokens[x].type == '*' || tokens[x].type == '/') return 2;
+	else return 0;
+}
+
+
 float eval(int p, int q) {
 	if (p > q) {
 		assert(0);
@@ -139,7 +146,32 @@ float eval(int p, int q) {
 		return eval(p + 1, q - 1);
 	}
 	else {
-		return 0;	
+		int current_priority = 10;
+		int current_parentheses = 0;
+		int op = p;
+		int lo = p;
+		for (; lo <= q; lo++) {
+			if (tokens[lo].type == '(') current_parentheses++;
+			else if (tokens[lo].type == ')') current_parentheses--;
+			else if (current_parentheses == 0 && priority_request(lo) <= current_priority) {
+				current_priority = priority_request(lo);
+				op = lo;
+			}
+		}
+		if (current_priority == 10) {
+			assert(0);
+			return 0;
+		}
+
+		float val1 = eval(p, op - 1);
+		float val2 = eval(op + 1, q);
+		switch(tokens[p].type) {
+			case 43: return val1 + val2;
+			case 45: return val1 - val2;
+			case 42: return val1 * val2;
+			case 47: return val1 / val2;
+			default: assert(0);
+		}	
 	}
 }
 
