@@ -162,6 +162,7 @@ float eval(int p, int q) {
 			assert(0);
 			return 0;
 		}
+		printf("%d\n", op);
 
 		float val1 = eval(p, op - 1);
 		float val2 = eval(op + 1, q);
@@ -184,11 +185,11 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	
-	int wcj = 0;
+	/*int wcj = 0;
 	for (; wcj < nr_token; wcj++)
 	{
 		printf("%d, %s\n", tokens[wcj].type, tokens[wcj].str);
-	}
+	}*/
 
 
 	/* TODO: Insert codes to evaluate the expression. */
