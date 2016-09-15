@@ -5,7 +5,6 @@
  */
 #include <sys/types.h>
 #include <regex.h>
-#include <string.h>
 
 enum {
 	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG
@@ -163,14 +162,14 @@ float eval(int p, int q, bool* legal) {
 		else if (tokens[p].type == REG) {
 			printf ("%s\n", tokens[p].str);
 			if (strcmp(tokens[p].str, "$eax") == 0) ret = cpu.eax;	
-			if (strcmp(tokens[p].str, "$ecx") == 0) ret = cpu.ecx;	
-			if (strcmp(tokens[p].str, "$edx") == 0) ret = cpu.edx;	
-			if (strcmp(tokens[p].str, "$ebx") == 0) ret = cpu.ebx;	
-			if (strcmp(tokens[p].str, "$esp") == 0) ret = cpu.esp;	
-			if (strcmp(tokens[p].str, "$ebp") == 0) ret = cpu.ebp;	
-			if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
-			if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
-			if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
+			else if (strcmp(tokens[p].str, "$ecx") == 0) ret = cpu.ecx;	
+			else if (strcmp(tokens[p].str, "$edx") == 0) ret = cpu.edx;	
+			else if (strcmp(tokens[p].str, "$ebx") == 0) ret = cpu.ebx;	
+			else if (strcmp(tokens[p].str, "$esp") == 0) ret = cpu.esp;	
+			else if (strcmp(tokens[p].str, "$ebp") == 0) ret = cpu.ebp;	
+			else if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
+			else if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
+			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
 			else {
 				*legal = false;
 				printf("haha\n");
