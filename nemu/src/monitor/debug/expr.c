@@ -169,7 +169,10 @@ float eval(int p, int q, bool* legal) {
 			if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
 			if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
 			if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
-			else *legal = false;	
+			else {
+				*legal = false;
+				printf("haha\n");
+			}	
 		}
 		else *legal = false;
 		return ret;
@@ -234,13 +237,6 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	
-	/*int wcj = 0;
-	for (; wcj < nr_token; wcj++)
-	{
-		printf("%d, %s\n", tokens[wcj].type, tokens[wcj].str);
-	}*/
-
-
 	/* TODO: Insert codes to evaluate the expression. */
 	
 	int i = 0;
