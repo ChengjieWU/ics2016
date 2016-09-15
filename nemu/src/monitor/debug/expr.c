@@ -30,7 +30,7 @@ static struct rule {
 	{"\\/", '/'},
 	{"\\(", '('},
 	{"\\)", ')'},
-	{"[0-9]+", NUM}
+	{"[0-9]+[.]?[0-9]+", NUM}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -109,6 +109,42 @@ static bool make_token(char *e) {
 
 	return true; 
 }
+
+bool check_parentheses(int p, int q) {
+	if (tokens[p].type == '(' && tokens[q].type == ')') {
+		int parentheses = 0;
+		int p_loop = p + 1;
+		for (; p_loop < q; p_loop++) {
+			if (tokens[p_loop].type == '(') parentheses++;
+			else if (tokens[p_loop].type == ')') parentheses--;
+			if (parentheses < 0) return false;
+		}
+		if (parentheses == 0) return true;
+		else return false;
+	}
+	else return false;
+}
+
+float eval(int p, int q) {
+	if (p > q) {
+		assert(0);
+		return 0;
+	}
+	else if (p == q) {
+		float ret;
+		sscanf(tokens[p].str, "%f", &ret);
+		return ret;
+	}
+	else if (check_parentheses(p, q) == true) {
+		return eval(p + 1, q - 1);
+	}
+	else {
+		return 0;
+	}
+}
+
+
+
 
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
