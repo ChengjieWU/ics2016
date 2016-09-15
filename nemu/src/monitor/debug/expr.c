@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ
+	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG
 
 	/* TODO: Add more token types */
 
@@ -38,7 +38,9 @@ static struct rule {
 	{"\\/", '/'},
 	{"\\(", '('},
 	{"\\)", ')'},
-	{"[0-9]+[.]?[0-9]*|[0-9]*[.]?[0-9]+", NUM}
+	{"[0-9]+[.]?[0-9]*|[0-9]*[.]?[0-9]+", NUM},
+	{"0x[0-9]{1,8}", HEX},
+	{"\\$[a-z]{3}", REG}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -150,8 +152,25 @@ float eval(int p, int q, bool* legal) {
 		return 0;
 	}
 	else if (p == q) {
-		float ret;
+		float ret = 0;
 		if (tokens[p].type == NUM) sscanf(tokens[p].str, "%f", &ret);
+		else if (tokens[p].type == HEX) {
+			int ret_t;
+			sscanf(tokens[p].str, "%x", &ret_t);
+			ret = (float) ret_t;
+		}
+		else if (tokens[p].type == REG) {
+			if (strcmp(tokens[p].str, "$eax") == 0) ret = cpu.eax;	
+			if (strcmp(tokens[p].str, "$ecx") == 0) ret = cpu.ecx;	
+			if (strcmp(tokens[p].str, "$edx") == 0) ret = cpu.edx;	
+			if (strcmp(tokens[p].str, "$ebx") == 0) ret = cpu.ebx;	
+			if (strcmp(tokens[p].str, "$esp") == 0) ret = cpu.esp;	
+			if (strcmp(tokens[p].str, "$ebp") == 0) ret = cpu.ebp;	
+			if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
+			if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
+			if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
+			else *legal = false;	
+		}
 		else *legal = false;
 		return ret;
 	}
