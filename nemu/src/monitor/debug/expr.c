@@ -162,15 +162,15 @@ float eval(int p, int q) {
 			assert(0);
 			return 0;
 		}
-		printf("haha%d\n", op);
+		
 
 		float val1 = eval(p, op - 1);
 		float val2 = eval(op + 1, q);
-		switch(tokens[p].type) {
-			case 43: return val1 + val2;
-			case 45: return val1 - val2;
-			case 42: return val1 * val2;
-			case 47: return val1 / val2;
+		switch(tokens[op].type) {
+			case '+': return val1 + val2;
+			case '-': return val1 - val2;
+			case '*': return val1 * val2;
+			case '/': return val1 / val2;
 			default: assert(0);
 		}	
 	}
