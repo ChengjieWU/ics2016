@@ -128,7 +128,7 @@ bool check_parentheses(int p, int q) {
 int priority_request(int x) {
 	if (tokens[x].type == '+' || tokens[x].type == '-') return 1;
 	else if (tokens[x].type == '*' || tokens[x].type == '/') return 2;
-	else return 0;
+	else return 9;
 }
 
 
