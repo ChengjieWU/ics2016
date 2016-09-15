@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NUM = 1
+	NOTYPE = 256, EQ, G, GE, L, LE, NUM
 
 	/* TODO: Add more token types */
 
@@ -23,6 +23,10 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE},				// spaces
+	{"<=", LE},
+	{"<", L},
+	{">=", GE},
+	{">", G},
 	{"\\+", '+'},					// plus
 	{"==", EQ},						// equal
 	{"\\-", '-'},
@@ -128,6 +132,8 @@ bool check_parentheses(int p, int q) {
 int priority_request(int x) {
 	if (tokens[x].type == '+' || tokens[x].type == '-') return 1;
 	else if (tokens[x].type == '*' || tokens[x].type == '/') return 2;
+	else if (tokens[x].type == G || tokens[x].type == GE || tokens[x].type == L
+			|| tokens[x].type == LE || tokens[x].type == EQ) return 0;
 	else return 9;
 }
 
@@ -170,6 +176,11 @@ float eval(int p, int q, bool* legal) {
 			case '-': return val1 - val2;
 			case '*': return val1 * val2;
 			case '/': return val1 / val2;
+			case EQ: return val1 == val2;
+			case G: return val1 > val2;
+			case GE: return val1 >= val2;
+			case L: return val1 < val2;
+			case LE: return val1 <= val2;
 			default: assert(0);
 		}	
 	}
