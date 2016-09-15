@@ -138,7 +138,8 @@ int priority_request(int x) {
 	else if (tokens[x].type == '*' || tokens[x].type == '/') return 2;
 	else if (tokens[x].type == G || tokens[x].type == GE || tokens[x].type == L
 			|| tokens[x].type == LE || tokens[x].type == EQ || tokens[x].type == NEQ) return 0;
-	else if (tokens[x].type == AND || tokens[x].type == OR) return -1;
+	else if (tokens[x].type == AND || tokens[x].type == OR ) return -1;
+	else if (tokens[x].type == NEG || tokens[x].type == DEREF || tokens[x].type == NEG) return 3;
 	else return 9;
 }
 
@@ -150,7 +151,8 @@ float eval(int p, int q, bool* legal) {
 	}
 	else if (p == q) {
 		float ret;
-		sscanf(tokens[p].str, "%f", &ret);
+		if (tokens[p].type == NUM) sscanf(tokens[p].str, "%f", &ret);
+		else *legal = false;
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
@@ -165,6 +167,8 @@ float eval(int p, int q, bool* legal) {
 			if (tokens[lo].type == '(') current_parentheses++;
 			else if (tokens[lo].type == ')') current_parentheses--;
 			else if (current_parentheses == 0 && priority_request(lo) <= current_priority) {
+				if (priority_request(lo) == 3 && priority_request(lo) == current_priority) 
+					continue;
 				current_priority = priority_request(lo);
 				op = lo;
 			}
@@ -173,7 +177,15 @@ float eval(int p, int q, bool* legal) {
 			*legal = false;
 			return 0;
 		}
-			
+		if (priority_request(op) == 3) {
+			float val1 = eval(op + 1, q, legal);
+			switch(tokens[op].type) {
+				case NEG: return -1 * val1;
+				case NOT: return !val1;
+				case DEREF: return 0;
+			}
+		}
+		
 		float val1 = eval(p, op - 1, legal);
 		float val2 = eval(op + 1, q, legal);
 		switch(tokens[op].type) {
@@ -211,6 +223,15 @@ uint32_t expr(char *e, bool *success) {
 
 
 	/* TODO: Insert codes to evaluate the expression. */
+	
+	int i = 0;
+	for (; i < nr_token; i++) {
+		if (i == 0 || (tokens[i - 1].type != NUM && tokens[i - 1].type != ')')) {
+			if (tokens[i].type == '*') tokens[i].type = DEREF;
+			else if (tokens[i].type == '-') tokens[i].type = NEG;
+		}
+	}
+	
 	bool legal = true;
 	float ret = eval(0, nr_token - 1, &legal);
 	if(legal == true) printf("%f\n", ret);
