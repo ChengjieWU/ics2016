@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, NUM = 1
 
 	/* TODO: Add more token types */
 
@@ -24,7 +24,13 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"==", EQ},						// equal
+	{"\\-", '-'},
+	{"\\*", '*'},
+	{"\\/", '/'},
+	{"\\(", '('},
+	{"\\)", ')'},
+	{"[0-9]+", NUM}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -48,7 +54,7 @@ void init_regex() {
 	}
 }
 
-typedef struct token {
+typedef struct  {
 	int type;
 	char str[32];
 } Token;
@@ -77,11 +83,20 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
+				
+				if (rules[i].token_type != NOTYPE) {
+					tokens[nr_token].type = rules[i].token_type;
+					int my_loop = 0;
+					for (; my_loop < substr_len; my_loop++) {
+						tokens[nr_token].str[my_loop] = substr_start[my_loop];
+					}
+					tokens[nr_token].str[substr_len] = '\0';
+					nr_token++; 	
 
-				switch(rules[i].token_type) {
-					default: panic("please implement me");
+					switch(rules[i].token_type) {
+						default: panic("please implement me");
+					}
 				}
-
 				break;
 			}
 		}
@@ -100,8 +115,16 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
+	
+	int wcj = 0;
+	for (; wcj < nr_token; wcj++)
+	{
+		printf("%d, %s\n", tokens[wcj].type, tokens[wcj].str);
+	}
+
 
 	/* TODO: Insert codes to evaluate the expression. */
+		
 	panic("please implement me");
 	return 0;
 }

@@ -81,6 +81,8 @@ static int cmd_x(char *args);
 
 static int cmd_help(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -94,7 +96,7 @@ static struct {
 
 	{ "si", "argument [N] - Eexecute N steps. When the argument is omitted, execute one step.", cmd_si},
 	{ "info", "Print out information about the programme", cmd_info},
-	//{ "p", "Calculate the value of the expression", cmd_p},
+	{ "p", "Calculate the value of the expression", cmd_p},
 	{ "x", "argument [N] [EXPR] - Print the content of the continuous 4 * N bytes starting at address EXPR.", cmd_x},
 	//{ "w", "Set watchpoint", cmd_w},
 	//{ "d", "Delete watchpoint", cmd_d},
@@ -103,6 +105,14 @@ static struct {
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+
+static int cmd_p(char *args){
+	bool mu_temp = true;
+	uint32_t ret = expr(args, &mu_temp);
+	return ret;
+}
+
 
 static int cmd_help(char *args) {
 	/* extract the first argument */
