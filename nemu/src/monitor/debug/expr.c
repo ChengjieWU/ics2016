@@ -252,12 +252,15 @@ uint32_t expr(char *e, bool *success) {
 	
 	bool legal = true;
 	float ret = eval(0, nr_token - 1, &legal);
+	int ret_int = (int) ret;
 	if(legal == true) {
-		int ret_int = (int) ret;
 		if (ret_int == ret) printf("%d\n", ret_int);
 		else printf("%f\n", ret);
 	}
-	else printf("Illegal expression\n");	
-	return 0;
+	else {
+		printf("Illegal expression\n");
+		*success = false;
+	}	
+	return (unsigned) ret_int;
 }
 
