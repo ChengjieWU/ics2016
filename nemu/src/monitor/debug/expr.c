@@ -8,10 +8,9 @@
 
 enum {
 	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG
-
 	/* TODO: Add more token types */
-
 };
+
 
 static struct rule {
 	char *regex;
@@ -28,7 +27,7 @@ static struct rule {
 	{">=", GE},
 	{">", G},
 	{"\\+", '+'},					// plus
-	{"==", EQ},	// equal
+	{"==", EQ},					// equal
 	{"!=", NEQ},
 	{"!", NOT},
 	{"&&", AND},
@@ -43,9 +42,12 @@ static struct rule {
 	{"\\$[a-z]{3}", REG}
 };
 
+
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
 
+
 static regex_t re[NR_REGEX];
+
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -64,19 +66,22 @@ void init_regex() {
 	}
 }
 
+
 typedef struct  {
 	int type;
 	char str[32];
 } Token;
 
+
 Token tokens[32];
 int nr_token;
+
 
 static bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;
-	
+
 	nr_token = 0;
 
 	while(e[position] != '\0') {
@@ -170,10 +175,7 @@ float eval(int p, int q, bool* legal) {
 			else if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
 			else if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
 			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
-			else {
-				*legal = false;
-				printf("haha\n");
-			}	
+			else *legal = false;
 		}
 		else *legal = false;
 		return ret;
@@ -250,7 +252,11 @@ uint32_t expr(char *e, bool *success) {
 	
 	bool legal = true;
 	float ret = eval(0, nr_token - 1, &legal);
-	if(legal == true) printf("%f\n", ret);
+	if(legal == true) {
+		int ret_int = (int) ret;
+		if (ret_int == ret) printf("%d\n", ret_int);
+		else printf("%f\n", ret);
+	}
 	else printf("Illegal expression\n");	
 	return 0;
 }
