@@ -139,7 +139,7 @@ int priority_request(int x) {
 	else if (tokens[x].type == G || tokens[x].type == GE || tokens[x].type == L
 			|| tokens[x].type == LE || tokens[x].type == EQ || tokens[x].type == NEQ) return 0;
 	else if (tokens[x].type == AND || tokens[x].type == OR ) return -1;
-	else if (tokens[x].type == NEG || tokens[x].type == DEREF || tokens[x].type == NEG) return 3;
+	else if (tokens[x].type == NEG || tokens[x].type == DEREF || tokens[x].type == NOT) return 3;
 	else return 9;
 }
 
@@ -181,9 +181,7 @@ float eval(int p, int q, bool* legal) {
 			float val1 = eval(op + 1, q, legal);
 			switch(tokens[op].type) {
 				case NEG: return -1 * val1;
-				case NOT: { if (val1 == 0) return 0;
-						else return 1;
-					  }
+				case NOT: return !val1;
 				case DEREF: return 0;
 			}
 		}
