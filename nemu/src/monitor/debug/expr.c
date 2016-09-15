@@ -178,7 +178,7 @@ float eval(int p, int q, bool* legal) {
 		return eval(p + 1, q - 1, legal);
 	}
 	else {
-		int current_priority = 10;
+		int current_priority = 8;
 		int current_parentheses = 0;
 		int op = p;
 		int lo = p;
@@ -192,7 +192,7 @@ float eval(int p, int q, bool* legal) {
 				op = lo;
 			}
 		}
-		if (current_priority == 10) {
+		if (current_priority == 8) {
 			*legal = false;
 			return 0;
 		}
