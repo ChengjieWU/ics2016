@@ -132,9 +132,9 @@ int priority_request(int x) {
 }
 
 
-float eval(int p, int q) {
+float eval(int p, int q, bool* legal) {
 	if (p > q) {
-		assert(0);
+		*legal = false;
 		return 0;
 	}
 	else if (p == q) {
@@ -143,7 +143,7 @@ float eval(int p, int q) {
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
-		return eval(p + 1, q - 1);
+		return eval(p + 1, q - 1, legal);
 	}
 	else {
 		int current_priority = 10;
@@ -159,12 +159,12 @@ float eval(int p, int q) {
 			}
 		}
 		if (current_priority == 10) {
-			assert(0);
+			*legal = false;
 			return 0;
 		}
 			
-		float val1 = eval(p, op - 1);
-		float val2 = eval(op + 1, q);
+		float val1 = eval(p, op - 1, legal);
+		float val2 = eval(op + 1, q, legal);
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
@@ -192,9 +192,10 @@ uint32_t expr(char *e, bool *success) {
 
 
 	/* TODO: Insert codes to evaluate the expression. */
-
-	printf("%f\n", eval(0, nr_token - 1));	
-	//panic("please implement me");
+	bool legal = true;
+	float ret = eval(0, nr_token - 1, &legal);
+	if(legal == true) printf("%f\n", ret);
+	else printf("Illegal expression\n");	
 	return 0;
 }
 
