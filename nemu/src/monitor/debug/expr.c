@@ -203,6 +203,7 @@ float eval(int p, int q, bool* legal) {
 			return 0;
 		}
 		if (priority_request(op) == 3) {
+			if (p < op && priority_request(op - 1) == 9) *legal = false;
 			float val1 = eval(op + 1, q, legal);
 			switch(tokens[op].type) {
 				case NEG: return -1 * val1;
