@@ -77,11 +77,15 @@ static int cmd_info(char *args) {
 	return 0;	
 }
 
+//static int cmd_d(char *args);
+
 static int cmd_x(char *args);
 
 static int cmd_help(char *args);
 
 static int cmd_p(char *args);
+
+//static int cmd_w(char *args);
 
 static struct {
 	char *name;
@@ -105,7 +109,35 @@ static struct {
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+/*
+static int cmd_w(char *args) {
+	bool expr_legal;
+	uint32_t watch_add = expr(args, &expr_legal);
+	if (expr_legal == false) printf("Illegal expression\n");
+	else
+	{
+		WP* pwp = new_wp();
+		pwp->address = watch_add;
+		pwp->value = swaddr_read(watch_add, 4);
+		printf("Add success\n");
+	}
+}
 
+static int cmd_d(char *args) {
+	bool expr_legal;
+	uint32_t watch_add = expr(args, &expr_legal);
+	if (expr_legal == false) printf("Illegal expression\n");
+	else
+	{
+		WP* pwp = head;
+		for (; pwp != NULL; pwp = pwp->next) {
+			if (pwp->address == watch_add) break;
+		}
+		if (pwp == NULL) printf("Address not found\n");
+		else free_wp(pwp);
+		printf("Delete success\n")
+	}
+}*/
 
 static int cmd_p(char *args){
 	bool mu_temp = false;
