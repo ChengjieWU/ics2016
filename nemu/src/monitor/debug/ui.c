@@ -171,8 +171,7 @@ static int cmd_x(char *args) {
 				return 0;
 			}
 		}*/
-		int args_N_num;
-		int args_EXPR_num;
+		int args_N_num, args_EXPR_num;
 		sscanf(args_N, "%d", &args_N_num);
 		//sscanf(args_EXPR, "%x", &args_EXPR_num);
 		bool ok_temp = true;
@@ -180,14 +179,11 @@ static int cmd_x(char *args) {
 		
 		if (ok_temp == true) {
 			int loop_num = 0;
-			for (; loop_num < args_N_num; loop_num++) {
+			for (; loop_num < args_N_num; loop_num++)
 				printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
-			}
 		}
 		else
-		{
 			printf("Illegal expression\n");
-		}
 	}	
 	return 0;
 }
