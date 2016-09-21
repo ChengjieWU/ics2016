@@ -122,7 +122,8 @@ static int cmd_w(char *args) {
 		WP* pwp = new_wp();
 		pwp->address = watch_add;
 		pwp->value = swaddr_read(watch_add, 4);
-		//printf("Add success\n");
+		WP* wcj;
+		for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	}
 	return 0;
 }
@@ -139,7 +140,8 @@ static int cmd_d(char *args) {
 		}
 		if (pwp == NULL) printf("Address not found\n");
 		else free_wp(pwp);
-		printf("Delete success\n");
+		WP* wcj;		
+		for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	}
 	return 0;
 }
