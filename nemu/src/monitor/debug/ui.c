@@ -122,7 +122,7 @@ static int cmd_w(char *args) {
 		WP* pwp = new_wp();
 		pwp->address = watch_add;
 		pwp->value = swaddr_read(watch_add, 4);
-		printf("Add success\n");
+		//printf("Add success\n");
 	}
 	return 0;
 }
