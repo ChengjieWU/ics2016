@@ -136,8 +136,8 @@ static int cmd_d(char *args) {
 	if (expr_legal == false) printf("Illegal expression\n");
 	else
 	{
-		WP* pwp = head;
-		for (; pwp != NULL; pwp = pwp->next) {
+		WP* pwp;
+		for (pwp = head; pwp != NULL; pwp = pwp->next) {
 			if (pwp->address == watch_add) break;
 		}
 		if (pwp == NULL) printf("Address not found\n");
