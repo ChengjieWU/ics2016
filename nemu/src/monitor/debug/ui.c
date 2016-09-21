@@ -144,7 +144,7 @@ static int cmd_x(char *args) {
 	char *args_EXPR;
 	args_N = strtok(NULL, " ");
 	args_EXPR = strtok(NULL, " ");
-	printf ("%s\n%s\n", args_N, args_EXPR);
+	printf ("%s\n%s\n", args_N, args);
 	if (args_N == NULL || args_EXPR == NULL) printf("Unknown command\n");
 	else {
 		int args_N_length = strlen(args_N);
