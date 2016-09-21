@@ -26,6 +26,8 @@ WP* new_wp() {
 	free_ = free_->next;
 	pwp->next = head;
 	head = pwp;
+	WP* wcj;
+	for (wcj = head; wcj!= NULL; wcj = wcj->next) printf("%u\t%u\n", wcj->address, wcj->value);
 	return pwp;
 }
 
