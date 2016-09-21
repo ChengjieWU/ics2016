@@ -178,9 +178,15 @@ static int cmd_x(char *args) {
 		bool ok_temp = true;
 		args_EXPR_num = expr(args_EXPR, &ok_temp);
 		
-		int loop_num = 0;
-		for (; loop_num < args_N_num; loop_num++) {
-			printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
+		if (ok_temp == true) {
+			int loop_num = 0;
+			for (; loop_num < args_N_num; loop_num++) {
+				printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
+			}
+		}
+		else
+		{
+			printf("Illegal expression\n");
 		}
 	}	
 	return 0;
