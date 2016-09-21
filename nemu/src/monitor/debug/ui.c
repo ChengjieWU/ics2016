@@ -8,6 +8,9 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+WP* new_wp();
+void free_wp(WP* wp);
+WP* head;
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -85,7 +88,7 @@ static int cmd_help(char *args);
 
 static int cmd_p(char *args);
 
-//static int cmd_w(char *args);
+static int cmd_w(char *args);
 
 static struct {
 	char *name;
@@ -102,14 +105,14 @@ static struct {
 	{ "info", "Print out information about the programme", cmd_info},
 	{ "p", "Calculate the value of the expression", cmd_p},
 	{ "x", "argument [N] [EXPR] - Print the content of the continuous 4 * N bytes starting at address EXPR.", cmd_x},
-	//{ "w", "Set watchpoint", cmd_w},
+	{ "w", "Set watchpoint", cmd_w},
 	//{ "d", "Delete watchpoint", cmd_d},
 	//{ "bt", "Print the phase chain", cmd_bt},
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
-/*
+
 static int cmd_w(char *args) {
 	bool expr_legal;
 	uint32_t watch_add = expr(args, &expr_legal);
@@ -121,8 +124,9 @@ static int cmd_w(char *args) {
 		pwp->value = swaddr_read(watch_add, 4);
 		printf("Add success\n");
 	}
+	return 0;
 }
-
+/*
 static int cmd_d(char *args) {
 	bool expr_legal;
 	uint32_t watch_add = expr(args, &expr_legal);
