@@ -124,6 +124,7 @@ static int cmd_w(char *args) {
 		pwp->value = swaddr_read(watch_add, 4);
 	}
 	WP* wcj;
+	if (head == NULL) printf("1");
 	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	return 0;
 }
