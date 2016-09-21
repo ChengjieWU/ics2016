@@ -143,6 +143,7 @@ static int cmd_d(char *args) {
 		if (pwp == NULL) printf("Address not found\n");
 		else free_wp(pwp);
 	}
+	head = head_wp();
 	WP* wcj;		
 	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	return 0;
