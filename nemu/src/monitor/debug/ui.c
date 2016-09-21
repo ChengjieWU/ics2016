@@ -155,7 +155,7 @@ static int cmd_x(char *args) {
 				return 0;
 			}
 		}
-		int args_EXPR_length = strlen(args_EXPR);
+		/*int args_EXPR_length = strlen(args_EXPR);
 		if (args_EXPR_length < 3 || args_EXPR[0] != '0' || args_EXPR[1] != 'x') {
 			printf("Unknown command '%s'\n", args_backup);
 			return 0;
@@ -168,10 +168,13 @@ static int cmd_x(char *args) {
 				printf("Unknown command '%s'\n", args_backup);
 				return 0;
 			}
-		}
-		int args_N_num, args_EXPR_num;
+		}*/
+		int args_N_num;
+		int args_EXPR_num;
 		sscanf(args_N, "%d", &args_N_num);
-		sscanf(args_EXPR, "%x", &args_EXPR_num);
+		//sscanf(args_EXPR, "%x", &args_EXPR_num);
+		bool ok_temp = true;
+		args_EXPR_num = expr(args_EXPR, &ok_temp);
 		
 		int loop_num = 0;
 		for (; loop_num < args_N_num; loop_num++) {
