@@ -143,7 +143,7 @@ static int cmd_x(char *args) {
 	char *args_N;
 	char *args_EXPR;
 	args_N = strtok(NULL, " ");
-	args_EXPR = strtok(NULL, " ");
+	args_EXPR = strtok(NULL, "\0");
 	printf ("%s\n%s\n", args_N, args);
 	if (args_N == NULL || args_EXPR == NULL) printf("Unknown command\n");
 	else {
