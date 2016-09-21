@@ -10,7 +10,7 @@
 void cpu_exec(uint32_t);
 WP* new_wp();
 void free_wp(WP* wp);
-WP* head;
+WP* head_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -123,14 +123,15 @@ static int cmd_w(char *args) {
 		pwp->address = watch_add;
 		pwp->value = swaddr_read(watch_add, 4);
 	}
+	WP* head = head_wp();
 	WP* wcj;
-	if (head == NULL) printf("1");
 	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	return 0;
 }
 
 static int cmd_d(char *args) {
 	bool expr_legal;
+	WP* head = head_wp();
 	uint32_t watch_add = expr(args, &expr_legal);
 	if (expr_legal == false) printf("Illegal expression\n");
 	else

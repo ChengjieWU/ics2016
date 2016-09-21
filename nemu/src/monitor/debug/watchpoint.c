@@ -40,3 +40,7 @@ void free_wp(WP* wp) {
 	wp->next = free_;
 	free_ = wp;
 }
+
+WP* head_wp() {
+	return head;
+}
