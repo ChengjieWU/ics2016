@@ -24,8 +24,14 @@ WP* new_wp() {
 	if (free_ == NULL) assert(0);
 	WP* pwp = free_;
 	free_ = free_->next;
-	pwp->next = head;
-	head = pwp;
+	if (head == NULL) {
+		head = pwp;
+		pwp->next = NULL;
+	}
+	else {
+		pwp->next = head;
+		head = pwp;
+	}
 	WP* wcj;
 	for (wcj = head; wcj!= NULL; wcj = wcj->next) printf("%u\t%u\n", wcj->address, wcj->value);
 	return pwp;
