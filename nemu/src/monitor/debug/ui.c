@@ -80,7 +80,7 @@ static int cmd_info(char *args) {
 	return 0;	
 }
 
-//static int cmd_d(char *args);
+static int cmd_d(char *args);
 
 static int cmd_x(char *args);
 
@@ -106,7 +106,7 @@ static struct {
 	{ "p", "Calculate the value of the expression", cmd_p},
 	{ "x", "argument [N] [EXPR] - Print the content of the continuous 4 * N bytes starting at address EXPR.", cmd_x},
 	{ "w", "Set watchpoint", cmd_w},
-	//{ "d", "Delete watchpoint", cmd_d},
+	{ "d", "Delete watchpoint", cmd_d},
 	//{ "bt", "Print the phase chain", cmd_bt},
 
 };
@@ -126,7 +126,7 @@ static int cmd_w(char *args) {
 	}
 	return 0;
 }
-/*
+
 static int cmd_d(char *args) {
 	bool expr_legal;
 	uint32_t watch_add = expr(args, &expr_legal);
@@ -139,9 +139,10 @@ static int cmd_d(char *args) {
 		}
 		if (pwp == NULL) printf("Address not found\n");
 		else free_wp(pwp);
-		printf("Delete success\n")
+		printf("Delete success\n");
 	}
-}*/
+	return 0;
+}
 
 static int cmd_p(char *args){
 	bool mu_temp = false;
