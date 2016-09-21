@@ -108,9 +108,11 @@ static struct {
 
 
 static int cmd_p(char *args){
-	bool mu_temp = true;
+	bool mu_temp = false;
 	uint32_t ret = expr(args, &mu_temp);
-	return ret;
+	if (mu_temp == true) printf("%d\n", ret);
+	else printf("Illegal expression\n");
+	return 0;
 }
 
 
@@ -144,7 +146,6 @@ static int cmd_x(char *args) {
 	char *args_EXPR;
 	args_N = strtok(NULL, " ");
 	args_EXPR = strtok(NULL, "\0");
-	printf ("%s\n%s\n", args_N, args_EXPR);
 	if (args_N == NULL || args_EXPR == NULL) printf("Unknown command\n");
 	else {
 		int args_N_length = strlen(args_N);
