@@ -12,6 +12,7 @@ typedef struct watchpoint{
 
 	uint32_t address;
 	uint32_t value;
+	bool occupied;
 
 } WP;
 

@@ -11,6 +11,7 @@ void init_wp_pool() {
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
 		wp_pool[i].next = &wp_pool[i + 1];
+		wp_pool[i].occupied = false;
 	}
 	wp_pool[NR_WP - 1].next = NULL;
 
@@ -26,10 +27,13 @@ WP* new_wp() {
 	free_ = free_->next;
 	pwp->next = head;
 	head = pwp;
+	pwp->occupied = true;
 	return pwp;
 }
 
 void free_wp(WP* wp) {
+	if (wp->occupied == false) return;
+	wp->occupied = false;
 	WP* pwp = head;
 	if (wp == head) head = head->next;
 	else 
