@@ -48,3 +48,9 @@ void free_wp(WP* wp) {
 WP* head_wp() {
 	return head;
 }
+
+void free_wp_no(int no) {
+	if (no < 0 || no > 31) return;
+	WP* pwp = &wp_pool[no];
+	free_wp(pwp);
+}

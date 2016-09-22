@@ -9,9 +9,8 @@
 
 void cpu_exec(uint32_t);
 WP* new_wp();
-void free_wp(WP* wp);
 WP* head_wp();
-static WP *head;
+void free_wp_no(int no);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -126,7 +125,7 @@ static int cmd_w(char *args) {
 		printf("Hardware watchpoint %d: %s\n", pwp->NO, args);
 	}
 	WP* wcj;
-	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
+	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
 	return 0;
 }
 
@@ -137,12 +136,13 @@ static int cmd_d(char *args) {
 	if (expr_legal == false) printf("Illegal expression\n");
 	else
 	{
-		WP* pwp;
+		/*WP* pwp;
 		for (pwp = head; pwp != NULL; pwp = pwp->next) {
 			if (pwp->NO == watch_add) break;
 		}
 		if (pwp == NULL) printf("Address not found\n");
-		else free_wp(pwp);
+		else free_wp(pwp);*/
+		free_wp_no(watch_add);
 	}
 	head = head_wp();
 	WP* wcj;		
