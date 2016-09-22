@@ -124,29 +124,18 @@ static int cmd_w(char *args) {
 		pwp->value = watch_add;
 		printf("Hardware watchpoint %d: %s\n", pwp->NO, args);
 	}
-	WP* wcj;
-	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);
+	/*WP* wcj;
+	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);*/
 	return 0;
 }
 
 static int cmd_d(char *args) {
 	bool expr_legal;
-	WP* head = head_wp();
 	uint32_t watch_add = expr(args, &expr_legal);
 	if (expr_legal == false) printf("Illegal expression\n");
-	else
-	{
-		/*WP* pwp;
-		for (pwp = head; pwp != NULL; pwp = pwp->next) {
-			if (pwp->NO == watch_add) break;
-		}
-		if (pwp == NULL) printf("Address not found\n");
-		else free_wp(pwp);*/
-		free_wp_no(watch_add);
-	}
-	head = head_wp();
-	WP* wcj;		
-	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);
+	else free_wp_no(watch_add);
+	/*WP* wcj;		
+	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);*/
 	return 0;
 }
 
