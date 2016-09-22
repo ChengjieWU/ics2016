@@ -13,6 +13,7 @@ typedef struct watchpoint{
 	char expression[32];
 	uint32_t value;
 	bool occupied;
+	int encounter;
 
 } WP;
 

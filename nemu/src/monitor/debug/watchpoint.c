@@ -45,8 +45,16 @@ void free_wp(WP* wp) {
 	free_ = wp;
 }
 
-WP* head_wp() {
+/*WP* head_wp() {
 	return head;
+}*/
+
+void print_wp() {
+	printf("Num\tType\tDisp\tEnb\tAddress\tWhat\n");
+	WP* pwp;
+	for (pwp = head; pwp != NULL; pwp = pwp->next) {
+		printf("%d\thw watchpoint\tkeep\ty\t%s\t%d\n", pwp->NO, pwp->expression, pwp->encounter);	
+	}
 }
 
 void free_wp_no(int no) {
@@ -62,6 +70,7 @@ int check_wp() {
 		bool calcu_ok;
 		uint32_t new_value = expr(pwp->expression, &calcu_ok);
 		if (pwp->value != new_value) {
+			pwp->encounter = pwp->encounter + 1;
 			stop++;
 			printf("\nHardware watchpoint %d: %s\n\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->expression, pwp->value, new_value);
 			pwp->value = new_value;

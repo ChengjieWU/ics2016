@@ -9,8 +9,9 @@
 
 void cpu_exec(uint32_t);
 WP* new_wp();
-WP* head_wp();
+//WP* head_wp();
 void free_wp_no(int no);
+void print_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -76,6 +77,9 @@ static int cmd_info(char *args) {
 		printf("edi\t%x\t%d\n", cpu.edi, cpu.edi);
 		printf("eip\t%x\t%x\n", cpu.eip, cpu.eip);
 	}
+	else if (strcmp(args, "w") == 1) {
+		print_wp();		
+	}
 	else printf("Unknown command '%s'\n", args);
 	return 0;	
 }
@@ -122,6 +126,7 @@ static int cmd_w(char *args) {
 		WP* pwp = new_wp();
 		strcpy(pwp->expression, args);
 		pwp->value = watch_add;
+		pwp->encounter = 0;
 		printf("Hardware watchpoint %d: %s\n", pwp->NO, args);
 	}
 	/*WP* wcj;
