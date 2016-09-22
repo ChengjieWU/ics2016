@@ -60,10 +60,11 @@ int check_wp() {
 	int stop = 0;
 	WP* pwp = head;
 	for (; pwp != NULL; pwp = pwp->next) {
-		uint32_t new_value = swaddr_read(pwp->address, 4);
+		bool calcu_ok;
+		uint32_t new_value = expr(pwp->expression, &calcu_ok);
 		if (pwp->value != new_value) {
 			stop++;
-			printf("Hardware watchpoint %d: 0x%x\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->address, pwp->value, new_value);
+			printf("Hardware watchpoint %d: %s\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->expression, pwp->value, new_value);
 			pwp->value = new_value;
 		}
 	}

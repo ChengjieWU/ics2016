@@ -120,12 +120,12 @@ static int cmd_w(char *args) {
 	else
 	{
 		WP* pwp = new_wp();
-		pwp->address = watch_add;
-		pwp->value = swaddr_read(watch_add, 4);
+		strcpy(pwp->expression, args);
+		pwp->value = watch_add;
 		printf("Hardware watchpoint %d: %s\n", pwp->NO, args);
 	}
 	WP* wcj;
-	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
+	for (wcj = head_wp(); wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);
 	return 0;
 }
 
@@ -146,7 +146,7 @@ static int cmd_d(char *args) {
 	}
 	head = head_wp();
 	WP* wcj;		
-	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%x\t%x\n", wcj->address, wcj->value);
+	for (wcj = head; wcj != NULL; wcj = wcj->next) printf("%s\t%x\n", wcj->expression, wcj->value);
 	return 0;
 }
 
