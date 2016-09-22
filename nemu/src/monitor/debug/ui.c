@@ -77,7 +77,7 @@ static int cmd_info(char *args) {
 		printf("edi\t%x\t%d\n", cpu.edi, cpu.edi);
 		printf("eip\t%x\t%x\n", cpu.eip, cpu.eip);
 	}
-	else if (strcmp(args, "w") == 1) {
+	else if (strcmp(args, "w") == 0) {
 		print_wp();		
 	}
 	else printf("Unknown command '%s'\n", args);
