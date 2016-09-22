@@ -53,4 +53,5 @@ void free_wp_no(int no) {
 	if (no < 0 || no > 31) return;
 	WP* pwp = &wp_pool[no];
 	free_wp(pwp);
+	printf("hah");
 }
