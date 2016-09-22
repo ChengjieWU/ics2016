@@ -58,6 +58,14 @@ void free_wp_no(int no) {
 
 int check_wp() {
 	int stop = 0;
-	printf("%u", swaddr_read(0x100000,4));
+	WP* pwp = head;
+	for (; pwp != NULL; pwp = pwp->next) {
+		uint32_t new_value = swaddr_read(pwp->address, 4);
+		if (pwp->value != new_value) {
+			stop++;
+			printf("Hardware watchpoint %d: 0x%x\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->address, pwp->value, new_value);
+			pwp->value = new_value;
+		}
+	}
 	return stop;
 }

@@ -10,6 +10,7 @@
 #define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
+int check_wp();
 
 int exec(swaddr_t);
 
@@ -74,6 +75,8 @@ void cpu_exec(volatile uint32_t n) {
 
 		/* TODO: check watchpoints here. */
 
+		int stop = check_wp();
+		if (stop != 0) nemu_state = STOP;
 
 #ifdef HAS_DEVICE
 		extern void device_update();
