@@ -10,7 +10,7 @@ typedef struct watchpoint{
 
 	/* TODO: Add more members if necessary */
 
-	char* expression;
+	char expression[32];
 	uint32_t value;
 	bool occupied;
 
