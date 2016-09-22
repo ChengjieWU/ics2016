@@ -63,7 +63,7 @@ int check_wp() {
 		uint32_t new_value = expr(pwp->expression, &calcu_ok);
 		if (pwp->value != new_value) {
 			stop++;
-			printf("Hardware watchpoint %d: %s\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->expression, pwp->value, new_value);
+			printf("\nHardware watchpoint %d: %s\n\nOld value = %u\nNew value = %u\n", pwp->NO, pwp->expression, pwp->value, new_value);
 			pwp->value = new_value;
 		}
 	}
