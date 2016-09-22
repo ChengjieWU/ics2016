@@ -50,10 +50,10 @@ void free_wp(WP* wp) {
 }*/
 
 void print_wp() {
-	printf("Num\tType\tDisp\tEnb\tAddress\tWhat\n");
+	printf("Num\tType\t\tDisp\tEnb\tAddress\tWhat\n");
 	WP* pwp;
 	for (pwp = head; pwp != NULL; pwp = pwp->next) {
-		printf("%d\thw watchpoint\tkeep\ty\t%s\t%d\n", pwp->NO, pwp->expression, pwp->encounter);	
+		printf("%d\thw watchpoint\tkeep\ty\t%s\tbreakpoint already hit %d time\n", pwp->NO, pwp->expression, pwp->encounter);	
 	}
 }
 
