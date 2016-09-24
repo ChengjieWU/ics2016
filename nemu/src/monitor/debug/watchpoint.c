@@ -50,6 +50,10 @@ void free_wp(WP* wp) {
 }*/
 
 void print_wp() {
+	if (head == NULL) {
+		printf("No watchpoints.\n");
+		return;
+	}
 	printf("Num\tType\t\tDisp\tEnb\tAddress\tWhat\n");
 	WP* pwp;
 	for (pwp = head; pwp != NULL; pwp = pwp->next) {
