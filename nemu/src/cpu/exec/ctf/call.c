@@ -5,6 +5,6 @@ make_helper(call_rel32) {
 	swaddr_write(reg_l(R_ESP), 4, cpu.eip + 5);
 	swaddr_t reldisp = instr_fetch(cpu.eip + 1, 4);
 	reldisp += 5;
-	print_asm("call %x", reldisp);
+	print_asm("call %x", cpu.eip + reldisp);
 	return 5; 
 }
