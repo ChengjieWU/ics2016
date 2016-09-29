@@ -77,13 +77,10 @@ void cpu_exec(volatile uint32_t n) {
 
 		int stop = check_wp();
 		if (stop != 0) {
-			print_bin_instr(eip_temp, instr_len);
-			printf("%s\n", asm_buf);
-			strcat(asm_buf, assembly);
 			printf("%s\n", asm_buf);
 			do_int3();
 			print_bin_instr(cpu.eip, instr_len);
-			printf("%s\n", asm_buf);
+			Log_write("%s\n", asm_buf);
 			strcat(asm_buf, assembly);
 			printf("%s\n\n", asm_buf);
 		}
