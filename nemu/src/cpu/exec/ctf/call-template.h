@@ -7,7 +7,7 @@ make_helper(concat(call_rel_, SUFFIX)) {
 	MEM_W(REG(R_ESP), eip + 1 + DATA_BYTE);
 	swaddr_t reldisp = instr_fetch(eip + 1, DATA_BYTE);
 	print_asm("call %x", eip + 1 + DATA_BYTE + reldisp);
-	eip = eip + reldisp;
+	cpu.eip = eip + reldisp;
 	return 1 + DATA_BYTE;
 }
 
