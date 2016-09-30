@@ -10,6 +10,7 @@ make_helper(concat(push_r_, SUFFIX)) {
 		uint32_t regnum = instr_fetch(eip, 1) & 0x07;
 		MEM_W(REG(R_ESP), REG(regnum));
 		print_asm("push %%%s", REG_NAME(regnum));
+		printf("%d\n", REG(regnum));
 	}
 	return 1;
 }
