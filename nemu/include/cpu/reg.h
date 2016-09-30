@@ -30,6 +30,24 @@ typedef struct {
 	};
 
 	swaddr_t eip;
+	union {
+		uint32_t eflags;
+		struct {
+			unsigned CF : 1;
+			unsigned : 1;
+			unsigned PF : 1;
+			unsigned : 3;
+			unsigned ZF : 1;
+			unsigned SF : 1;
+			unsigned : 1;
+			unsigned IF : 1;
+			unsigned DF : 1;
+			unsigned OF : 1;
+			unsigned : 4;
+			unsigned : 8;
+			unsigned : 8;
+		};
+	};
 
 } CPU_state;
 

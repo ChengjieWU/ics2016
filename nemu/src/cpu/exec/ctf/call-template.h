@@ -3,7 +3,7 @@
 #define instr call
 
 make_helper(concat(call_rel_, SUFFIX)) {
-	REG(R_ESP) = REG(R_ESP) - DATA_BYTE;	
+	REG(R_ESP) -=  DATA_BYTE;	
 	if (DATA_BYTE == 4) {
 		MEM_W(REG(R_ESP), eip + 1 + DATA_BYTE);
 		swaddr_t reldisp = instr_fetch(eip + 1, DATA_BYTE);
