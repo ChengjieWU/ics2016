@@ -16,6 +16,7 @@ static void do_execute() {
 		if ((result_pa & 0x00000001) == 1) cpu.PF = ~cpu.PF;
 		result_pa = result_pa >> 1;
 	}
+	print_asm_template4();
 }
 
 make_instr_helper(i_a)
