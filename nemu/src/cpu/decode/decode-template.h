@@ -128,6 +128,12 @@ make_helper(concat(decode_i2rm_, SUFFIX)) {
 	return len;
 }
 
+make_helper(concat(decode_i_rm_, SUFFIX)) {				//created
+	int len = decode_rm_internal(eip, op_src2, op_dest);
+	len += decode_i(eip + len);
+	return len;
+}
+
 /* XX <- Ib 
  * eXX <- Iv 
  */

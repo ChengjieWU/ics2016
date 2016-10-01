@@ -15,3 +15,4 @@
 
 make_helper_v(test_i_a)
 make_helper_v(test_r_rm)
+make_helper_v(test_i_rm)

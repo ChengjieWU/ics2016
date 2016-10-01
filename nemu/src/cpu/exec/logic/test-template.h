@@ -21,5 +21,6 @@ static void do_execute() {
 
 make_instr_helper(i_a)
 make_instr_helper(r_rm)
+make_instr_helper(i_rm)
 
 #include "cpu/exec/template-end.h"
