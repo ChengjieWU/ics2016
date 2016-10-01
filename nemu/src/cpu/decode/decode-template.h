@@ -85,6 +85,10 @@ make_helper(concat(decode_r2rm_, SUFFIX)) {
 	return decode_rm_internal(eip, op_dest, op_src);
 }
 
+make_helper(concat(decode_r_rm_, SUFFIX)) {				//created
+	return decode_rm_internal(eip, op_src, op_src2);
+}
+
 /* Gb <- Eb
  * Gv <- Ev
  */
@@ -98,6 +102,11 @@ make_helper(concat(decode_rm2r_, SUFFIX)) {
  */
 make_helper(concat(decode_i2a_, SUFFIX)) {
 	decode_a(eip, op_dest);
+	return decode_i(eip);
+}
+
+make_helper(concat(decode_i_a_, SUFFIX)) {				//created
+	decode_a(eip, op_src2);
 	return decode_i(eip);
 }
 
