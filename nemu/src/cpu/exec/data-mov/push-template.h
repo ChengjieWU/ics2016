@@ -4,7 +4,7 @@
 
 make_helper(concat(push_r_, SUFFIX)) {
 	REG(R_ESP) -= DATA_BYTE;
-	uint32_t regnum = instr_fetch(eip, 1) & 0x07;
+	uint32_t regnum = instr_fetch(eip, 1) & 0x07;		//the register number is in opcode
 	MEM_W(REG(R_ESP), REG(regnum));
 	print_asm("push %%%s", REG_NAME(regnum));
 	return 1;
