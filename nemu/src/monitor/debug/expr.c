@@ -165,7 +165,7 @@ float eval(int p, int q, bool* legal) {
 			ret = (float) ret_t;
 		}
 		else if (tokens[p].type == REG) {
-			printf ("%s\n", tokens[p].str);
+			//printf ("%s\n", tokens[p].str);
 			if (strcmp(tokens[p].str, "$eax") == 0) ret = cpu.eax;	
 			else if (strcmp(tokens[p].str, "$ecx") == 0) ret = cpu.ecx;	
 			else if (strcmp(tokens[p].str, "$edx") == 0) ret = cpu.edx;	
