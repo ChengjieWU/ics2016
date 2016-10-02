@@ -10,6 +10,6 @@ make_helper(cmp_i_a_v);
 make_helper(cmp_i_rm_v);
 make_helper(cmp_r_rm_v);
 make_helper(cmp_rm_r_v);
-
+make_helper(cmp_si_rm_v);
 
 #endif

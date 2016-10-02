@@ -36,6 +36,8 @@ make_instr_helper(i_a)
 make_instr_helper(i_rm)
 make_instr_helper(r_rm)
 make_instr_helper(rm_r)
-
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_instr_helper(si_rm)
+#endif
 
 #include "cpu/exec/template-end.h"

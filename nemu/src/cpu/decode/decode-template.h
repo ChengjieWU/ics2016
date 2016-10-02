@@ -23,7 +23,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 /* sign immediate */
-make_helper(concat(decode_si_, SUFFIX)) {
+make_helper(concat(decode_si_, SUFFIX)) {				//created
 	op_src->type = OP_TYPE_IMM;
 
 	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
@@ -32,8 +32,10 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 *
 	op_src->simm = ???
 	 */
-	panic("please implement me");
-
+	//panic("please implement me");
+	int medi = instr_fetch(eip, DATA_BYTE);
+	medi = medi << (4 - DATA_BYTE) * 8 >> (4 - DATA_BYTE) * 8;
+	op_src->simm = medi;
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
@@ -158,6 +160,12 @@ make_helper(concat(decode_r_, SUFFIX)) {
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(decode_si2rm_, SUFFIX)) {
 	int len = decode_rm_internal(eip, op_dest, op_src2);	/* op_src2 not use here */
+	len += decode_si_b(eip + len);
+	return len;
+}
+
+make_helper(concat(decode_si_rm_, SUFFIX)) {				//created
+	int len = decode_rm_internal(eip, op_src2, op_dest);
 	len += decode_si_b(eip + len);
 	return len;
 }
