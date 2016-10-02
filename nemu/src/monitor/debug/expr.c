@@ -237,6 +237,92 @@ float eval(int p, int q, bool* legal) {
 
 
 
+uint32_t eval_u(int p, int q, bool* legal) {
+	if (p > q) {
+		*legal = false;
+		return 0;
+	}
+	else if (p == q) {
+		uint32_t ret = 0;
+		if (tokens[p].type == NUM) sscanf(tokens[p].str, "%u", &ret);
+		else if (tokens[p].type == HEX) {
+			int ret_t;
+			sscanf(tokens[p].str, "%x", &ret_t);
+			ret = (uint32_t) ret_t;
+		}
+		else if (tokens[p].type == REG) {
+			//printf ("%s\n", tokens[p].str);
+			if (strcmp(tokens[p].str, "$eax") == 0) ret = cpu.eax;	
+			else if (strcmp(tokens[p].str, "$ecx") == 0) ret = cpu.ecx;	
+			else if (strcmp(tokens[p].str, "$edx") == 0) ret = cpu.edx;	
+			else if (strcmp(tokens[p].str, "$ebx") == 0) ret = cpu.ebx;	
+			else if (strcmp(tokens[p].str, "$esp") == 0) ret = cpu.esp;	
+			else if (strcmp(tokens[p].str, "$ebp") == 0) ret = cpu.ebp;	
+			else if (strcmp(tokens[p].str, "$esi") == 0) ret = cpu.esi;	
+			else if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
+			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
+			else *legal = false;
+		}
+		else *legal = false;
+		printf("%u\n", (unsigned)ret);
+		return ret;
+	}
+	else if (check_parentheses(p, q) == true) {
+		return eval(p + 1, q - 1, legal);
+	}
+	else {
+		int current_priority = 8;
+		int current_parentheses = 0;
+		int op = p;
+		int lo = p;
+		for (; lo <= q; lo++) {
+			if (tokens[lo].type == '(') current_parentheses++;
+			else if (tokens[lo].type == ')') current_parentheses--;
+			else if (current_parentheses == 0 && priority_request(lo) <= current_priority) {
+				if (priority_request(lo) == 3 && priority_request(lo) == current_priority) 
+					continue;
+				current_priority = priority_request(lo);
+				op = lo;
+			}
+		}
+		if (current_priority == 8) {
+			*legal = false;
+			return 0;
+		}
+		if (priority_request(op) == 3) {
+			if (p < op && priority_request(op - 1) == 9) *legal = false;
+			uint32_t val1 = eval_u(op + 1, q, legal);
+			switch(tokens[op].type) {
+				case NEG: return -1 * val1;
+				case NOT: return !val1;
+				case DEREF: return (uint32_t) swaddr_read(val1, 4);
+			}
+		}
+		
+		uint32_t val1 = eval_u(p, op - 1, legal);
+		uint32_t val2 = eval_u(op + 1, q, legal);
+		printf("%u %u\n", (unsigned)val1, (unsigned)val2);
+		switch(tokens[op].type) {
+			case '+': return val1 + val2;
+			case '-': return val1 - val2;
+			case '*': return val1 * val2;
+			case '/': return val1 / val2;
+			case EQ: return val1 == val2;
+			case G: return val1 > val2;
+			case GE: return val1 >= val2;
+			case L: return val1 < val2;
+			case LE: return val1 <= val2;
+			case NEQ: return val1 != val2;
+			case AND: return val1 && val2;
+			case OR: return val1 || val2;
+			default: assert(0);
+		}	
+	}
+}
+
+
+
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
@@ -253,10 +339,11 @@ uint32_t expr(char *e, bool *success) {
 		}
 	}
 	bool legal = true;
-	float ret = eval(0, nr_token - 1, &legal);
-	int ret_int = (int)ret;
+	//float ret = eval(0, nr_token - 1, &legal);
+	//int ret_int = (int)ret;
 	*success = legal;
-	return (unsigned) ret_int;
+	uint32_t ret_u = eval_u(0, nr_token - 1, &legal);
+	return ret_u;
 
 	/*
 	bool legal = true;
