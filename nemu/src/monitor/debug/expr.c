@@ -178,6 +178,7 @@ float eval(int p, int q, bool* legal) {
 			else *legal = false;
 		}
 		else *legal = false;
+		printf("%u\n", (unsigned)ret);
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
@@ -214,6 +215,7 @@ float eval(int p, int q, bool* legal) {
 		
 		float val1 = eval(p, op - 1, legal);
 		float val2 = eval(op + 1, q, legal);
+		printf("%u %u\n", (unsigned)val1, (unsigned)val2);
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
