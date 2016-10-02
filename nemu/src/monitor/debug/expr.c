@@ -178,7 +178,7 @@ float eval(int p, int q, bool* legal) {
 			else *legal = false;
 		}
 		else *legal = false;
-		printf("%u\n", (unsigned)ret);
+		//printf("%u\n", (unsigned)ret);
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
@@ -215,7 +215,7 @@ float eval(int p, int q, bool* legal) {
 		
 		float val1 = eval(p, op - 1, legal);
 		float val2 = eval(op + 1, q, legal);
-		printf("%u %u\n", (unsigned)val1, (unsigned)val2);
+		//printf("%u %u\n", (unsigned)val1, (unsigned)val2);
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
@@ -264,7 +264,7 @@ uint32_t eval_u(int p, int q, bool* legal) {
 			else *legal = false;
 		}
 		else *legal = false;
-		printf("%u\n", (unsigned)ret);
+		//printf("%u\n", (unsigned)ret);
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
@@ -301,7 +301,7 @@ uint32_t eval_u(int p, int q, bool* legal) {
 		
 		uint32_t val1 = eval_u(p, op - 1, legal);
 		uint32_t val2 = eval_u(op + 1, q, legal);
-		printf("%u %u\n", (unsigned)val1, (unsigned)val2);
+		//printf("%u %u\n", (unsigned)val1, (unsigned)val2);
 		switch(tokens[op].type) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
