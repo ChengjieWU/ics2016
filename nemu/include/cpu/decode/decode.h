@@ -45,6 +45,9 @@ make_helper(decode_rm2r_l);
 make_helper(decode_r_rm_b);//
 make_helper(decode_r_rm_w);//
 make_helper(decode_r_rm_l);//
+make_helper(decode_rm_r_b);//
+make_helper(decode_rm_r_w);//
+make_helper(decode_rm_r_l);//
 make_helper(decode_rm2a_b);
 make_helper(decode_rm2a_w);
 make_helper(decode_rm2a_l);

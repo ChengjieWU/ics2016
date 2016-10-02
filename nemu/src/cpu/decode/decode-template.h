@@ -86,6 +86,10 @@ make_helper(concat(decode_r2rm_, SUFFIX)) {
 }
 
 make_helper(concat(decode_r_rm_, SUFFIX)) {				//created
+	return decode_rm_internal(eip, op_src2, op_src);
+}
+
+make_helper(concat(decode_rm_r_, SUFFIX)) {				//created
 	return decode_rm_internal(eip, op_src, op_src2);
 }
 
