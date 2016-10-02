@@ -245,7 +245,7 @@ uint32_t expr(char *e, bool *success) {
 	
 	int i = 0;
 	for (; i < nr_token; i++) {
-		if (i == 0 || (tokens[i - 1].type != NUM && tokens[i - 1].type != ')')) {
+		if (i == 0 || ((tokens[i - 1].type != NUM && tokens[i - 1].type != REG ) && tokens[i - 1].type != ')')) {
 			if (tokens[i].type == '*') tokens[i].type = DEREF;
 			else if (tokens[i].type == '-') tokens[i].type = NEG;
 		}
