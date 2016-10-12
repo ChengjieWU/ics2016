@@ -3,23 +3,25 @@
 #define instr test
 
 static void do_execute() {
-	uint32_t result_pa = op_src->val & op_src2->val;		//register is in src2
+	DATA_TYPE oprand1 = op_src->val;
+	DATA_TYPE oprand2 = op_src2->val;
+	DATA_TYPE result_pa = oprand1 & oprand2;		//register is in src2
 	//OF
 	cpu.OF = 0;
 	//CF
 	cpu.CF = 0;
 	//ZF
-	if (result_pa == 0) cpu.ZF = 1;
-	else cpu.ZF = 0;
+	cpu.ZF = !result_pa;
 	//SF
-	if (((result_pa >> (8 * DATA_BYTE - 1)) & 0x1) == 1) cpu.SF = 1;
+	if (MSB(result_pa)) cpu.SF = 1;
 	else cpu.SF = 0;
 	//PF
 	cpu.PF = 1;
+	DATA_TYPE dpf = result_pa;
 	int loop_i = 0;
 	for (; loop_i < 8; loop_i++) {
-		if ((result_pa & 0x1) == 1) cpu.PF = ~cpu.PF;
-		result_pa = result_pa >> 1;
+		if ((dpf & 0x1) == 1) cpu.PF = ~cpu.PF;
+		dpf = dpf >> 1;
 	}
 	//DF, IF were not affected
 	print_asm_template4();
