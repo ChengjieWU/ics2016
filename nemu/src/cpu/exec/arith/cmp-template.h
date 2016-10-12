@@ -3,29 +3,27 @@
 #define instr cmp
 
 static void do_execute() {
-	uint32_t oprand_1 = op_src->val;
-	uint32_t oprand_2 = op_src2->val;
-	uint32_t result_cmp = oprand_2 - oprand_1;
+	DATA_TYPE oprand_1 = op_src->val;
+	DATA_TYPE oprand_2 = op_src2->val;
+	DATA_TYPE result_cmp = oprand_2 - oprand_1;
 	//ZF
-	if (result_cmp == 0) cpu.ZF = 1;
-	else cpu.ZF = 0;
+	cpu.ZF = !result_cmp;
 	//SF
-	if (((result_cmp >> (8 * DATA_BYTE - 1)) & 0x1) == 1) cpu.SF = 1;
+	if (MSB(result_cmp)) cpu.SF = 1;
 	else cpu.SF = 0;
 	//OF
-	if (((oprand_1 >> (8 * DATA_BYTE - 1)) & 0x1) == ((oprand_2 >> (8 * DATA_BYTE - 1)) & 0x1) 
-		&& ((oprand_1 >> (8 * DATA_BYTE - 1)) & 0x1) != ((result_cmp >> (8 * DATA_BYTE - 1)) & 0x1))
-		cpu.OF = 1;
+	if (MSB(oprand_1) == MSB(oprand_2) && MSB(oprand_1) != MSB(result_cmp)) cpu.OF = 1;
 	else cpu.OF = 0;
 	//CF
 	if (oprand_1 > oprand_2) cpu.CF = 1;
 	else cpu.CF = 0;
 	//PF
 	cpu.PF = 1;
+	DATA_TYPE dpf = result_cmp;
 	int loop_i = 0;
 	for (; loop_i < 8; loop_i++) {
-		if ((result_cmp & 0x1) == 1) cpu.PF = ~cpu.PF;
-		result_cmp = result_cmp >> 1;
+		if ((dpf & 0x1) == 1) cpu.PF = ~cpu.PF;
+		dpf = dpf >> 1;
 	}
 	//IF, DF were not affected
 	print_asm_template4();
