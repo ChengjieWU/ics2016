@@ -64,12 +64,12 @@ make_group(group2_cl_v,
 
 /* 0xf6 */
 make_group(group3_b,
-	inv, inv, inv, inv, 
+	test_i_rm_b, inv, inv, inv, 
 	inv, inv, inv, inv)
 
 /* 0xf7 */
 make_group(group3_v,
-	inv, inv, inv, inv, 
+	test_i_rm_v, inv, inv, inv, 
 	inv, inv, inv, inv)
 
 /* 0xfe */
@@ -123,7 +123,7 @@ helper_fun opcode_table [256] = {
 /* 0x68 */	inv, inv, inv, inv,
 /* 0x6c */	inv, inv, inv, inv,
 /* 0x70 */	inv, inv, inv, inv,
-/* 0x74 */	jcc_e_b, inv, test_i_rm_b, test_i_rm_v,
+/* 0x74 */	jcc_e_b, inv, inv, inv,
 /* 0x78 */	inv, inv, inv, inv,
 /* 0x7c */	inv, inv, inv, inv,
 /* 0x80 */	group1_b, group1_v, inv, group1_sx_v, 
