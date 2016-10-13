@@ -12,6 +12,7 @@ make_helper(concat(jcc_e_,SUFFIX)) {
 make_helper(concat(jcc_be_,SUFFIX)) {
 	eip += (1 + DATA_BYTE);
 	DATA_TYPE cur_lo = (DATA_TYPE)eip + instr_fetch(eip + 1, DATA_BYTE);
+	printf("%x\n", (swaddr_t)((DATA_TYPE)eip));
 	printf("%x\n", cur_lo);
 	DATA_TYPE ze = ~0x0;
 	printf("%x\n", ~(swaddr_t)ze);
