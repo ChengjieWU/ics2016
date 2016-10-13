@@ -13,8 +13,9 @@ make_helper(concat(jcc_be_,SUFFIX)) {
 	eip += (1 + DATA_BYTE);
 	DATA_TYPE cur_lo = (DATA_TYPE)eip + instr_fetch(eip + 1, DATA_BYTE);
 	DATA_TYPE ze = ~0x0;
-	printf("%x", ~(swaddr_t)ze);
+	printf("%x\n", ~(swaddr_t)ze);
 	swaddr_t cur_addr = (eip & (~(swaddr_t)ze)) + cur_lo;
+	printf("%x\n%x\n", eip, cur_addr);
 	print_asm("jbe %x", cur_addr);
 	if (cpu.ZF == 1 || cpu.CF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
 	return 1 + DATA_BYTE;
