@@ -13,7 +13,7 @@ swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
 make_helper(concat(jcc_e_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("je %x", cur_addr);
-	cpu.eip = cur_addr - (1 + DATA_BYTE);
+	if (cpu.ZF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
 	return 1 + DATA_BYTE;	
 }
 
