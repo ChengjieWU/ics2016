@@ -52,4 +52,32 @@ make_helper(concat(jcc_ecxz_,SUFFIX)) {
 	return 1 + DATA_BYTE;	
 }
 
+make_helper(concat(jcc_g_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jg %x", cur_addr);
+	if (cpu.ZF == 0 && cpu.SF == cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_ge_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jge %x", cur_addr);
+	if (cpu.SF == cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_l_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jl %x", cur_addr);
+	if (cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_le_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jle %x", cur_addr);
+	if (cpu.ZF == 1 && cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
 #include "cpu/exec/template-end.h"
