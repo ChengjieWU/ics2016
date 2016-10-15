@@ -13,4 +13,5 @@
 #undef DATA_BYTE
 
 make_helper_v(jcc_e)
+make_helper_v(jcc_a)
 make_helper_v(jcc_be)
