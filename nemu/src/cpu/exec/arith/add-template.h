@@ -11,8 +11,7 @@ static void do_execute() {
 	//ZF
 	cpu.ZF = !sum;
 	//SF
-	if (MSB(sum)) cpu.SF = 1;
-	else cpu.SF = 0;
+	cpu.SF = MSB(sum);
 	//OF
 	if (MSB(src) == MSB(dest) && MSB(dest) != MSB(sum)) cpu.OF = 1;
 	else cpu.OF = 0;
@@ -28,6 +27,8 @@ static void do_execute() {
 		dpf = dpf >> 1;
 	}
 	//IF, DF were not affectd
+	
+	print_asm_template2();
 }
 
 
