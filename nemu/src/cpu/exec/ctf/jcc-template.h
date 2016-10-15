@@ -45,13 +45,6 @@ make_helper(concat(jcc_be_,SUFFIX)) {
 	return 1 + DATA_BYTE;
 }
 
-make_helper(concat(jcc_c_,SUFFIX)) {
-	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
-	print_asm("jc %x", cur_addr);
-	if (cpu.CF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
-	return 1 + DATA_BYTE;	
-}
-
 make_helper(concat(jcc_ecxz_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("jecxz %x", cur_addr);
