@@ -28,6 +28,9 @@ make_helper(jcc_no_b);
 make_helper(jcc_np_b);
 make_helper(jcc_ns_b);
 //make_helper(jcc_nz_b);	same as jne
+make_helper(jcc_o_b);
+make_helper(jcc_p_b);
+//make_helper(jcc_pe_b);		same as jp
 
 make_helper(jcc_e_v);
 make_helper(jcc_a_v);
@@ -42,5 +45,7 @@ make_helper(jcc_ne_v);
 make_helper(jcc_no_v);
 make_helper(jcc_np_v);
 make_helper(jcc_ns_v);
+make_helper(jcc_o_v);
+make_helper(jcc_p_v);
 
 #endif

@@ -25,4 +25,6 @@ make_helper_v(jcc_ne)
 make_helper_v(jcc_no)
 make_helper_v(jcc_np)
 make_helper_v(jcc_ns)
+make_helper_v(jcc_o)
+make_helper_v(jcc_p)
 

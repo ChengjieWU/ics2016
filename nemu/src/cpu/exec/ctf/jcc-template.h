@@ -108,4 +108,18 @@ make_helper(concat(jcc_ns_,SUFFIX)) {
 	return 1 + DATA_BYTE;	
 }
 
+make_helper(concat(jcc_o_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jo %x", cur_addr);
+	if (cpu.OF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_p_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jp %x", cur_addr);
+	if (cpu.PF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
 #include "cpu/exec/template-end.h"
