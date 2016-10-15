@@ -13,7 +13,7 @@ make_helper(concat(pop_r_, SUFFIX)) {
 make_helper(concat(pop_m_, SUFFIX)) {
 	int len = concat(decode_rm_, SUFFIX)(eip + 1);
 	MEM_W(op_src->addr, MEM_R(cpu.esp));
-	REG(cpu.esp) += DATA_BYTE;
+	cpu.esp += DATA_BYTE;
 	print_asm("pop 0x%x", op_src->addr);
 	return 1 + len;
 }
