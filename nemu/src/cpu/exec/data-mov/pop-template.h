@@ -5,7 +5,7 @@
 make_helper(concat(pop_r_, SUFFIX)) {
 	int regnum = instr_fetch(eip, 1) & 0x7;
 	REG(regnum) = MEM_R(cpu.esp);
-	REG(cpu.esp) += DATA_BYTE;
+	cpu.esp += DATA_BYTE;
 	print_asm("pop %%%s", REG_NAME(regnum));
 	return 1;
 }
