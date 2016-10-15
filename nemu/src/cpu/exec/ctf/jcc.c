@@ -27,4 +27,4 @@ make_helper_v(jcc_np)
 make_helper_v(jcc_ns)
 make_helper_v(jcc_o)
 make_helper_v(jcc_p)
-
+make_helper_v(jcc_s)

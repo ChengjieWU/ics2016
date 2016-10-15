@@ -76,7 +76,7 @@ make_helper(concat(jcc_l_,SUFFIX)) {
 make_helper(concat(jcc_le_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("jle %x", cur_addr);
-	if (cpu.ZF == 1 && cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	if (cpu.ZF == 1 || cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
 	return 1 + DATA_BYTE;	
 }
 
@@ -119,6 +119,13 @@ make_helper(concat(jcc_p_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("jp %x", cur_addr);
 	if (cpu.PF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_s_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("js %x", cur_addr);
+	if (cpu.SF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
 	return 1 + DATA_BYTE;	
 }
 
