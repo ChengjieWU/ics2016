@@ -31,6 +31,13 @@ make_helper(concat(jcc_ae_,SUFFIX)) {
 	return 1 + DATA_BYTE;
 }
 
+make_helper(concat(jcc_b_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jb %x", cur_addr);
+	if (cpu.CF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
 make_helper(concat(jcc_be_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("jbe %x", cur_addr);
@@ -38,5 +45,18 @@ make_helper(concat(jcc_be_,SUFFIX)) {
 	return 1 + DATA_BYTE;
 }
 
+make_helper(concat(jcc_c_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jc %x", cur_addr);
+	if (cpu.CF == 1) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
+
+make_helper(concat(jcc_ecxz_,SUFFIX)) {
+	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
+	print_asm("jecxz %x", cur_addr);
+	if (cpu.gpr[1]._32 == 0) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	return 1 + DATA_BYTE;	
+}
 
 #include "cpu/exec/template-end.h"
