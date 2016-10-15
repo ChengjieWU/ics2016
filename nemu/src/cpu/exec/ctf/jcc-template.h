@@ -4,20 +4,12 @@
 
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
-	/*DATA_TYPE cur_lo = (DATA_TYPE)(eip + 1 + DATA_BYTE) + instr_fetch(eip + 1, DATA_BYTE);
-	DATA_TYPE ze = ~0x0;
-	swaddr_t cur_addr = ((eip + 1 + DATA_BYTE) & (~(swaddr_t)ze)) + cur_lo;
-	return cur_addr;*/
 	concat(decode_si_, SUFFIX)(eip + 1);
 	return (swaddr_t)(eip + 1 + DATA_BYTE + op_src->simm);
 }
 #else
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
-	/*DATA_TYPE cur_lo = (DATA_TYPE)(eip + 1 + DATA_BYTE) + instr_fetch(eip + 1, DATA_BYTE);
-	DATA_TYPE ze = ~0x0;
-	swaddr_t cur_addr = ((eip + 1 + DATA_BYTE) & (~(swaddr_t)ze)) + cur_lo;
-	return cur_addr;*/
-	return (eip + instr_fetch(eip + 1, DATA_BYTE)) & 0x0000ffff;
+	return (eip + 1 + DATA_BYTE + instr_fetch(eip + 1, DATA_BYTE)) & 0x0000ffff;
 }
 #endif
 
