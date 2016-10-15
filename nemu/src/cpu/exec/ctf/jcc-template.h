@@ -3,10 +3,14 @@
 #define instr jcc
 
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
-	DATA_TYPE cur_lo = (DATA_TYPE)(eip + 1 + DATA_BYTE) + instr_fetch(eip + 1, DATA_BYTE);
+	/*DATA_TYPE cur_lo = (DATA_TYPE)(eip + 1 + DATA_BYTE) + instr_fetch(eip + 1, DATA_BYTE);
 	DATA_TYPE ze = ~0x0;
 	swaddr_t cur_addr = ((eip + 1 + DATA_BYTE) & (~(swaddr_t)ze)) + cur_lo;
-	return cur_addr;
+	return cur_addr;*/
+	swaddr_t loc_next = eip + 1 + DATA_BYTE;
+	DATA_TYPE rel = instr_fetch(eip + 1, DATA_BYTE);
+	int rel_int = (int)rel;
+	return (swaddr_t)(loc_next + rel_int);
 }
 
 
