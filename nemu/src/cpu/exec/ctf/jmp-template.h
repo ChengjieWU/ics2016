@@ -25,7 +25,7 @@ make_helper(concat(jmp_rm_,SUFFIX)) {
 	cur_addr = (swaddr_t)op_src->val;
 #endif
 	print_asm("jmp %s", op_src->str);
-	cpu.eip = cur_addr - (1 + DATA_BYTE);
+	cpu.eip = cur_addr - (1 + len);
 	return 1 + len;
 }
 #endif
