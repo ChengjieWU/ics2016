@@ -13,3 +13,4 @@
 #undef DATA_BYTE
 
 make_helper_v(jmp_rel)
+make_helper_v(jmp_rm)
