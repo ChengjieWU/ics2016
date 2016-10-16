@@ -102,6 +102,30 @@ make_helper(concat(decode_rm2r_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_dest);
 }
 
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_helper(concat(decode_brm2r_, SUFFIX)) {			//created
+	op_src->size = 1;
+	int len = read_ModR_M(eip, op_src, op_dest);
+	op_dest->val = REG(op_dest->reg);
+#ifdef DEBUG
+	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
+#endif
+	return len;
+}
+#endif
+
+#if DATA_BYTE == 4
+make_helper(decode_wrm2r) {			//created
+	op_src->size = 2;
+	int len = read_ModR_M(eip, op_src, op_dest);
+	op_dest->val = REG(op_dest->reg);
+#ifdef DEBUG
+	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
+#endif
+	return len;
+}
+#endif
+
 
 /* AL <- Ib
  * eAX <- Iv
