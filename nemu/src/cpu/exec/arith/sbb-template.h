@@ -1,11 +1,11 @@
 #include "cpu/exec/template-start.h"
 
-#define instr sub
+#define instr sbb
 
 static void do_execute() {
 	DATA_TYPE minuend = op_dest->val;
 	DATA_TYPE subtrahend = op_src->val;	
-	DATA_TYPE difference = minuend - subtrahend;
+	DATA_TYPE difference = minuend - subtrahend - cpu.CF;
 	OPERAND_W(op_dest, difference);
 
 	//ZF
@@ -13,11 +13,21 @@ static void do_execute() {
 	//SF
 	cpu.SF = MSB(difference);
 	//OF
-	DATA_TYPE neg_subtrahend = ~subtrahend;
-	if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
-	else cpu.OF = 0;
+	if (cpu.CF == 0) {
+		DATA_TYPE neg_subtrahend = ~subtrahend;
+		if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
+		else cpu.OF = 0;
+	}
+	else {
+		if (MSB(subtrahend) == 0 && MSB(subtrahend) != MSB(subtrahend + 1)) cpu.OF = 1;
+		else {
+			DATA_TYPE neg_subtrahend = ~(subtrahend + 1);
+			if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
+			else cpu.OF = 0;
+		}
+	}
 	//CF
-	if (subtrahend > minuend) cpu.CF = 1;
+	if (subtrahend > minuend || cpu.CF > minuend - subtrahend) cpu.CF = 1;
 	else cpu.CF = 0;
 	//PF
 	cpu.PF = 1;
