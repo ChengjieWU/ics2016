@@ -9,10 +9,10 @@ static void do_execute() {
 	//ZF
 	cpu.ZF = !result_cmp;
 	//SF
-	if (MSB(result_cmp)) cpu.SF = 1;
-	else cpu.SF = 0;
+	cpu.SF = MSB(result_cmp);
 	//OF
-	if (MSB(oprand_1) == MSB(oprand_2) && MSB(oprand_1) != MSB(result_cmp)) cpu.OF = 1;
+	DATA_TYPE neg_op1 = (~oprand_1) + 1;
+	if (MSB(neg_op1) == MSB(oprand_2) && MSB(oprand_2) != MSB(result_cmp)) cpu.OF = 1;
 	else cpu.OF = 0;
 	//CF
 	if (oprand_1 > oprand_2) cpu.CF = 1;

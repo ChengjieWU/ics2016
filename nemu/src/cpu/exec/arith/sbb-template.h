@@ -14,14 +14,14 @@ static void do_execute() {
 	cpu.SF = MSB(difference);
 	//OF
 	if (cpu.CF == 0) {
-		DATA_TYPE neg_subtrahend = ~subtrahend;
+		DATA_TYPE neg_subtrahend = (~subtrahend) + 1;
 		if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
 		else cpu.OF = 0;
 	}
 	else {
 		if (MSB(subtrahend) == 0 && MSB(subtrahend) != MSB(subtrahend + 1)) cpu.OF = 1;
 		else {
-			DATA_TYPE neg_subtrahend = ~(subtrahend + 1);
+			DATA_TYPE neg_subtrahend = (~(subtrahend + 1)) + 1;
 			if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
 			else cpu.OF = 0;
 		}

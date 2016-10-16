@@ -13,7 +13,7 @@ static void do_execute() {
 	//SF
 	cpu.SF = MSB(difference);
 	//OF
-	DATA_TYPE neg_subtrahend = ~subtrahend;
+	DATA_TYPE neg_subtrahend = (~subtrahend) + 1;
 	if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
 	else cpu.OF = 0;
 	//CF
