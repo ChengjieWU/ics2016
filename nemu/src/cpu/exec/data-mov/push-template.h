@@ -25,7 +25,7 @@ make_helper(concat(push_i_, SUFFIX)) {
 	cpu.esp -= 4;
 	concat(decode_si_, SUFFIX)(eip + 1);
 	MEM_W(cpu.esp, op_src->val);
-	print_asm("push 0x%x", op_src->val);
+	print_asm("push $0x%x", op_src->val);
 	return 1 + DATA_BYTE;
 }
 #else
@@ -33,7 +33,7 @@ make_helper(concat(push_i_, SUFFIX)) {
 	cpu.esp -= DATA_BYTE;
 	DATA_TYPE imm = instr_fetch(eip + 1, DATA_BYTE);
 	MEM_W(cpu.esp, imm);
-	print_asm("push 0x%x", imm);
+	print_asm("push $0x%x", imm);
 	return 1 + DATA_BYTE;	
 }
 #endif
