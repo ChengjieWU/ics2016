@@ -13,9 +13,15 @@ static void do_execute() {
 	//SF
 	cpu.SF = MSB(difference);
 	//OF
-	DATA_TYPE neg_subtrahend = (~subtrahend) + 1;
-	if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
-	else cpu.OF = 0;
+	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
+	if (subtrahend == m1) {
+		cpu.OF = !MSB(minuend);
+	}
+	else {
+		DATA_TYPE neg_subtrahend = (~subtrahend) + 1;
+		if (MSB(minuend) == MSB(neg_subtrahend) && MSB(minuend) != MSB(difference)) cpu.OF = 1;
+		else cpu.OF = 0;
+	}
 	//CF
 	if (subtrahend > minuend) cpu.CF = 1;
 	else cpu.CF = 0;

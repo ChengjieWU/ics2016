@@ -12,14 +12,11 @@ static void do_execute() {
 	cpu.SF = MSB(result_cmp);
 	//OF
 	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
-	printf("%x %x %x\n", oprand_2, oprand_1, result_cmp);
 	if (oprand_1 == m1) {
 		cpu.OF = !MSB(oprand_2);
 	}
 	else {
 		DATA_TYPE neg_op1 = (~oprand_1) + 1;
-		printf("%x\n", neg_op1);
-		printf("%d %d\n\n", MSB(neg_op1)==MSB(oprand_2), MSB(oprand_2)!=MSB(result_cmp));
 		if (MSB(neg_op1) == MSB(oprand_2) && MSB(oprand_2) != MSB(result_cmp)) cpu.OF = 1;
 		else cpu.OF = 0;
 	}
