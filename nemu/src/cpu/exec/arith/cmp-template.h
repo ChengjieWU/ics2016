@@ -11,7 +11,8 @@ static void do_execute() {
 	//SF
 	cpu.SF = MSB(result_cmp);
 	//OF
-	/*DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
+	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
+	printf("%x\n", m1);
 	if (oprand_1 == m1) {
 		cpu.OF = MSB(oprand_2);
 	}
@@ -19,7 +20,7 @@ static void do_execute() {
 		DATA_TYPE neg_op1 = (~oprand_1) + 1;
 		if (MSB(neg_op1) == MSB(oprand_2) && MSB(oprand_2) != MSB(result_cmp)) cpu.OF = 1;
 		else cpu.OF = 0;
-	}*/
+	}
 	cpu.OF = 1;
 	//CF
 	if (oprand_1 > oprand_2) cpu.CF = 1;
