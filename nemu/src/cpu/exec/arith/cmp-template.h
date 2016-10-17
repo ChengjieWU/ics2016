@@ -12,8 +12,7 @@ static void do_execute() {
 	cpu.SF = MSB(result_cmp);
 	//OF
 	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
-	printf("%x\n", m1);
-	printf("%x\n\n", oprand_1);
+	printf("%x %x %x\n", oprand_2, oprand_1, result_cmp);
 	if (oprand_1 == m1) {
 		cpu.OF = MSB(oprand_2);
 	}
