@@ -18,6 +18,7 @@ static void do_execute() {
 	}
 	else {
 		DATA_TYPE neg_op1 = (~oprand_1) + 1;
+		printf("%x\n", neg_op1);
 		if (MSB(neg_op1) == MSB(oprand_2) && MSB(oprand_2) != MSB(result_cmp)) cpu.OF = 1;
 		else cpu.OF = 0;
 	}
