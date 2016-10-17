@@ -14,8 +14,7 @@ static void do_execute() {
 	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
 	printf("%x %x %x\n", oprand_2, oprand_1, result_cmp);
 	if (oprand_1 == m1) {
-		if (oprand_2 != 0 && MSB(oprand_2) == 0) cpu.OF = 0;
-		else cpu.OF = 1;
+		cpu.OF = !MSB(oprand_2);
 	}
 	else {
 		DATA_TYPE neg_op1 = (~oprand_1) + 1;
