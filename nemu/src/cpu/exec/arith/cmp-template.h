@@ -23,7 +23,6 @@ static void do_execute() {
 		if (MSB(neg_op1) == MSB(oprand_2) && MSB(oprand_2) != MSB(result_cmp)) cpu.OF = 1;
 		else cpu.OF = 0;
 	}
-	cpu.OF = 1;
 	//CF
 	if (oprand_1 > oprand_2) cpu.CF = 1;
 	else cpu.CF = 0;
