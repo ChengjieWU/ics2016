@@ -11,9 +11,9 @@ static void do_execute() {
 	//SF
 	cpu.SF = MSB(result_cmp);
 	//OF
-	if (oprand_1 == ~oprand_1 && oprand_1 != 0) {
-		if (oprand_2 == ~(DATA_TYPE)(0)) cpu.OF = 1;
-		else cpu.OF = 0;
+	DATA_TYPE m1 = 1 << (8 * DATA_BYTE - 1);
+	if (oprand_1 == m1) {
+		cpu.OF = MSB(oprand_2);
 	}
 	else {
 		DATA_TYPE neg_op1 = (~oprand_1) + 1;
