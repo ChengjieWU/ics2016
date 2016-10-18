@@ -5,6 +5,7 @@
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
 	concat(decode_si_, SUFFIX)(eip + 1);
+	printf("%x\n", (swaddr_t)(eip + 1 + DATA_BYTE + op_src->simm));
 	return (swaddr_t)(eip + 1 + DATA_BYTE + op_src->simm);
 }
 #else
