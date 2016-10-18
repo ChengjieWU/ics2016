@@ -3,6 +3,7 @@
 #define instr jcc
 
 #define for_2_bit (DATA_BYTE!=1)
+
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
 	concat(decode_si_, SUFFIX)(eip + 1);
