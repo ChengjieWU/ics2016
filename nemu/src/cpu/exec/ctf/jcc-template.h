@@ -75,7 +75,7 @@ make_helper(concat(jcc_l_,SUFFIX)) {
 	print_asm("jl %x", cur_addr);
 	if (cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
 	printf("%x %x %x %x\n", cur_addr, cpu.eip, 1 + DATA_BYTE, cpu.eip + 1 + DATA_BYTE);
-	return 1 + DATA_BYTE;	
+	return  DATA_BYTE;	
 }
 
 make_helper(concat(jcc_le_,SUFFIX)) {
