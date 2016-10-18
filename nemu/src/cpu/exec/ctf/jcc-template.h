@@ -5,7 +5,6 @@
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 swaddr_t concat(next_addr_,SUFFIX)(swaddr_t eip) {
 	concat(decode_si_, SUFFIX)(eip + 1);
-	printf("%x\n", (swaddr_t)(eip + 1 + DATA_BYTE + op_src->simm));
 	return (swaddr_t)(eip + 1 + DATA_BYTE + op_src->simm);
 }
 #else
@@ -75,6 +74,7 @@ make_helper(concat(jcc_l_,SUFFIX)) {
 	swaddr_t cur_addr = concat(next_addr_,SUFFIX)(eip);
 	print_asm("jl %x", cur_addr);
 	if (cpu.SF != cpu.OF) cpu.eip = cur_addr - (1 + DATA_BYTE);
+	printf("%x\n", cpu.eip);
 	return 1 + DATA_BYTE;	
 }
 
