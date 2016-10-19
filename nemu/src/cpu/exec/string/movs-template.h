@@ -4,6 +4,7 @@
 
 make_helper(concat(movs_, SUFFIX)) {
 	REG(R_EDI) = REG(R_ESI);
+	print_asm("concat(movs,SUFFIX) %%ds:(%%esi),%%es:(%%edi)");
 	return 1;
 }
 
