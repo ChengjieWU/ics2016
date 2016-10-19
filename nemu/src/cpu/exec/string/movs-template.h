@@ -3,12 +3,16 @@
 #define instr movs
 
 make_helper(concat(movs_, SUFFIX)) {
-	REG(R_EDI) = REG(R_ESI);
-#if DATA_BYTE == 2
-	print_asm("movsw %%ds:(%%esi),%%es:(%%edi)");
-#else
-	print_asm("movsl %%ds:(%%esi),%%es:(%%edi)");
-#endif
+	MEM_W(cpu.edi, MEM_R(cpu.esi));
+	if (cpu.DF == 0) {
+		cpu.esi += DATA_BYTE;
+		cpu.edi += DATA_BYTE;
+	}
+	else {
+		cpu.esi -= DATA_BYTE;
+		cpu.edi -= DATA_BYTE;
+	}
+	print_asm("concat(movs, SUFFIX) %%ds:(%%esi),%%es:(%%edi)");
 	return 1;
 }
 
