@@ -12,7 +12,15 @@ make_helper(concat(movs_, SUFFIX)) {
 		cpu.esi -= DATA_BYTE;
 		cpu.edi -= DATA_BYTE;
 	}
-	print_asm("concat(movs, SUFFIX) %%ds:(%%esi),%%es:(%%edi)");
+#if DATA_BYTE == 1
+	print_asm("movsb %%ds:(%%esi),%%es:(%%edi)");
+#endif
+#if	DATA_BYTE == 2
+	print_asm("movsw %%ds:(%%esi),%%es:(%%edi)");
+#endif
+#if DATA_BYTE == 4
+	print_asm("movsl %%ds:(%%esi),%%es:(%%edi)");
+#endif
 	return 1;
 }
 
