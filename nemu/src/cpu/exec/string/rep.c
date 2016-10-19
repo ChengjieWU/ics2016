@@ -24,9 +24,12 @@ make_helper(rep) {
 				|| ops_decoded.opcode == 0xae	// scasb
 				|| ops_decoded.opcode == 0xaf	// scasw
 				);
-
+			
 			/* TODO: Jump out of the while loop if necessary. */
-
+			if (ops_decoded.opcode == 0xa6 || ops_decoded.opcode == 0xa7 || ops_decoded.opcode == 0xae
+							|| ops_decoded.opcode == 0xaf) {
+				if (cpu.ZF == 1) break;
+			}
 		}
 		len = 1;
 	}
@@ -51,6 +54,7 @@ make_helper(repnz) {
 				|| ops_decoded.opcode == 0xae	// scasb
 				|| ops_decoded.opcode == 0xaf	// scasw
 			  );
+		if (cpu.ZF == 0) break;
 
 		/* TODO: Jump out of the while loop if necessary. */
 
