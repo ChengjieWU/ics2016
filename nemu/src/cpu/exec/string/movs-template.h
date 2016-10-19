@@ -4,7 +4,11 @@
 
 make_helper(concat(movs_, SUFFIX)) {
 	REG(R_EDI) = REG(R_ESI);
-	print_asm("movs %%ds:(%%esi),%%es:(%%edi)");
+#if DATA_BYTE == 2
+	print_asm("movsw %%ds:(%%esi),%%es:(%%edi)");
+#else
+	print_asm("movsl %%ds:(%%esi),%%es:(%%edi)");
+#endif
 	return 1;
 }
 
