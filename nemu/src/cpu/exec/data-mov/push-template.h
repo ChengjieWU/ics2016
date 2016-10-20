@@ -24,7 +24,8 @@ make_helper(concat(push_m_, SUFFIX)) {
 make_helper(concat(push_i_, SUFFIX)) {
 	cpu.esp -= 4;
 	concat(decode_i_, SUFFIX)(eip + 1);
-	swaddr_write(cpu.esp, 4,  op_src->val);
+	uint32_t src = (uint32_t)op_src->val;
+	swaddr_write(cpu.esp, 4,  src);
 	print_asm("push $0x%x", op_src->val);
 	return 1 + DATA_BYTE;
 }
