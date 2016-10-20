@@ -10,7 +10,8 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 # TODO: complete the following rules
 
-$(FLOAT_O):
+$(FLOAT_O): FLOAT.c FLOAT.h
+	gcc -m32 -O2 -fno-builtin -c -llib-common FLOAT.c obj/lib-common
 
-$(FLOAT_VFPRINTF_O):
-
+$(FLOAT_VFPRINTF_O): FLOAT_vfprintf.c FLOAT.h 
+	gcc -m32 -O2 -fno-builtin -c -llib-common FLOAT_vfprintf.c obj/lib-common

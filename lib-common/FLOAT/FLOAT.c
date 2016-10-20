@@ -39,13 +39,13 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 
+		
 	nemu_assert(0);
 	return 0;
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	return (a & 0x7fffffff);
 }
 
 /* Functions below are already implemented */
