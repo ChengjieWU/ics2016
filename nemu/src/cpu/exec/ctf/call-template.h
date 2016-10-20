@@ -19,5 +19,13 @@ make_helper(concat(call_rel_, SUFFIX)) {
 	return 1 + DATA_BYTE;
 }
 
+make_helper(concat(call_rm_, SUFFIX)) {
+	cpu.esp -= DATA_BYTE;
+	MEM_W(cpu.esp, eip + 1 + DATA_BYTE);
+	int len = concat(decode_rm_, SUFFIX)(eip + 1);
+	cpu.eip = op_src->val - 1 - len;
+	return 1 + len;
+}
+
 
 #include "cpu/exec/template-end.h"
