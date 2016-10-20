@@ -77,6 +77,8 @@ static int cmd_info(char *args) {
 		printf("edi\t%x\t%d\n", cpu.edi, cpu.edi);
 		printf("eip\t%x\t%x\n", cpu.eip, cpu.eip);
 		printf("eflags\t%x\t%x\n", cpu.eflags, cpu.eflags);
+		printf("OF:%x\tDF:%x\tIF:%x\tSF:%x\nZF:%x\tPF:%x\tCF:%x\n",
+					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
 	}
 	else if (strcmp(args, "w") == 0) {
 		print_wp();		

@@ -78,7 +78,7 @@ void cpu_exec(volatile uint32_t n) {
 		int stop = check_wp();
 		if (stop != 0) {
 			printf("%s\n", asm_buf);
-			do_int3();
+			//do_int3();
 		}//it cannot output the assemlby code of the next op now
 
 #ifdef HAS_DEVICE
