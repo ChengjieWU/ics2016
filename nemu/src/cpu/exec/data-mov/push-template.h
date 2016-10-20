@@ -4,16 +4,16 @@
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(push_r_, SUFFIX)) {
-	cpu.esp -= DATA_BYTE;
 	int regnum = instr_fetch(eip, 1) & 0x7;
+	cpu.esp -= DATA_BYTE;
 	MEM_W(cpu.esp, REG(regnum));
 	print_asm("push %%%s", REG_NAME(regnum));
 	return 1;
 }
 
 make_helper(concat(push_m_, SUFFIX)) {
-	cpu.esp -= DATA_BYTE;
 	int len = concat(decode_rm_, SUFFIX)(eip + 1);
+	cpu.esp -= DATA_BYTE;
 	MEM_W(cpu.esp, op_src->val);
 	print_asm("push %s", op_src->str);
 	return 1 + len;	
