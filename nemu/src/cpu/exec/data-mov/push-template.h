@@ -23,7 +23,7 @@ make_helper(concat(push_m_, SUFFIX)) {
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 make_helper(concat(push_i_, SUFFIX)) {
 	cpu.esp -= 4;
-	concat(decode_si_, SUFFIX)(eip + 1);
+	concat(decode_i_, SUFFIX)(eip + 1);
 	swaddr_write(cpu.esp, 4,  op_src->val);
 	print_asm("push $0x%x", op_src->val);
 	return 1 + DATA_BYTE;
