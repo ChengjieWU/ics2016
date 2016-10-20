@@ -1,8 +1,9 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	long long pro = a * b;
+	FLOAT F = pro >> 16;
+	return F;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -38,10 +39,20 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-
-		
-	nemu_assert(0);
-	return 0;
+	union {
+		float* fp;
+		FLOAT* FP;
+	} uio;
+	uio.fp = &a;
+	FLOAT F = *uio.FP;
+	int disp = ((F >> 23) & 0xff) - 127;
+	unsigned m = F & 0x007fffff;
+	m = m | 0x00800000;
+	unsigned sym = !(F & 0x80000000);
+	m = m << disp;
+	if (sym) F = m;
+	else F = ~m + 1;
+	return F;
 }
 
 FLOAT Fabs(FLOAT a) {
