@@ -48,7 +48,7 @@ FLOAT f2F(float a) {
 	} uio;
 	uio.fp = &a;
 	FLOAT F = *uio.FP;
-	int disp = ((F >> 23) & 0xff) - 127;
+	int disp = ((F >> 23) & 0xff) - 134;
 	unsigned m = F & 0x007fffff;
 	m = m | 0x00800000;
 	unsigned sym = !(F & 0x80000000);
