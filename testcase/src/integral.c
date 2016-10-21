@@ -53,6 +53,8 @@ FLOAT computeT(int n, FLOAT a, FLOAT b, FLOAT (*fun)(FLOAT)) {
 								//nemu_assert(Fabs(s - f2F(0.097286)) < f2F(1e-4));	
 						}
 				case 2:{
+							    nemu_assert(h == f2F(0.2));
+								nemu_assert(k == 2);
 								nemu_assert(F_mul_int(h, k) == f2F(0.4));	
 								//nemu_assert(Fabs(F_mul_int(h, k) - f2F(0.4)) < f2F(1e-4));	
 								//FLOAT x = a + F_mul_int(h, k);
