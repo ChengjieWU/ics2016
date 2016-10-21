@@ -12,8 +12,8 @@ static inline int F2int(FLOAT a) {
 }
 
 static inline FLOAT int2F(int a) {
-	if (a & 0x80000000) return (a << 16) | 0x0000ffff;
-	else return (a << 16);
+	//if (a & 0x80000000) return (a << 16) | 0x0000ffff;
+	return (a << 16);
 }
 
 static inline FLOAT F_mul_int(FLOAT a, int b) {
