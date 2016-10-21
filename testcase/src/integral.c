@@ -51,7 +51,7 @@ FLOAT computeT(int n, FLOAT a, FLOAT b, FLOAT (*fun)(FLOAT)) {
 								//F_div_F(int2F(1), int2F(1) + F_mul_int(F_mul_F(x, x), 25));
 								//nemu_assert(Fabs(s - f2F(0.097286)) < f2F(1e-4));	
 						}*/
-		if (k == 3) {
+		/*if (k == 3) {
 							    nemu_assert(h == f2F(0.2));
 								//nemu_assert(Fabs(F_mul_int(h, k) - f2F(0.4)) < f2F(1e-4));	
 								FLOAT x = a + F_mul_int(h, k);
@@ -62,18 +62,18 @@ FLOAT computeT(int n, FLOAT a, FLOAT b, FLOAT (*fun)(FLOAT)) {
 								nemu_assert(Fabs(x - f2F(4)) < f2F(1e-4));
 								//nemu_assert(Fabs(s - f2F(0.897286)) < f2F(1e-4));	
 					   }
-		
+		*/
 	}
 	s = F_mul_F(s, h);
 	return s;
 }
 
 int main() { 
-	//FLOAT a = computeT(10, f2F(-1.0), f2F(1.0), f);
-	//FLOAT ans = f2F(0.551222);
+	FLOAT a = computeT(10, f2F(-1.0), f2F(1.0), f);
+	FLOAT ans = f2F(0.551222);
 
-	computeT(10, f2F(-1.0), f2F(1.0), f);
-	//nemu_assert(Fabs(a - ans) < f2F(1e-4));
+	//computeT(10, f2F(-1.0), f2F(1.0), f);
+	nemu_assert(Fabs(a - ans) < f2F(1e-4));
 
 	return 0;
 }
