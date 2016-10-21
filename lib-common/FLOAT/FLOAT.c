@@ -52,7 +52,8 @@ FLOAT f2F(float a) {
 	unsigned m = F & 0x007fffff;
 	m = m | 0x00800000;
 	unsigned sym = !(F & 0x80000000);
-	m = m << disp;
+	if (disp < 0) m = m >> (-disp);
+	else m = m << disp;
 	if (sym) F = m;
 	else F = ~m + 1;
 	return F;
