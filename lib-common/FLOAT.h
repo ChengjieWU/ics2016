@@ -6,7 +6,7 @@
 typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
-	if (a & 0x80000000) return (a >> 16) + 1;
+	if (a & 0x80000000) return (a >> 16);
 	else return (a >> 16);
 
 }
