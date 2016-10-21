@@ -12,7 +12,6 @@ static inline int F2int(FLOAT a) {
 }
 
 static inline FLOAT int2F(int a) {
-	//if (a & 0x80000000) return (a << 16) | 0x0000ffff;
 	return (a << 16);
 }
 
