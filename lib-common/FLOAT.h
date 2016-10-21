@@ -6,11 +6,14 @@
 typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
-	return (a >> 16);
+	if (a & 0x80000000) return (a >> 16) + 1;
+	else return (a >> 16);
+
 }
 
 static inline FLOAT int2F(int a) {
-	return (a << 16) | 0x0000ffff;
+	if (a & 0x80000000) return (a << 16) | 0x0000ffff;
+	else return (a << 16);
 }
 
 static inline FLOAT F_mul_int(FLOAT a, int b) {
