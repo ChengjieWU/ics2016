@@ -6,15 +6,15 @@
 typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
-	//if (a & 0x80000000) return (a >> 16) + 1;
-	//else return (a >> 16);
-	int exp = (a >> 31) & 1;
+	if (a & 0x80000000) return (a >> 16) + 1;
+	else return (a >> 16);
+	/*int exp = (a >> 31) & 1;
 	if (exp) a = -a;
 	int predot = (a >> 16) & 0x7fff;
 	int c = 0;
 	c += predot;
 	if (exp) c = -c;
-	return c;
+	return c;*/
 
 }
 
