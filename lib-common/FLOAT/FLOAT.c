@@ -1,9 +1,7 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	long long pro = (long long)a * b;
-	FLOAT F = (FLOAT)(pro >> 16);
-	return F;
+	return (FLOAT)(((long long)a * b) >> 16);
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
