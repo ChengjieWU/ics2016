@@ -24,9 +24,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
-	nemu_assert(0);
-	return 0;
+	FLOAT high = a;
+	FLOAT low = 0;
+	FLOAT quotient, remainder;
+	asm volatile ("idiv %2" : "=a"(quotient), "=d"(remainder) : "r"(b), "a"(low), "d"(high));
+	quotient = quotient >> 16;
+	return quotient;
 }
 
 FLOAT f2F(float a) {
