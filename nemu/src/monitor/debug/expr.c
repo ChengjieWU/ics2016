@@ -269,7 +269,6 @@ uint32_t eval_u(int p, int q, bool* legal) {
 		else if (tokens[p].type == SYM) {
 			bool legal_sym;
 			ret = find_sym(tokens[p].str, &legal_sym);
-			printf("%d", legal_sym);			
 			if (legal_sym == false) *legal = false;
 		}
 		else *legal = false;
@@ -350,8 +349,8 @@ uint32_t expr(char *e, bool *success) {
 	bool legal = true;
 	//float ret = eval(0, nr_token - 1, &legal);
 	//int ret_int = (int)ret;
-	*success = legal;
 	uint32_t ret_u = eval_u(0, nr_token - 1, &legal);
+	*success = legal;
 	return ret_u;
 
 	/*
