@@ -141,7 +141,8 @@ static int cmd_bt(char *args) {
 		return -1;
 	}
 	PartOfStackFrame sf;
-	if (cpu.ebp == 0x0) {
+	if (cpu.ebp > 0x8000000) {
+		return 0;
 	}
 	else {
 		int count = 0;
