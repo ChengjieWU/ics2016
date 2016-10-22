@@ -127,6 +127,7 @@ static struct {
 
 typedef struct {
 	swaddr_t ebp;
+	swaddr_t eip;
 	swaddr_t prev_ebp;
 	swaddr_t ret_addr;
 	uint32_t args[4];
@@ -143,6 +144,7 @@ static int cmd_bt(char *args) {
 	else {
 		int count = 0;
 		sf.ebp = cpu.ebp;
+		sf.eip = cpu.eip;
 		while (sf.ebp != 0) {
 			sf.prev_ebp = swaddr_read(sf.ebp, 4);
 			sf.ret_addr = swaddr_read(sf.ebp + 4, 4);
@@ -151,14 +153,15 @@ static int cmd_bt(char *args) {
 			sf.args[2] = swaddr_read(sf.ebp + 16, 4);
 			sf.args[3] = swaddr_read(sf.ebp + 20, 4);
 			bool valid;
-			char* name = fun_name(cpu.eip, &valid);
+			char* name = fun_name(sf.eip, &valid);
 			if (valid == false) {
 				printf("Illegal command\n");
 				return -1;
 			}
-			printf("#%d\t0x%x in %s (0x%x 0x%x 0x%x 0x%x)\n", count++, cpu.eip, name, 
+			printf("#%d\t0x%x in %s (0x%x 0x%x 0x%x 0x%x)\n", count++, sf.eip, name, 
 							sf.args[0], sf.args[1], sf.args[2], sf.args[3]);
 			sf.ebp = sf.prev_ebp;
+			sf.eip = sf.ret_addr;
 		}
 	}
 	return 0;
