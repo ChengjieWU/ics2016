@@ -144,12 +144,12 @@ static int cmd_bt(char *args) {
 		int count = 0;
 		sf.ebp = cpu.ebp;
 		while (sf.ebp != 0) {
-			sf.prev_ebp = swaddr_read(cpu.ebp, 4);
-			sf.ret_addr = swaddr_read(cpu.ebp + 4, 4);
-			sf.args[0] = swaddr_read(cpu.ebp + 8, 4);
-			sf.args[1] = swaddr_read(cpu.ebp + 12, 4);
-			sf.args[2] = swaddr_read(cpu.ebp + 16, 4);
-			sf.args[3] = swaddr_read(cpu.ebp + 20, 4);
+			sf.prev_ebp = swaddr_read(sf.ebp, 4);
+			sf.ret_addr = swaddr_read(sf.ebp + 4, 4);
+			sf.args[0] = swaddr_read(sf.ebp + 8, 4);
+			sf.args[1] = swaddr_read(sf.ebp + 12, 4);
+			sf.args[2] = swaddr_read(sf.ebp + 16, 4);
+			sf.args[3] = swaddr_read(sf.ebp + 20, 4);
 			bool valid;
 			char* name = fun_name(cpu.eip, &valid);
 			if (valid == false) {
