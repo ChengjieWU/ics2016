@@ -150,7 +150,7 @@ static int cmd_d(char *args) {
 static int cmd_p(char *args){
 	bool mu_temp = false;
 	uint32_t ret = expr(args, &mu_temp);
-	if (mu_temp == true) printf("%u\t%x\n", ret, ret);
+	if (mu_temp == true) printf("%u\t0x%x\n", ret, ret);
 	else printf("Illegal expression\n");
 	return 0;
 }
