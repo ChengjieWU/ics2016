@@ -6,8 +6,10 @@
 #include <sys/types.h>
 #include <regex.h>
 
+extern char* strtab;
+
 enum {
-	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG
+	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG, SYM
 	/* TODO: Add more token types */
 };
 
@@ -39,7 +41,8 @@ static struct rule {
 	{"\\)", ')'},
 	{"0x[0-9a-f]{1,8}", HEX},
 	{"[0-9]+[.]?[0-9]*|[0-9]*[.]?[0-9]+", NUM},
-	{"\\$[a-z]{3}", REG}
+	{"\\$[a-z]{3}", REG},
+	{"[a-zA-Z_]+[a-zA-Z0-9_]*",SYM}
 };
 
 
@@ -177,6 +180,9 @@ float eval(int p, int q, bool* legal) {
 			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
 			else *legal = false;
 		}
+		else if (tokens[p].type == SYM) {
+
+		}
 		else *legal = false;
 		//printf("%u\n", (unsigned)ret);
 		return ret;
@@ -262,6 +268,11 @@ uint32_t eval_u(int p, int q, bool* legal) {
 			else if (strcmp(tokens[p].str, "$edi") == 0) ret = cpu.edi;	
 			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
 			else *legal = false;
+		}
+		else if (tokens[p].type == SYM) {
+			char tempwithnouse = strtab[0];
+			tempwithnouse += 1;
+			ret = 0;		
 		}
 		else *legal = false;
 		//printf("%u\n", (unsigned)ret);
