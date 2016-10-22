@@ -22,6 +22,7 @@ uint32_t find_sym(char* sym, bool* found) {
 		}
 	}
 	if (loop == nr_symtab_entry) *found = false;
+	printf("%d", *found);
 	return val;
 }
 
