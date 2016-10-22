@@ -154,7 +154,7 @@ int priority_request(int x) {
 }
 
 
-float eval(int p, int q, bool* legal) {
+/*float eval(int p, int q, bool* legal) {
 	if (p > q) {
 		*legal = false;
 		return 0;
@@ -235,7 +235,7 @@ float eval(int p, int q, bool* legal) {
 			default: assert(0);
 		}	
 	}
-}
+}*/
 
 
 
