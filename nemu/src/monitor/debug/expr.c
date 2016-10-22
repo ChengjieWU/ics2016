@@ -267,7 +267,7 @@ uint32_t eval_u(int p, int q, bool* legal) {
 			else *legal = false;
 		}
 		else if (tokens[p].type == SYM) {
-			bool legal_sym;
+			bool legal_sym = false;
 			ret = find_sym(tokens[p].str, &legal_sym);
 			if (legal_sym == false) *legal = false;
 		}
