@@ -180,9 +180,6 @@ float eval(int p, int q, bool* legal) {
 			else if (strcmp(tokens[p].str, "$eip") == 0) ret = cpu.eip;
 			else *legal = false;
 		}
-		else if (tokens[p].type == SYM) {
-
-		}
 		else *legal = false;
 		//printf("%u\n", (unsigned)ret);
 		return ret;
@@ -279,7 +276,7 @@ uint32_t eval_u(int p, int q, bool* legal) {
 		return ret;
 	}
 	else if (check_parentheses(p, q) == true) {
-		return eval(p + 1, q - 1, legal);
+		return eval_u(p + 1, q - 1, legal);
 	}
 	else {
 		int current_priority = 8;
