@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <regex.h>
 
-extern char* strtab;
+extern uint32_t find_sym(char* sym, bool* found);
 
 enum {
 	NOTYPE = 256, EQ, G, GE, L, LE, NUM, AND, OR, NOT, DEREF, NEG, NEQ, HEX, REG, SYM
@@ -267,9 +267,9 @@ uint32_t eval_u(int p, int q, bool* legal) {
 			else *legal = false;
 		}
 		else if (tokens[p].type == SYM) {
-			char tempwithnouse = strtab[0];
-			tempwithnouse += 1;
-			ret = 0;		
+			bool legal_sym;
+			ret = find_sym(tokens[p].str, &legal_sym);
+			if (legal_sym == false) *legal = false;
 		}
 		else *legal = false;
 		//printf("%u\n", (unsigned)ret);

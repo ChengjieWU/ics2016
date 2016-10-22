@@ -8,6 +8,24 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
+uint32_t find_sym(char* sym, bool* found) {
+	*found = true; 
+	int loop = 0;
+	uint32_t val = 1;
+	for (; loop < nr_symtab_entry; loop++) {
+		if (ELF32_ST_TYPE(symtab[loop].st_info) == 1) {
+			char* name = strtab + symtab[loop].st_name;
+			if (strcmp(name, sym) == 0) {
+				val = symtab[loop].st_value;
+				break;
+			}
+		}
+	}
+	if (loop == nr_symtab_entry) *found = false;
+	return val;
+}
+
+
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
 	Assert(argc == 2, "run NEMU with format 'nemu [program]'");
