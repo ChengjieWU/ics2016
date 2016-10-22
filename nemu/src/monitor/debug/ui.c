@@ -13,6 +13,9 @@ WP* new_wp();
 void free_wp_no(int no);
 void print_wp();
 
+char* fun_name(swaddr_t eip, bool* valid);
+
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -97,6 +100,8 @@ static int cmd_p(char *args);
 
 static int cmd_w(char *args);
 
+static int cmd_bt(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -114,11 +119,50 @@ static struct {
 	{ "x", "argument [N] [EXPR] - Print the content of the continuous 4 * N bytes starting at address EXPR.", cmd_x},
 	{ "w", "Set watchpoint", cmd_w},
 	{ "d", "Delete watchpoint", cmd_d},
-	//{ "bt", "Print the phase chain", cmd_bt},
+	{ "bt", "Print the phase chain", cmd_bt},
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+typedef struct {
+	swaddr_t ebp;
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+} PartOfStackFrame;
+
+static int cmd_bt(char *args) {
+	if (args != NULL) {
+		printf("Illegal command\n");
+		return -1;
+	}
+	PartOfStackFrame sf;
+	if (cpu.ebp == 0x0) {
+	}
+	else {
+		int count = 0;
+		sf.ebp = cpu.ebp;
+		while (sf.ebp != 0) {
+			sf.prev_ebp = swaddr_read(cpu.ebp, 4);
+			sf.ret_addr = swaddr_read(cpu.ebp + 4, 4);
+			sf.args[0] = swaddr_read(cpu.ebp + 8, 4);
+			sf.args[1] = swaddr_read(cpu.ebp + 12, 4);
+			sf.args[2] = swaddr_read(cpu.ebp + 16, 4);
+			sf.args[3] = swaddr_read(cpu.ebp + 20, 4);
+			bool valid;
+			char* name = fun_name(cpu.eip, &valid);
+			if (valid == false) {
+				printf("Illegal command\n");
+				return -1;
+			}
+			printf("#%d\t0x%x in %s (0x%x 0x%x 0x%x 0x%x)\n", count++, cpu.eip, name, 
+							sf.args[0], sf.args[1], sf.args[2], sf.args[3]);
+			sf.ebp = sf.prev_ebp;
+		}
+	}
+	return 0;
+}
 
 static int cmd_w(char *args) {
 	bool expr_legal;

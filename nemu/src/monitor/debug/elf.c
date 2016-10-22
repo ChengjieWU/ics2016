@@ -25,6 +25,20 @@ uint32_t find_sym(char* sym, bool* found) {
 	return val;
 }
 
+char* fun_name(swaddr_t eip, bool* valid) {
+	*valid = true;
+	int loop = 0;
+	for (; loop < nr_symtab_entry; loop++) {
+		if (ELF32_ST_TYPE(symtab[loop].st_info) == 2) {
+			if (eip >= symtab[loop].st_value && eip < symtab[loop].st_value + symtab[loop].st_size) {
+				return strtab + symtab[loop].st_name;
+			}
+		}
+	}
+	*valid = false;
+	return NULL;
+}
+
 
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
