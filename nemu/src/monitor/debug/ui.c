@@ -134,6 +134,8 @@ typedef struct {
 } PartOfStackFrame;
 
 static int cmd_bt(char *args) {
+	//notice: the function won't work for the process during stack frame changes and will go wrong
+	//if the register %ebp hasn't been initialized to 0x0.
 	if (args != NULL) {
 		printf("Illegal command\n");
 		return -1;
