@@ -42,7 +42,7 @@ uint32_t loader() {
 	/* Load each program segment */
 	int loop_var = 0;
 	ph = (void*)((uint8_t*)buf + elf->e_phoff);
-	nemu_assert((ph + 1) == (void*)((uint8_t*)buf + elf->e_phoff) + elf->e_phentsize);
+	//nemu_assert((ph + 1) == (void*)((uint8_t*)buf + elf->e_phoff) + elf->e_phentsize); //this is true
 	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
@@ -52,14 +52,14 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint8_t buff[4096];
-			ramdisk_read(buff, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
-			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_offset, buff, ph->p_filesz);
+			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
+			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr, buff, ph->p_filesz);
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset(buff, 0, sizeof buff);
-			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_offset + ph->p_filesz, buff, ph->p_memsz);
+			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr + ph->p_filesz, buff, ph->p_memsz);
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
