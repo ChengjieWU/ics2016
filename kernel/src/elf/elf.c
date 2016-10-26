@@ -20,7 +20,6 @@ uint32_t get_ucr3();
 uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL;
-	nemu_assert(0);
 	uint8_t buf[4096];
 
 #ifdef HAS_DEVICE
@@ -35,7 +34,7 @@ uint32_t loader() {
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
-
+	nemu_assert(0);
 	/* Load each program segment */
 	int loop_var = 0;
 	//panic("please implement me");
