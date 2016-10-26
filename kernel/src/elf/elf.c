@@ -2,6 +2,7 @@
 #include "memory.h"
 #include <string.h>
 #include <elf.h>
+#include <stdio.h>
 
 #define ELF_OFFSET_IN_DISK 0
 
@@ -32,9 +33,10 @@ uint32_t loader() {
 	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
-	//const uint32_t elf_magic = 0x464c457f;
-	//uint32_t *p_magic = (void *)buf;
-	//nemu_assert(*p_magic == elf_magic);
+	const uint32_t elf_magic = 0x464c457f;
+	uint32_t *p_magic = (void *)buf;
+	nemu_assert(*p_magic == elf_magic);
+	printf("%d", *p_magic == elf_magic);
 
 	/* Load each program segment */
 	int loop_var = 0;
