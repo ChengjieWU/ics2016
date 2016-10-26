@@ -45,22 +45,14 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint8_t buff[4096];
-			asm volatile ("nop");
-			asm volatile ("nop");
-			asm volatile ("nop");
-			asm volatile ("nop");
 			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
-			asm volatile ("nop");
-			asm volatile ("nop");
-			asm volatile ("nop");
-			asm volatile ("nop");
-			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr, buff, ph->p_filesz);
+			memcpy((void*)ph->p_vaddr, buff, ph->p_filesz);
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset(buff, 0, sizeof buff);
-			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr + ph->p_filesz, buff, ph->p_memsz);
+			memcpy((void*)ph->p_vaddr + ph->p_filesz, buff, ph->p_memsz);
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;
