@@ -67,8 +67,8 @@ uint32_t loader() {
 			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
-			set_bp();
 		}
+		set_bp();
 	}
 	
 	volatile uint32_t entry = elf->e_entry;
