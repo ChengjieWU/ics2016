@@ -44,11 +44,11 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			uint8_t buff[4096];
+			//uint8_t buff[4096];
 			set_bp();
-			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
+			ramdisk_read((void*)ph->p_vaddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			set_bp();
-			memcpy((void*)ph->p_vaddr, buff, ph->p_filesz);
+			//memcpy((void*)ph->p_vaddr, buff, ph->p_filesz);
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
