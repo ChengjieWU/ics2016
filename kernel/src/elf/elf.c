@@ -37,13 +37,16 @@ uint32_t loader() {
 	const uint8_t haha = 0x45;
 	uint8_t *wcj = (void*)buf;
 	nemu_assert( *(wcj + 1) == haha);
+	
 
 	/* Load each program segment */
 	int loop_var = 0;
+	ph = (void*)((uint8_t*)buf + elf->e_phoff);
 	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
-		ph =(void*)((unsigned)elf + (unsigned)(elf->e_phoff) + (unsigned)(loop_var * elf->e_phentsize));
+		ph = ph + loop_var;
+		nemu_assert(ph->p_type == PT_LOAD);
 		if(ph->p_type == PT_LOAD) {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
