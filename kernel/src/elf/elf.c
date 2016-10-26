@@ -34,8 +34,9 @@ uint32_t loader() {
 	nemu_assert(*p_magic == elf_magic);
 
 
-	const uint32_t haha = 0x00010101;
-	nemu_assert( *(p_magic + 1) == haha);
+	const uint8_t haha = 0x45;
+	uint8_t *wcj = (void*)buf;
+	nemu_assert( *(wcj + 1) == haha);
 
 	/* Load each program segment */
 	int loop_var = 0;
