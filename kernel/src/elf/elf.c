@@ -9,7 +9,6 @@
 void ide_read(uint8_t *, uint32_t, uint32_t);
 #else
 void ramdisk_read(uint8_t *, uint32_t, uint32_t);
-void ramdisk_write(uint8_t *, uint32_t, uint32_t);
 #endif
 
 #define STACK_SIZE (1 << 20)
@@ -34,7 +33,7 @@ uint32_t loader() {
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
-	nemu_assert(0);
+	
 	/* Load each program segment */
 	int loop_var = 0;
 	//panic("please implement me");
@@ -47,15 +46,12 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint8_t buff[4096];
-			ramdisk_read(buff, ph->p_offset, ph->p_filesz);
-			ramdisk_write(buff, ph->p_vaddr, ph->p_filesz);
-			
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset(buff, 0, sizeof buff);
-			ramdisk_write(buff, ph->p_vaddr + ph->p_filesz, ph->p_memsz);
+
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
