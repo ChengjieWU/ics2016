@@ -38,7 +38,7 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	int loop_var = 0;
-	panic("please implement me");
+	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
 		ph = (void*)elf + elf->e_phoff + loop_var * elf->e_phentsize;
