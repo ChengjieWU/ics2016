@@ -46,20 +46,19 @@ uint32_t loader() {
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
 		ph = ph + loop_var;
-		nemu_assert(ph->p_type == PT_LOAD);
 		if(ph->p_type == PT_LOAD) {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint8_t buff[4096];
 			ramdisk_read(buff, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
-			memcpy(((void *)0) + ELF_OFFSET_IN_DISK + ph->p_offset, buff, ph->p_filesz);
+			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_offset, buff, ph->p_filesz);
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset(buff, 0, sizeof buff);
-			memcpy(((void *)0) + ELF_OFFSET_IN_DISK + ph->p_offset + ph->p_filesz, buff, ph->p_memsz);
+			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_offset + ph->p_filesz, buff, ph->p_memsz);
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
