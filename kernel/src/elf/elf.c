@@ -33,27 +33,19 @@ uint32_t loader() {
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
-
-	const uint8_t haha = 0x45;
-	uint8_t *wcj = (void*)buf;
-	nemu_assert( *(wcj + 1) == haha);
-	
-
 	/* Load each program segment */
 	int loop_var = 0;
 	ph = (void*)((uint8_t*)buf + elf->e_phoff);
 	//nemu_assert((ph + 1) == (void*)((uint8_t*)buf + elf->e_phoff) + elf->e_phentsize); //this is true
-	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
 		ph = ph + loop_var;
+		set_bp();
 		if(ph->p_type == PT_LOAD) {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint8_t buff[4096];
-			nemu_assert(ph->p_offset == 0x0 || ph->p_offset == 0x200);
-			set_bp();
 			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr, buff, ph->p_filesz);
 
