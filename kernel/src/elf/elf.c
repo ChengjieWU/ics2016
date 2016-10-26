@@ -35,7 +35,7 @@ uint32_t loader() {
 
 
 	const uint32_t haha = 0x01464c45;
-	nemu_assert( *(p_magic + 1) == haha);
+	nemu_assert( *(p_magic + 2) == haha);
 
 	/* Load each program segment */
 	int loop_var = 0;
