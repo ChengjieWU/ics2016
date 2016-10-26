@@ -20,7 +20,7 @@ uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL;
 	uint8_t buf[4096];
-
+	nemu_assert(1);
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #else
@@ -28,7 +28,7 @@ uint32_t loader() {
 #endif
 
 	elf = (void*)buf;
-
+	nemu_assert(0);
 	/* TODO: fix the magic number with the correct one */
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
