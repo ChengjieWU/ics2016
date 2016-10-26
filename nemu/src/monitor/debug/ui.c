@@ -138,12 +138,12 @@ static int cmd_bt(char *args) {
 	//if the register %ebp hasn't been initialized to 0x0.
 	if (args != NULL) {
 		printf("Illegal command\n");
-		return -1;
+		return 0;
 	}
 	PartOfStackFrame sf;
-	/*if (cpu.ebp > 0x8000000) {
+	if (cpu.ebp > 0x8000000) {
 		return 0;
-	}*/
+	}
 	int count = 0;
 	sf.ebp = cpu.ebp;
 	sf.eip = cpu.eip;
@@ -158,7 +158,7 @@ static int cmd_bt(char *args) {
 		char* name = fun_name(sf.eip, &valid);
 		if (valid == false) {
 			printf("Illegal command\n");
-			return -1;
+			return 0;
 		}
 		printf("#%d\t0x%x in %s (0x%x 0x%x 0x%x 0x%x)\n", count++, sf.eip, name, 
 						sf.args[0], sf.args[1], sf.args[2], sf.args[3]);
