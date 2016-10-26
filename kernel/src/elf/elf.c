@@ -40,7 +40,7 @@ uint32_t loader() {
 		/* Scan the program header table, load each segment into memory */
 		ph = (void*)elf + elf->e_phoff + loop_var * elf->e_phentsize;
 		if(ph->p_type == PT_LOAD) {
-			return 0x800009a;
+			return 0x80009a;
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
