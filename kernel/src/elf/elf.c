@@ -21,8 +21,6 @@ uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL;
 	
-	nemu_assert(0);
-
 	uint8_t buf[4096];
 
 #ifdef HAS_DEVICE
