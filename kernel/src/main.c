@@ -101,7 +101,6 @@ void init_cond() {
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");
 
-	nemu_assert(0);
 	/* Here we go! */
 	((void(*)(void))eip)();
 
