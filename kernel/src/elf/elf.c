@@ -51,8 +51,7 @@ uint32_t loader() {
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			memset(buff, 0, sizeof buff);
-			memcpy((void*)ph->p_vaddr + ph->p_filesz, buff, ph->p_memsz);
+			memset((void*)ph->p_vaddr + ph->p_filesz, 0, ph->p_memsz);
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;
