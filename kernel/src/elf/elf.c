@@ -34,7 +34,7 @@ uint32_t loader() {
 	nemu_assert(*p_magic == elf_magic);
 
 
-	const uint32_t haha = 0x01464c45;
+	const uint32_t haha = 0x0101464c;
 	nemu_assert( *(p_magic + 2) == haha);
 
 	/* Load each program segment */
