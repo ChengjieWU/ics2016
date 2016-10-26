@@ -51,19 +51,16 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			nemu_assert(ELF_OFFSET_IN_DISK == 0);
 			uint8_t buff[4096];
-			set_bp();
 			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
-			set_bp();
 			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr, buff, ph->p_filesz);
-			set_bp();
 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset(buff, 0, sizeof buff);
 			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr + ph->p_filesz, buff, ph->p_memsz);
-			set_bp();
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;
