@@ -45,7 +45,7 @@ uint32_t loader() {
 	//nemu_assert((ph + 1) == (void*)((uint8_t*)buf + elf->e_phoff) + elf->e_phentsize); //this is true
 	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
-		nemu_assert(elf->e_phnum == 2);
+		//nemu_assert(elf->e_phnum == 2);
 		/* Scan the program header table, load each segment into memory */
 		ph = ph + loop_var;
 		if(ph->p_type == PT_LOAD) {
