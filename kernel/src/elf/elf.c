@@ -51,6 +51,8 @@ uint32_t loader() {
 			ramdisk_read(buff, ph->p_offset, ph->p_filesz);
 			ramdisk_write(buff, ph->p_vaddr, ph->p_filesz);
 			
+			nemu_assert(0);
+
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
