@@ -45,13 +45,13 @@ uint32_t loader() {
 	//nemu_assert((ph + 1) == (void*)((uint8_t*)buf + elf->e_phoff) + elf->e_phentsize); //this is true
 	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
-		nemu_assert(elf->e_phnum == 3);
 		/* Scan the program header table, load each segment into memory */
 		ph = ph + loop_var;
 		if(ph->p_type == PT_LOAD) {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			set_bp();
 			uint8_t buff[4096];
 			ramdisk_read(buff, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			memcpy(((void*)0) + ELF_OFFSET_IN_DISK + ph->p_vaddr, buff, ph->p_filesz);
