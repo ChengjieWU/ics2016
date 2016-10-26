@@ -83,10 +83,10 @@ void restart() {
 
 	/* Read the entry code into memory. */
 	load_entry();
-
+	
 	/* Set the initial instruction pointer. */
 	cpu.eip = ENTRY_START;
-
+	printf("0x%x\n", cpu.eip);
 	/* Initialize the EFALGS to 0x00000002. */
 	cpu.eflags = 0x00000002;
 
