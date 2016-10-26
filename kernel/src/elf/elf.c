@@ -32,14 +32,17 @@ uint32_t loader() {
 	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
-	
+
+
+	const uint32_t haha = 0x01464c45;
+	nemu_assert( *(p_magic + 1) == haha);
+
 	/* Load each program segment */
 	int loop_var = 0;
 	//panic("please implement me");
 	for(; loop_var < elf->e_phnum; loop_var++) {
 		/* Scan the program header table, load each segment into memory */
 		ph =(void*)((unsigned)elf + (unsigned)(elf->e_phoff) + (unsigned)(loop_var * elf->e_phentsize));
-		nemu_assert(ph->p_type == PT_LOAD);
 		if(ph->p_type == PT_LOAD) {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
