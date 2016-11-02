@@ -22,7 +22,10 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	unsigned short round = (unsigned short)(f >> 16);
 	long long decimal = (long long)(f & 0x0000ffff);
 	decimal = (decimal * 1000000) / 65536;
-	int count = 1;
+	int len;
+	if (sym) len = sprintf(buf, "-%hu.%06lld", round, decimal);
+	else len = sprintf(buf, "%hu.%06llu", round, decimal);
+	/*int count = 1;
 	int fake_decimal = (int)decimal;
 	while (fake_decimal / 10 != 0) {
 		count++;
@@ -58,7 +61,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 				break;	
 			default:
 				break;
-	}
+	}*/
 	return __stdio_fwrite(buf, len, stream);
 }
 
