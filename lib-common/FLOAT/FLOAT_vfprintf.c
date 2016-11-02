@@ -108,7 +108,7 @@ static void modify_ppfs_setargs() {
 	void* pp = &_ppfs_setargs;
 	pp += 0x71;
 	short* pn = pp;
-	*pn = 0x0aeb;
+	*pn = 0x30eb;
 
 #if 0
 	enum {                          /* C type: */
