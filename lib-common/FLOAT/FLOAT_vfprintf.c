@@ -24,7 +24,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	decimal = (decimal * 1000000) / 65536;
 	char buf[80];
 	int len;
-	if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
+	if (sym) len = sprintf(buf, "-%hu.%6llu", round, decimal);
 	else len = sprintf(buf, "%hu.%llu", round, decimal);
 	return __stdio_fwrite(buf, len, stream);
 }
