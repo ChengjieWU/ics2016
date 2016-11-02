@@ -14,7 +14,7 @@ int main() {
 	printf("%f\n", FLOAT_ARG(0x00013333));
 	printf("%f %d\n", FLOAT_ARG(0xfffecccd), 123456);
 #else
-	sprintf(buf, "%lld", 12);
+	sprintf(buf, "%ld", 12);
 	nemu_assert(strcmp(buf, "12") == 0);
 	
 	//sprintf(buf, "%f", FLOAT_ARG(0x00010000));
