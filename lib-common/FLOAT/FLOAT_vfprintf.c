@@ -33,26 +33,31 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	int len;
 	switch (count) {
 			case 0:
-				if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.%lld", round, decimal);
 				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				break;
 			case 1:
-				if (sym) len = sprintf(buf, "-%hu.%0llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.0%llu", round, decimal);
+				else len = sprintf(buf, "%hu.0%llu", round, decimal);
+				break;
 			case 2:
-				if (sym) len = sprintf(buf, "-%hu.%00llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.00%llu", round, decimal);
+				else len = sprintf(buf, "%hu.00%llu", round, decimal);
+				break;
 			case 3:
-				if (sym) len = sprintf(buf, "-%hu.%000llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.000%llu", round, decimal);
+				else len = sprintf(buf, "%hu.000%llu", round, decimal);
+				break;
 			case 4:
-				if (sym) len = sprintf(buf, "-%hu.%0000llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.0000%llu", round, decimal);
+				else len = sprintf(buf, "%hu.0000%llu", round, decimal);
+				break;
 			case 5:
-				if (sym) len = sprintf(buf, "-%hu.%00000llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+				if (sym) len = sprintf(buf, "-%hu.00000%llu", round, decimal);
+				else len = sprintf(buf, "%hu.00000%llu", round, decimal);
+				break;	
 			default:
-				if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			break;
 	}
 	return __stdio_fwrite(buf, len, stream);
 }
