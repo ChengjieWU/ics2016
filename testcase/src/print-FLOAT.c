@@ -10,6 +10,7 @@ int main() {
 	init_FLOAT_vfprintf();
 
 #ifdef LINUX_RT
+	printf("%d\n", 12345);
 	printf("%f\n", FLOAT_ARG(0x00010000));
 	printf("%f\n", FLOAT_ARG(0x00013333));
 	printf("%f %d\n", FLOAT_ARG(0xfffecccd), 123456);
