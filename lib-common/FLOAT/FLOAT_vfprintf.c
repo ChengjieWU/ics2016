@@ -57,7 +57,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 				else len = sprintf(buf, "%hu.00000%llu", round, decimal);
 				break;	
 			default:
-			break;
+				break;
 	}
 	return __stdio_fwrite(buf, len, stream);
 }
