@@ -26,43 +26,6 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	int len;
 	if (sym) len = sprintf(buf, "-%hu.%06lld", round, decimal);
 	else len = sprintf(buf, "%hu.%06llu", round, decimal);
-	/*int count = 1;
-	int fake_decimal = (int)decimal;
-	while (fake_decimal / 10 != 0) {
-		count++;
-		fake_decimal = fake_decimal / 10;
-	}
-	count = 6 - count;
-	char buf[80];
-	int len;
-	switch (count) {
-			case 0:
-				if (sym) len = sprintf(buf, "-%hu.%lld", round, decimal);
-				else len = sprintf(buf, "%hu.%llu", round, decimal);
-				break;
-			case 1:
-				if (sym) len = sprintf(buf, "-%hu.0%llu", round, decimal);
-				else len = sprintf(buf, "%hu.0%llu", round, decimal);
-				break;
-			case 2:
-				if (sym) len = sprintf(buf, "-%hu.00%llu", round, decimal);
-				else len = sprintf(buf, "%hu.00%llu", round, decimal);
-				break;
-			case 3:
-				if (sym) len = sprintf(buf, "-%hu.000%llu", round, decimal);
-				else len = sprintf(buf, "%hu.000%llu", round, decimal);
-				break;
-			case 4:
-				if (sym) len = sprintf(buf, "-%hu.0000%llu", round, decimal);
-				else len = sprintf(buf, "%hu.0000%llu", round, decimal);
-				break;
-			case 5:
-				if (sym) len = sprintf(buf, "-%hu.00000%llu", round, decimal);
-				else len = sprintf(buf, "%hu.00000%llu", round, decimal);
-				break;	
-			default:
-				break;
-	}*/
 	return __stdio_fwrite(buf, len, stream);
 }
 
