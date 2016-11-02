@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
+//#include <sys/mman.h>
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
@@ -14,9 +15,16 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00010000    "1.000000"
 	 *         0x00013333    "1.199996"
 	 */
-
+	
+	int sym = f & 0x80000000;
+	if (sym) f = ~f + 1;
+	unsigned short round = (unsigned short)(f >> 16);
+	long long decimal = (long long)(f & 0x0000ffff);
+	decimal = (decimal * 1000000) / 65536;
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int len;
+	if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
+	else len = sprintf(buf, "%hu.%llu", round, decimal);
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,7 +34,30 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+	void* pp = &_vfprintf_internal + 0x307;
+   	void* victim = &_fpmaxtostr;
+	void* robber = &format_FLOAT;
+	unsigned* pn = pp;
+	//mprotect((void *)(((unsigned)(pp-101)) & 0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);	
+	*pn = *pn + robber - victim;
 
+	char* ppushn = (char*)(pp - 0xc);
+	*ppushn = 0x8;
+	ppushn += 1;
+	*ppushn = 0xFF;
+	ppushn += 1;
+	*ppushn = 0x32;
+	ppushn += 1;
+	*ppushn = 0x90;
+
+	char* cleaner = (char*)(pp - 0x23);
+	*cleaner = 0x90;
+	cleaner += 1;
+	*cleaner = 0x90;
+	cleaner += 3;
+	*cleaner = 0x90;
+	cleaner += 1;
+	*cleaner = 0x90;
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
