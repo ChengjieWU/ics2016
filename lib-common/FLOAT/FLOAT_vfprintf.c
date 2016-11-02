@@ -22,10 +22,38 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	unsigned short round = (unsigned short)(f >> 16);
 	long long decimal = (long long)(f & 0x0000ffff);
 	decimal = (decimal * 1000000) / 65536;
+	int count = 1;
+	int fake_decimal = (int)decimal;
+	while (fake_decimal / 10 != 0) {
+		count++;
+		fake_decimal = fake_decimal / 10;
+	}
+	count = 6 - count;
 	char buf[80];
 	int len;
-	if (sym) len = sprintf(buf, "-%hu.%6llu", round, decimal);
-	else len = sprintf(buf, "%hu.%llu", round, decimal);
+	switch (count) {
+			case 0:
+				if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			case 1:
+				if (sym) len = sprintf(buf, "-%hu.%0llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			case 2:
+				if (sym) len = sprintf(buf, "-%hu.%00llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			case 3:
+				if (sym) len = sprintf(buf, "-%hu.%000llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			case 4:
+				if (sym) len = sprintf(buf, "-%hu.%0000llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			case 5:
+				if (sym) len = sprintf(buf, "-%hu.%00000llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+			default:
+				if (sym) len = sprintf(buf, "-%hu.%llu", round, decimal);
+				else len = sprintf(buf, "%hu.%llu", round, decimal);
+	}
 	return __stdio_fwrite(buf, len, stream);
 }
 
