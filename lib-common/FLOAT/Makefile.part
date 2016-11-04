@@ -2,6 +2,8 @@
 
 FLOAT_O := $(FLOAT:.a=.o)
 FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
+FLOAT_CFLAGS := -m32 -O2 -fno-builtin -Ilib-common -c -Wall
+
 
 FLOAT_A_OBJ := $(FLOAT_O) $(FLOAT_VFPRINTF_O)
 
@@ -10,10 +12,12 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 # TODO: complete the following rules
 
-$(FLOAT_O): lib-common/FLOAT/FLOAT.c lib-common/FLOAT.h
-	mkdir -p obj/lib-common/FLOAT
-	$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT.c -o obj/lib-common/FLOAT/FLOAT.o
+$(FLOAT_O): lib-common/FLOAT/FLOAT.c
+	#mkdir -p obj/lib-common/FLOAT
+	#$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT.c -o obj/lib-common/FLOAT/FLOAT.o
+	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $@, $^)
 
-$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c lib-common/FLOAT.h
-	mkdir -p obj/lib-common/FLOAT
-	$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT_vfprintf.c -o obj/lib-common/FLOAT/FLOAT_vfprintf.o
+$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c
+	#mkdir -p obj/lib-common/FLOAT
+	#$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT_vfprintf.c -o obj/lib-common/FLOAT/FLOAT_vfprintf.o
+	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $@, $^)
