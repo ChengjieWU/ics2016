@@ -13,11 +13,11 @@ $(FLOAT): $(FLOAT_A_OBJ)
 # TODO: complete the following rules
 
 $(FLOAT_O): lib-common/FLOAT/FLOAT.c
-	#mkdir -p obj/lib-common/FLOAT
-	#$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT.c -o obj/lib-common/FLOAT/FLOAT.o
+# mkdir -p obj/lib-common/FLOAT
+# $(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT.c -o obj/lib-common/FLOAT/FLOAT.o
 	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $@, $^)
 
 $(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c
-	#mkdir -p obj/lib-common/FLOAT
-	#$(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT_vfprintf.c -o obj/lib-common/FLOAT/FLOAT_vfprintf.o
+# mkdir -p obj/lib-common/FLOAT
+# $(CC) -m32 -O2 -fno-builtin -Ilib-common -c lib-common/FLOAT/FLOAT_vfprintf.c -o obj/lib-common/FLOAT/FLOAT_vfprintf.o
 	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $@, $^)
