@@ -102,5 +102,26 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 
 void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data) 
 {
+	Cache_1 mirror;
+	mirror.addr = addr;
+	//uint32_t offset = mirror.offset;
+	uint32_t group = mirror.group;
+	uint32_t tag = mirror.tag;
+	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT);
 	
+	int Hit = 0, x = 0;
+	int i = 0;
+	for (i = 0; i < WAY_NUM; i++)
+		if (L1[group].cache[i].valid && L1[group].cache[i].tag == tag)
+		{
+			Hit = 1;
+			x = i;
+			break;
+		}
+	
+	dram_write(addr, len, data);
+	if (Hit)
+		for (i = 0; i < BLOCK_SIZE; i++)
+			L1[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+
 }
