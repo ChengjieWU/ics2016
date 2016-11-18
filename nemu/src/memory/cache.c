@@ -19,11 +19,13 @@
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
+/* DECLARATION------------------------------------------------------------------------  */
 uint32_t Cache_1_read(hwaddr_t, size_t);
 void Cache_1_write(hwaddr_t, size_t, uint32_t);
-uint32_t Cache_2_read(hwaddr_t, size_t);
-void Cache_2_write(hwaddr_t, size_t, uint32_t);
-/* ----------------------------------------------------------------------------------  */
+static uint32_t Cache_2_read(hwaddr_t, size_t);
+static void Cache_2_write(hwaddr_t, size_t, uint32_t);
+
+/* DEFINITION-------------------------------------------------------------------------  */
 //The cache struct is not the simpliest. It contains extra contents, offset and group.
 typedef struct {
 	bool valid;
@@ -64,6 +66,7 @@ typedef struct {
 Cache_1_group L1[GROUP_NUM];
 Cache_2_group L2[GROUP_NUM_2];
 
+/* ----------------------------------------------------------------------------------  */
 static void init_cache1()
 {
 	int i, j;
@@ -119,6 +122,7 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 			break;
 		}
 
+	/* If it doesn't hit, then we should allocate a new cache. The default value is 0. */
 	if (!Hit)
 	{
 		for (i = 0; i < WAY_NUM; i++)
@@ -130,9 +134,10 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 		L1[group].cache[x].valid = true;
 		L1[group].cache[x].tag = tag;
 		for (i = 0; i < BLOCK_SIZE; i++) 
-			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));	//read into cache one byte by one
 	}
 
+	/* To generate the output and deal with the situation when it crosses caches. */
 	memcpy_cache (temp, L1[group].cache[x].data, BLOCK_SIZE);
 	if (offset + len > BLOCK_SIZE) *(uint32_t*)(temp + BLOCK_SIZE) = Cache_1_read(addr_block + BLOCK_SIZE, len);
 
@@ -159,17 +164,17 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 			break;
 		}
 	
-	Cache_2_write(addr, len, data);
+	Cache_2_write(addr, len, data);	//update the memory
 	if (Hit)
 		for (i = 0; i < BLOCK_SIZE; i++)
-			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));	//read into cache one byte by one
 
 }
 
 
 /* ---------------------------------------------------------------------------------- */
 
-uint32_t Cache_2_read(hwaddr_t addr, size_t len) 
+static uint32_t Cache_2_read(hwaddr_t addr, size_t len) 
 {
 	Cache_2 mirror;
 	mirror.addr = addr;
@@ -197,7 +202,7 @@ uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 				x = i;
 				break;
 			}
-		if (L2[group].cache[x].dirty)
+		if (L2[group].cache[x].dirty)	//If the substituted cache is dirty, then we should update the memory one byte by one.
 			for (i = 0; i < BLOCK_SIZE_2; i++)
 				dram_write(addr_block + i, 1, L1[group].cache[x].data[i]);
 		L2[group].cache[x].valid = true;
@@ -214,7 +219,7 @@ uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 }
 
 
-void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data) 
+static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data) 
 {
 	Cache_2 mirror;
 	mirror.addr = addr;
@@ -235,14 +240,14 @@ void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 	
 	if (Hit)
 	{
-		uint8_t* datap = (uint8_t *)(&data);
+		uint8_t* datap = (uint8_t *)(&data);	//If it hits, then only the cache is updated, and the dirty byte is set.
 		for (i = 0; i < len; i++)
 			L2[group].cache[x].data[offset + i] = *(datap + i);
 		L2[group].cache[x].dirty = true;
 	}
 	else
 	{
-		dram_write(addr, len, data);
+		dram_write(addr, len, data);	//Otherwise, the memory is updated first and then a cache is allocated for it.
 		for (i = 0; i < WAY_NUM_2; i++)
 			if (!L2[group].cache[i].valid)
 			{
