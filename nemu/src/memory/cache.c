@@ -19,6 +19,10 @@
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
+uint32_t Cache_1_read(hwaddr_t, size_t);
+void Cache_1_write(hwaddr_t, size_t, uint32_t);
+uint32_t Cache_2_read(hwaddr_t, size_t);
+void Cache_2_write(hwaddr_t, size_t, uint32_t);
 /* ----------------------------------------------------------------------------------  */
 //The cache struct is not the simpliest. It contains extra contents, offset and group.
 typedef struct {
@@ -40,6 +44,7 @@ typedef struct {
 
 typedef struct {
 	bool valid;
+	bool dirty;
 	union {
 		struct {
 			uint32_t offset : BLOCK_BIT_2;
@@ -54,7 +59,7 @@ typedef struct {
 typedef struct {
 	Cache_2 cache[WAY_NUM_2];
 } Cache_2_group;
-/* --------------------------------------------------------------------  */
+/* ----------------------------------------------------------------------------------  */
 
 Cache_1_group L1[GROUP_NUM];
 Cache_2_group L2[GROUP_NUM_2];
@@ -82,7 +87,7 @@ void init_cache()
 	init_cache1();
 	init_cache2();
 }
-
+/* ---------------------------------------------------------------------------------- */
 
 inline static void memcpy_cache (void *dest, void *src, size_t len)
 {
@@ -91,6 +96,8 @@ inline static void memcpy_cache (void *dest, void *src, size_t len)
 		((uint8_t*)dest)[i] = ((uint8_t*)src)[i];
 }
 
+
+/* ---------------------------------------------------------------------------------- */
 
 uint32_t Cache_1_read(hwaddr_t addr, size_t len) 
 {
@@ -123,9 +130,9 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 		L1[group].cache[x].valid = true;
 		L1[group].cache[x].tag = tag;
 		for (i = 0; i < BLOCK_SIZE; i++) 
-			L1[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
 	}
-	
+
 	memcpy_cache (temp, L1[group].cache[x].data, BLOCK_SIZE);
 	if (offset + len > BLOCK_SIZE) *(uint32_t*)(temp + BLOCK_SIZE) = Cache_1_read(addr_block + BLOCK_SIZE, len);
 
@@ -152,19 +159,15 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 			break;
 		}
 	
-	dram_write(addr, len, data);
+	Cache_2_write(addr, len, data);
 	if (Hit)
 		for (i = 0; i < BLOCK_SIZE; i++)
-			L1[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
 
 }
 
 
-
-
-
-
-
+/* ---------------------------------------------------------------------------------- */
 
 uint32_t Cache_2_read(hwaddr_t addr, size_t len) 
 {
@@ -194,8 +197,12 @@ uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 				x = i;
 				break;
 			}
+		if (L2[group].cache[x].dirty)
+			for (i = 0; i < BLOCK_SIZE_2; i++)
+				dram_write(addr_block + i, 1, L1[group].cache[x].data[i]);
 		L2[group].cache[x].valid = true;
 		L2[group].cache[x].tag = tag;
+		L2[group].cache[x].dirty = false;
 		for (i = 0; i < BLOCK_SIZE_2; i++) 
 			L2[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
 	}
@@ -211,6 +218,7 @@ void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 {
 	Cache_2 mirror;
 	mirror.addr = addr;
+	uint32_t offset = mirror.offset;
 	uint32_t group = mirror.group;
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT_2);
@@ -225,8 +233,29 @@ void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 			break;
 		}
 	
-	dram_write(addr, len, data);
 	if (Hit)
-		for (i = 0; i < BLOCK_SIZE_2; i++)
+	{
+		uint8_t* datap = (uint8_t *)(&data);
+		for (i = 0; i < len; i++)
+			L2[group].cache[x].data[offset + i] = *(datap + i);
+		L2[group].cache[x].dirty = true;
+	}
+	else
+	{
+		dram_write(addr, len, data);
+		for (i = 0; i < WAY_NUM_2; i++)
+			if (!L2[group].cache[i].valid)
+			{
+				x = i;
+				break;
+			}
+		if (L2[group].cache[x].dirty)
+			for (i = 0; i < BLOCK_SIZE_2; i++)
+				dram_write(addr_block + i, 1, L1[group].cache[x].data[i]);
+		L2[group].cache[x].valid = true;
+		L2[group].cache[x].tag = tag;
+		L2[group].cache[x].dirty = false;
+		for (i = 0; i < BLOCK_SIZE_2; i++) 
 			L2[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
+	}
 }
