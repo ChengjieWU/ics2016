@@ -73,7 +73,7 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 	bash test.sh $(testcase_BIN)
 
 count: 
-	-find ./nemu -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
+	@-find ./nemu -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
