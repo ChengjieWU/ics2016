@@ -70,43 +70,37 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 	int Hit = 0, x = 0;
 	int i = 0;
 	for (i = 0; i < WAY_NUM; i++)
-	{
 		if (L1[group].cache[i].valid && L1[group].cache[i].tag == tag)
 		{
 			Hit = 1;
 			x = i;
 			break;
 		}
-	}
 
-	if (Hit)
+	if (!Hit)
 	{
-		memcpy_cache (temp, L1[group].cache[x].data, BLOCK_SIZE);
-		if (offset + len > BLOCK_SIZE)
-		{
-			*(uint32_t*)(temp + BLOCK_SIZE) = Cache_1_read(addr_block + BLOCK_SIZE, len);
-		}
-	}
-	else
-	{
+		//find a cache to use
 		for (i = 0; i < WAY_NUM; i++)
-		{
 			if (!L1[group].cache[i].valid)
 			{
 				x = i;
 				break;
 			}
-		}
 		L1[group].cache[x].valid = true;
 		L1[group].cache[x].tag = tag;
 		for (i = 0; i < BLOCK_SIZE; i++) 
 			L1[group].cache[x].data[i] = dram_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));
-		memcpy_cache (temp, L1[group].cache[x].data, BLOCK_SIZE);
-		if (offset + len > BLOCK_SIZE)
-		{
-			*(uint32_t*)(temp + BLOCK_SIZE) = Cache_1_read(addr_block + BLOCK_SIZE, len);
-		}
 	}
+	
+	memcpy_cache (temp, L1[group].cache[x].data, BLOCK_SIZE);
+	if (offset + len > BLOCK_SIZE) *(uint32_t*)(temp + BLOCK_SIZE) = Cache_1_read(addr_block + BLOCK_SIZE, len);
 
 	return unalign_rw(temp + offset, 4);
+}
+
+
+
+void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data) 
+{
+	
 }
