@@ -10,6 +10,7 @@
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
+//The cache struct is not the simpliest. It contains extra contents, offset and group.
 typedef struct {
 	bool valid;
 	union {
@@ -37,12 +38,8 @@ void init_cache1()
 	int i, j;
 	memset(L1, 0, sizeof L1);
 	for (i = 0; i < GROUP_NUM; i++)
-	{
 		for (j = 0; j < WAY_NUM; j++)
-		{
 			L1[i].cache[j].group = (uint32_t)j;
-		}
-	}
 }
 
 
@@ -51,9 +48,7 @@ inline static void memcpy_cache (void *dest, void *src, size_t len)
 {
 	int i;
 	for (i = 0; i < len; i++)
-	{
 		((uint8_t*)dest)[i] = ((uint8_t*)src)[i];
-	}
 }
 
 
@@ -79,7 +74,6 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 
 	if (!Hit)
 	{
-		//find a cache to use
 		for (i = 0; i < WAY_NUM; i++)
 			if (!L1[group].cache[i].valid)
 			{
@@ -104,7 +98,6 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 {
 	Cache_1 mirror;
 	mirror.addr = addr;
-	//uint32_t offset = mirror.offset;
 	uint32_t group = mirror.group;
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT);

@@ -1,20 +1,19 @@
 #include "common.h"
 
-uint32_t dram_read(hwaddr_t, size_t);
-void dram_write(hwaddr_t, size_t, uint32_t);
+/* @uint32_t dram_read(hwaddr_t, size_t); */
+/* @void dram_write(hwaddr_t, size_t, uint32_t); */
 uint32_t Cache_1_read(hwaddr_t, size_t);
 void Cache_1_write(hwaddr_t, size_t, uint32_t);
 
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	//assert((dram_read(addr, len) & (~0u >> ((4 - len) << 3))) == (Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3))));
-	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	/* @return dram_read(addr, len) & (~0u >> ((4 - len) << 3)); */
 	return Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	//dram_write(addr, len, data);
+	/* @dram_write(addr, len, data); */
 	Cache_1_write(addr, len, data);
 }
 
