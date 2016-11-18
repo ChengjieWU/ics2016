@@ -8,8 +8,8 @@ uint32_t Cache_1_read(hwaddr_t, size_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	//return Cache_1_read(addr, len);
+	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	return Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
