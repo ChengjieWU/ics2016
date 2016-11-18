@@ -11,7 +11,7 @@
 #define GROUP_BIT_2 12
 #define GROUP_NUM_2 4096
 #define WAY_NUM_2 16
-#define TAG_BIT_2 (32 - BLOCK_BIT - GROUP_BIT)
+#define TAG_BIT_2 (32 - BLOCK_BIT_2 - GROUP_BIT_2)
 
 
 
