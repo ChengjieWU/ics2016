@@ -32,6 +32,21 @@ typedef struct {
 Cache_1_group L1[GROUP_NUM];
 
 
+void init_cache1()
+{
+	int i, j;
+	memset(L1, 0, sizeof L1);
+	for (i = 0; i < GROUP_NUM; i++)
+	{
+		for (j = 0; j < WAY_NUM; j++)
+		{
+			L1[i].cache[j].group = (uint32_t)j;
+		}
+	}
+}
+
+
+
 inline static void memcpy_cache (void *dest, void *src, size_t len)
 {
 	int i;
