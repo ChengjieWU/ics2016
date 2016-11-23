@@ -47,6 +47,7 @@ static int cmd_q(char *args) {
 static int cmd_si(char *args) {
 	if (args == NULL)
 	{
+		printf("enter\n");
 		cpu_exec(1);
 		printf("haha\n");
 		return 0;
