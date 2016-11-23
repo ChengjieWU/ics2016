@@ -62,9 +62,7 @@ void cpu_exec(volatile uint32_t n) {
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
-		printf("haha");	
 		cpu.eip += instr_len;
-		printf("hha");
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
@@ -87,7 +85,7 @@ void cpu_exec(volatile uint32_t n) {
 		extern void device_update();
 		device_update();
 #endif
-
+		printf("hah");
 		if(nemu_state != RUNNING) { return; }
 	}
 
