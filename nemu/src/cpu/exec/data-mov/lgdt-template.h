@@ -12,6 +12,7 @@ make_helper(concat(lgdt_, SUFFIX)) {
 	int ret;
 	if (DATA_BYTE == 2) ret = 6;
 	else ret = 7;
+	print_asm("lgdt %hu%u", t1, t2);
 	return ret;
 }
 
