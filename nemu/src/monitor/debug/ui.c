@@ -3,7 +3,6 @@
 #include "monitor/watchpoint.h"
 #include "nemu.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -47,9 +46,7 @@ static int cmd_q(char *args) {
 static int cmd_si(char *args) {
 	if (args == NULL)
 	{
-		printf("enter\n");
 		cpu_exec(1);
-		printf("haha\n");
 		return 0;
 	}
 	int args_length = strlen(args);

@@ -73,7 +73,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-
+		printf("about to finish\n");
 		int stop = check_wp();
 		if (stop != 0) {
 			printf("%s\n", asm_buf);
