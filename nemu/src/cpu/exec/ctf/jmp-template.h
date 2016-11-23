@@ -38,6 +38,7 @@ make_helper(jmp_l) {
 	cpu.sreg[1].cache.base_15_0 = cs_new;
 	cpu.sreg[1].cache.base_23_16 = 0;
 	cpu.sreg[1].cache.base_31_24 = 0;
+	print_asm("ljmp $%hx,$%x", cs_new, offset);
 	return 7;
 }
 #endif
