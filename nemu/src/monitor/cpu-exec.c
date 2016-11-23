@@ -62,7 +62,7 @@ void cpu_exec(volatile uint32_t n) {
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
-		
+		printf("haha");	
 		cpu.eip += instr_len;
 		printf("hha");
 #ifdef DEBUG
@@ -89,7 +89,6 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		if(nemu_state != RUNNING) { return; }
-		printf("haha");
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
