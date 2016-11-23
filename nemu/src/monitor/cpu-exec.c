@@ -89,6 +89,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		if(nemu_state != RUNNING) { return; }
+		printf("haha");
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
