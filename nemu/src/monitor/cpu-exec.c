@@ -63,6 +63,7 @@ void cpu_exec(volatile uint32_t n) {
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
 		cpu.eip += instr_len;
+		printf("finish\n");
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
@@ -73,7 +74,6 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-		printf("about to finish\n");
 		int stop = check_wp();
 		if (stop != 0) {
 			printf("%s\n", asm_buf);
@@ -85,7 +85,6 @@ void cpu_exec(volatile uint32_t n) {
 		extern void device_update();
 		device_update();
 #endif
-		printf("finish\n");
 		if(nemu_state != RUNNING) { return; }
 	}
 
