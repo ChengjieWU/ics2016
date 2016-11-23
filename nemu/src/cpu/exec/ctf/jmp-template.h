@@ -30,5 +30,16 @@ make_helper(concat(jmp_rm_,SUFFIX)) {
 }
 #endif
 
+#if DATA_BYTE == 4
+make_helper(jmp_l) {
+	swaddr_t offset = instr_fetch(eip + 1, 4);
+	uint16_t cs_new = instr_fetch(eip + 5, 2);
+	cpu.eip = offset;
+	cpu.sreg[1].cache.base_15_0 = cs_new;
+	cpu.sreg[1].cache.base_23_16 = 0;
+	cpu.sreg[1].cache.base_31_24 = 0;
+	return 7;
+}
+#endif
 
 #include "cpu/exec/template-end.h"
