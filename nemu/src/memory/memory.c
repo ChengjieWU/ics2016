@@ -7,9 +7,10 @@ void Cache_1_write(hwaddr_t, size_t, uint32_t);
 uint32_t Cache_2_read(hwaddr_t, size_t);
 void Cache_2_write(hwaddr_t, size_t, uint32_t);
 
-bool cr0_cpu();
-int cpu_index(uint8_t);
+bool cpu_cr0_protect_enable();
+int cpu_sreg_index(uint8_t);
 unsigned cpu_gdtr_base();
+lnaddr_t cpu_sreg_cache_base(uint8_t);
 
 /* Memory accessing interfaces */
 
@@ -33,11 +34,12 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 	lnaddr_t ret_addr = addr;
-	if (cr0_cpu()) {
-		int index = cpu_index(sreg);
+	if (cpu_cr0_protect_enable()) {
+		ret_addr += cpu_sreg_cache_base(sreg);
+		/*int index = cpu_index(sreg);
 		unsigned buf1 = lnaddr_read(cpu_gdtr_base() + 8 * index, 4); 
 		unsigned buf2 = lnaddr_read(cpu_gdtr_base() + 8 * index + 4, 4);
-		ret_addr += (buf1 >> 16) | ((buf2 & 0xff) << 16) | (buf2 & 0xff000000);
+		ret_addr += (buf1 >> 16) | ((buf2 & 0xff) << 16) | (buf2 & 0xff000000);*/
 	}
 	return ret_addr;	
 }

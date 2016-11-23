@@ -98,6 +98,11 @@ void restart() {
 	/* Initialize Cache */
 	init_cache();
 
-	/* Initialize CR0 */
+	/* Initialize CR0 & CS.cache */
 	cpu.cr0.protect_enable = 0;
+	cpu.sreg[1].cache.base_15_0 = 0;
+	cpu.sreg[1].cache.base_23_16 = 0;
+	cpu.sreg[1].cache.base_31_24 = 0;
+	cpu.sreg[1].cache.limit_15_0 = 0xffff;
+	cpu.sreg[1].cache.limit_19_16 = 0xf;
 }

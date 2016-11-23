@@ -42,13 +42,13 @@ void reg_test() {
 	assert(eip_sample == cpu.eip);
 }
 
-bool cr0_cpu()
+bool cpu_cr0_protect_enable()
 {
 	if (cpu.cr0.protect_enable != 0) return true;
 	else return false;
 }
 
-int cpu_index(uint8_t sreg)
+int cpu_sreg_index(uint8_t sreg)
 {
 	return cpu.sreg[sreg].INDEX;	
 }
@@ -56,4 +56,9 @@ int cpu_index(uint8_t sreg)
 unsigned cpu_gdtr_base()
 {
 	return cpu.gdtr.base;
+}
+
+lnaddr_t cpu_sreg_cache_base(uint8_t sreg)
+{
+	return cpu.sreg[sreg].cache.base_15_0 | (cpu.sreg[sreg].cache.base_23_16 << 16) | (cpu.sreg[sreg].cache.base_31_24 << 24);
 }
