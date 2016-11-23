@@ -30,17 +30,17 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 #if DATA_BYTE == 4
 make_helper(movsr) {
-	decode_r_l(eip + 1);
+	int len = decode_r2rm_l(eip + 1);
 	REG(op_src->reg) = cpu.cr0.val;
 	print_asm("mov %%CR0, %s", op_src->str);
-	return 2;
+	return len + 1;
 }
 
 make_helper(movsrr) {
-	decode_r_l(eip + 1);
+	int len = decode_r2rm_l(eip + 1);
 	cpu.cr0.val = REG(op_src->reg);
 	print_asm("mov %s, %%CR0", op_src->str);
-	return 2;
+	return len + 1;
 }
 #endif
 
