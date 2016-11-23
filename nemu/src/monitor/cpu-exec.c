@@ -63,7 +63,7 @@ void cpu_exec(volatile uint32_t n) {
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
 		cpu.eip += instr_len;
-		printf("finish\n");
+		printf("about to finish\n");
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
@@ -72,7 +72,7 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		}
 #endif
-
+		printf("finish\n");
 		/* TODO: check watchpoints here. */
 		int stop = check_wp();
 		if (stop != 0) {
