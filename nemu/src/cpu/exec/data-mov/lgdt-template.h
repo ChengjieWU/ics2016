@@ -7,7 +7,7 @@ make_helper(concat(lgdt_, SUFFIX)) {
 	uint32_t t2;
 	//if (DATA_BYTE == 2) t2 = instr_fetch(eip + 3, 3) & 0x00111111;
 	//else t2 = instr_fetch(eip + 3, 4);
-	t2 = instr_fetch(eip + 3, 3) & 0x00111111;
+	t2 = instr_fetch(eip + 3, 4) & 0x00111111;
 	cpu.gdtr.limit = t1;
 	cpu.gdtr.base = t2;
 	//int ret;
