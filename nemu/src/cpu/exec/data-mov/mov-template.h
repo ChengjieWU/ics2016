@@ -33,14 +33,14 @@ make_helper(movsr) {
 	decode_r_l(eip + 1);
 	REG(op_src->reg) = cpu.cr0.val;
 	print_asm("mov %%CR0, %s", op_src->str);
-	return 6;
+	return 2;
 }
 
 make_helper(movsrr) {
 	decode_r_l(eip + 1);
 	cpu.cr0.val = REG(op_src->reg);
 	print_asm("mov %s, %%CR0", op_src->str);
-	return 6;
+	return 2;
 }
 #endif
 
