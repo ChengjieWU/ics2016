@@ -303,7 +303,7 @@ uint32_t eval_u(int p, int q, bool* legal) {
 			switch(tokens[op].type) {
 				case NEG: return -1 * val1;
 				case NOT: return !val1;
-				case DEREF: return (uint32_t) swaddr_read(val1, 4);
+				case DEREF: return (uint32_t) swaddr_read(val1, 4, 3);
 			}
 		}
 		

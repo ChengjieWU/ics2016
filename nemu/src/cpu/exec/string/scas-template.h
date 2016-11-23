@@ -3,7 +3,7 @@
 #define instr scas
 
 make_helper(concat(scas_, SUFFIX)) {
-	DATA_TYPE oprand_1 = MEM_R(cpu.edi);
+	DATA_TYPE oprand_1 = MEM_R(cpu.edi, 0);
 	DATA_TYPE oprand_2 = REG(R_EAX);
 	DATA_TYPE result_cmp = oprand_2 - oprand_1;
 	//ZF

@@ -42,3 +42,18 @@ void reg_test() {
 	assert(eip_sample == cpu.eip);
 }
 
+bool cr0_cpu()
+{
+	if (cpu.cr0.protect_enable != 0) return true;
+	else return false;
+}
+
+int cpu_index(uint8_t sreg)
+{
+	return cpu.sreg[sreg].INDEX;	
+}
+
+unsigned cpu_gdtr_base()
+{
+	return cpu.gdtr.base;
+}

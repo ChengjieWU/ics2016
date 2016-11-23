@@ -7,6 +7,10 @@ void Cache_1_write(hwaddr_t, size_t, uint32_t);
 uint32_t Cache_2_read(hwaddr_t, size_t);
 void Cache_2_write(hwaddr_t, size_t, uint32_t);
 
+bool cr0_cpu();
+int cpu_index(uint8_t);
+unsigned cpu_gdtr_base();
+
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
@@ -27,17 +31,42 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
 
+lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
+	lnaddr_t ret_addr = addr;
+	if (cr0_cpu()) {
+		int index = cpu_index(sreg);
+		unsigned buf1 = lnaddr_read(cpu_gdtr_base() + 8 * index, 4); 
+		unsigned buf2 = lnaddr_read(cpu_gdtr_base() + 8 * index + 4, 4);
+		ret_addr += (buf1 >> 16) | ((buf2 & 0xff) << 16) | (buf2 & 0xff000000);
+	}
+	return ret_addr;	
+}
+
+/*
 uint32_t swaddr_read(swaddr_t addr, size_t len) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
 	return lnaddr_read(addr, len);
+}*/
+
+uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
+	assert(len == 1 || len == 2 || len == 4);
+	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
+	return lnaddr_read(lnaddr, len);
 }
 
+/*
 void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
 	lnaddr_write(addr, len, data);
+}*/
+
+void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
+	assert(len == 1 || len == 2 || len == 4);
+	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
+	return lnaddr_write(lnaddr, len, data);
 }
 

@@ -56,11 +56,17 @@ typedef struct {
 		uint32_t base;
 	} gdtr;
 	
-	struct {
-		unsigned RPL : 3;
-		unsigned TI : 1;
-		unsigned INDEX: 12;
-	} cs, ds, es, ss;
+	union {
+		struct {
+			unsigned RPL : 3;
+			unsigned TI : 1;
+			unsigned INDEX : 12;
+		} sreg[6];
+		struct 
+		{
+			uint16_t es, cs, ss, ds, fs, gs;
+		};
+	};
 	
 	CR0 cr0;
 

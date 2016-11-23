@@ -148,12 +148,12 @@ static int cmd_bt(char *args) {
 	sf.ebp = cpu.ebp;
 	sf.eip = cpu.eip;
 	while (sf.ebp != 0) {
-		sf.prev_ebp = swaddr_read(sf.ebp, 4);
-		sf.ret_addr = swaddr_read(sf.ebp + 4, 4);	
-		sf.args[0] = swaddr_read(sf.ebp + 8, 4);
-		sf.args[1] = swaddr_read(sf.ebp + 12, 4);
-		sf.args[2] = swaddr_read(sf.ebp + 16, 4);
-		sf.args[3] = swaddr_read(sf.ebp + 20, 4);
+		sf.prev_ebp = swaddr_read(sf.ebp, 4, 2);
+		sf.ret_addr = swaddr_read(sf.ebp + 4, 4, 2);	
+		sf.args[0] = swaddr_read(sf.ebp + 8, 4, 2);
+		sf.args[1] = swaddr_read(sf.ebp + 12, 4, 2);
+		sf.args[2] = swaddr_read(sf.ebp + 16, 4, 2);
+		sf.args[3] = swaddr_read(sf.ebp + 20, 4, 2);
 		bool valid;
 		char* name = fun_name(sf.eip, &valid);
 		if (valid == false) {
@@ -268,7 +268,7 @@ static int cmd_x(char *args) {
 		if (ok_temp == true) {
 			int loop_num = 0;
 			for (; loop_num < args_N_num; loop_num++)
-				printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4));
+				printf("0x%x:\t%x\n", args_EXPR_num + 4 * loop_num ,swaddr_read(args_EXPR_num + 4 * loop_num, 4, 3));
 		}
 		else
 			printf("Illegal expression\n");
