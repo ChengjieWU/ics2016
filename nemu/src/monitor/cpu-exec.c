@@ -1,7 +1,6 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
 #include <setjmp.h>
-#include <stdio.h>
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -85,7 +84,6 @@ void cpu_exec(volatile uint32_t n) {
 		extern void device_update();
 		device_update();
 #endif
-		printf("hah");
 		if(nemu_state != RUNNING) { return; }
 	}
 
