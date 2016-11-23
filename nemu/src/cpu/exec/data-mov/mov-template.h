@@ -34,6 +34,12 @@ make_helper(movsr) {
 	REG(op_src->reg) = cpu.cr0.val;
 	return len + 1;
 }
+
+make_helper(movsrr) {
+	int len = decode_r_l(eip + 1);
+	cpu.cr0.val = REG(op_src->reg);
+	return len + 1;
+}
 #endif
 
 #include "cpu/exec/template-end.h"
