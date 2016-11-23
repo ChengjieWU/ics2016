@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-#include <stdio.h>
 #define instr mov
 
 static void do_execute() {
@@ -38,11 +37,8 @@ make_helper(movsr) {
 
 make_helper(movsrr) {
 	int len = decode_r2rm_l(eip + 1);
-	printf("haha\n");
 	cpu.cr0.val = REG(op_src->reg);
-	printf("haha\n");
 	print_asm("mov %s, %%cr0", op_src->str);
-	printf("haha\n");
 	return len + 1;
 }
 #endif

@@ -1,6 +1,7 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
 #include <setjmp.h>
+#include <stdio.h>
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -63,7 +64,7 @@ void cpu_exec(volatile uint32_t n) {
 		int instr_len = exec(cpu.eip);
 		
 		cpu.eip += instr_len;
-
+		printf("hha");
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
