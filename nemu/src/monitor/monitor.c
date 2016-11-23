@@ -97,4 +97,7 @@ void restart() {
 
 	/* Initialize Cache */
 	init_cache();
+
+	/* Initialize CR0 */
+	cpu.cr0 = 0;
 }

@@ -48,6 +48,20 @@ typedef struct {
 			unsigned : 8;
 		};
 	};
+	lnaddr_t gdtr;
+	
+	struct {
+		unsigned RPL : 3;
+		unsigned TI : 1;
+		unsigned INDEX: 12;
+	} cs, ds, es, ss;
+
+	union {
+		uint32_t cr0;
+		struct {
+			unsigned PE : 1;
+		};
+	};
 
 } CPU_state;
 
