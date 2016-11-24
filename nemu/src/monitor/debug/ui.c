@@ -83,6 +83,7 @@ static int cmd_info(char *args) {
 		printf("\tOF:%x\tDF:%x\tIF:%x\tSF:%x\n\tZF:%x\tPF:%x\tCF:%x\n",
 					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
 		printf("es\t%hx\t\tcs\t%hx\nss\t%hx\t\tds\t%hx\n", cpu.sreg[0]._16, cpu.sreg[1]._16, cpu.sreg[2]._16, cpu.sreg[3]._16);
+		printf("cs_cache %hx\n", cpu.sreg[1].cache.base_15_0);
 	}
 	else if (strcmp(args, "w") == 0) {
 		print_wp();		
