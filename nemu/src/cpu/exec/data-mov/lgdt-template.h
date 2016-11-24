@@ -4,7 +4,7 @@
 
 make_helper(concat(lgdt_, SUFFIX)) {
 	int len = decode_rm2r_l(eip + 1);
-	printf("%x\n", op_src->val);
+	printf("%x\n", op_src->addr);
 	cpu.gdtr.limit = lnaddr_read(op_src->val, 2);
 	if (DATA_BYTE == 2) cpu.gdtr.base = lnaddr_read(op_src->val + 2, 3);
 	else cpu.gdtr.base = lnaddr_read(op_src->val + 2, 4);
