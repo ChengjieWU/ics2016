@@ -2,7 +2,6 @@
 #define instr mov
 
 static void do_execute() {
-	printf("//%x//", op_dest->sreg);
 	OPERAND_W(op_dest, op_src->val);
 	print_asm_template2();
 }
