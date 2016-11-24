@@ -89,7 +89,6 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	reg->type = OP_TYPE_REG;
 	reg->reg = m.reg;
 
-	rm->sreg = 3;
 	//set segment register
 	if (reg->reg == 5 || reg->reg == 4) rm->sreg = 2;
 	else rm->sreg = 3;
@@ -114,7 +113,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		rm->val = swaddr_read(rm->addr, rm->size, rm->reg);
+		rm->val = swaddr_read(rm->addr, rm->size, m.reg);
 		return instr_len;
 	}
 }
