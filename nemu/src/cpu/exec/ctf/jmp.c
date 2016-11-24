@@ -14,3 +14,4 @@
 
 make_helper_v(jmp_rel)
 make_helper_v(jmp_rm)
+make_helper_v(jmp_l)
