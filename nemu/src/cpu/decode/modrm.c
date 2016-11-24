@@ -89,6 +89,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	reg->type = OP_TYPE_REG;
 	reg->reg = m.reg;
 
+	rm->sreg = 3;
 	//set segment register
 	if (reg->reg == 5 || reg->reg == 4) rm->sreg = 2;
 	else rm->sreg = 3;
