@@ -33,6 +33,8 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
+	printf("%hhu", sreg);
+	assert(sreg == 0 || sreg == 1 || sreg == 2 || sreg == 3);
 	lnaddr_t ret_addr = addr;
 	if (cpu_cr0_protect_enable()) {
 		ret_addr += cpu_sreg_cache_base(sreg);
@@ -55,7 +57,6 @@ uint32_t swaddr_read(swaddr_t addr, size_t len) {
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
-	assert(sreg == 0 || sreg == 1 || sreg == 2 || sreg == 3 || sreg == 4 || sreg == 5);
 	return lnaddr_read(lnaddr, len);
 }
 
