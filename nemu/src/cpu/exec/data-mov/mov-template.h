@@ -47,6 +47,13 @@ make_helper(movsrr) {
 make_helper(movrm2s) {
 	int len = decode_r2rm_w(eip + 1);
 	cpu.sreg[op_src->reg]._16 = op_dest->val & 0xffff;
+	switch (op_src->reg) {
+		case 0: print_asm("mov %s,%%es", op_dest->str); break;
+		case 1: print_asm("mov %s,%%cs", op_dest->str); break;
+		case 2: print_asm("mov %s,%%ss", op_dest->str); break;
+		case 3: print_asm("mov %s,%%ds", op_dest->str); break;
+		default: assert(0);
+	}
 	return len + 1;
 }
 #endif
