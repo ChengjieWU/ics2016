@@ -47,6 +47,11 @@ make_helper(movsrr) {
 make_helper(movrm2s) {
 	int len = decode_r2rm_w(eip + 1);
 	cpu.sreg[op_src->reg]._16 = op_dest->val & 0xffff;
+	cpu.sreg[op_src->reg].cache.base_15_0 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 2, 2);
+	cpu.sreg[op_src->reg].cache.base_23_16 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 4, 1);
+	cpu.sreg[op_src->reg].cache.base_31_24 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 7, 1);
+	cpu.sreg[op_src->reg].cache.limit_15_0 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX, 2);
+	cpu.sreg[op_src->reg].cache.limit_19_16 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 6, 1) & 0xf;
 	switch (op_src->reg) {
 		case 0: print_asm("mov %s,%%es", op_dest->str); break;
 		case 1: print_asm("mov %s,%%cs", op_dest->str); break;
