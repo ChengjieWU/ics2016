@@ -82,6 +82,7 @@ static int cmd_info(char *args) {
 		printf("eflags\t%x\t%x\n", cpu.eflags, cpu.eflags);
 		printf("\tOF:%x\tDF:%x\tIF:%x\tSF:%x\n\tZF:%x\tPF:%x\tCF:%x\n",
 					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
+		printf("es\t%hx\t\tcs\t%hx\nss\t%hx\t\tds\t%hx\n", cpu.sreg[0]._16, cpu.sreg[1]._16, cpu.sreg[2]._16, cpu.sreg[3]._16);
 	}
 	else if (strcmp(args, "w") == 0) {
 		print_wp();		

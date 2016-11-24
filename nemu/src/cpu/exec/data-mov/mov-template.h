@@ -43,4 +43,12 @@ make_helper(movsrr) {
 }
 #endif
 
+#if DATA_BYTE == 2
+make_helper(movrm2s) {
+	int len = decode_r2rm_w(eip + 1);
+	cpu.sreg[op_src->reg]._16 = op_dest->val & 0xffff;
+	return len + 1;
+}
+#endif
+
 #include "cpu/exec/template-end.h"

@@ -56,11 +56,14 @@ typedef struct {
 		uint32_t base;
 	} gdtr;
 	
-	struct{ 
-		struct {
-			unsigned RPL : 3;
-			unsigned TI : 1;
-			unsigned INDEX : 12;
+	struct{
+		union {
+			struct {
+				unsigned RPL : 3;
+				unsigned TI : 1;
+				unsigned INDEX : 12;
+			};
+			uint16_t _16;
 		};
 		SegDesc cache;
 	} sreg[6];
