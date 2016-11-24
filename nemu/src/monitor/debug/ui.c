@@ -83,7 +83,25 @@ static int cmd_info(char *args) {
 		printf("\tOF:%x\tDF:%x\tIF:%x\tSF:%x\n\tZF:%x\tPF:%x\tCF:%x\n",
 					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
 		printf("es\t%hx\t\tcs\t%hx\nss\t%hx\t\tds\t%hx\n", cpu.sreg[0]._16, cpu.sreg[1]._16, cpu.sreg[2]._16, cpu.sreg[3]._16);
+	}
+	if (strcmp(args, "rext") == 0) {
+		printf("eax\t%x\t%d\n", cpu.eax, cpu.eax);
+		printf("ecx\t%x\t%d\n", cpu.ecx, cpu.ecx);
+		printf("edx\t%x\t%d\n", cpu.edx, cpu.edx);
+		printf("ebx\t%x\t%d\n", cpu.ebx, cpu.ebx);
+		printf("esp\t%x\t%x\n", cpu.esp, cpu.esp);
+		printf("ebp\t%x\t%x\n", cpu.ebp, cpu.ebp);
+		printf("esi\t%x\t%d\n", cpu.esi, cpu.esi);
+		printf("edi\t%x\t%d\n", cpu.edi, cpu.edi);
+		printf("eip\t%x\t%x\n", cpu.eip, cpu.eip);
+		printf("eflags\t%x\t%x\n", cpu.eflags, cpu.eflags);
+		printf("\tOF:%x\tDF:%x\tIF:%x\tSF:%x\n\tZF:%x\tPF:%x\tCF:%x\n",
+					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
+		printf("es\t%hx\t\tcs\t%hx\nss\t%hx\t\tds\t%hx\n", cpu.sreg[0]._16, cpu.sreg[1]._16, cpu.sreg[2]._16, cpu.sreg[3]._16);
 		printf("cs_cache %hx\n", cpu.sreg[1].cache.base_15_0);
+		printf("es_cache %hx\n", cpu.sreg[0].cache.base_15_0);
+		printf("ss_cache %hx\n", cpu.sreg[2].cache.base_15_0);
+		printf("ds_cache %hx\n", cpu.sreg[3].cache.base_15_0);
 		printf("gdtr\t%hx\t%x\n", cpu.gdtr.limit, cpu.gdtr.base);
 	}
 	else if (strcmp(args, "w") == 0) {
