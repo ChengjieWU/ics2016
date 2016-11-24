@@ -99,7 +99,7 @@ static int cmd_info(char *args) {
 					   	cpu.OF, cpu.DF, cpu.IF, cpu.SF, cpu.ZF, cpu.PF, cpu.CF);
 		printf("es\t%hx\t\tcs\t%hx\nss\t%hx\t\tds\t%hx\n", cpu.sreg[0]._16, cpu.sreg[1]._16, cpu.sreg[2]._16, cpu.sreg[3]._16);
 		printf("cs_cache %hx%hx%hx\n", cpu.sreg[1].cache.base_31_24, cpu.sreg[1].cache.base_23_16, cpu.sreg[1].cache.base_15_0);
-		printf("es_cache %hx\n", cpu.sreg[0].cache.base_15_0);
+		printf("es_cache %hx%hx%hx\n", cpu.sreg[0].cache.base_31_24, cpu.sreg[0].cache.base_23_16, cpu.sreg[0].cache.base_15_0);
 		printf("ss_cache %hx\n", cpu.sreg[2].cache.base_15_0);
 		printf("ds_cache %hx\n", cpu.sreg[3].cache.base_15_0);
 		printf("gdtr\t%hx\t%x\n", cpu.gdtr.limit, cpu.gdtr.base);
