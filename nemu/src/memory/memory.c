@@ -55,7 +55,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len) {
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
-	assert(sreg == 0 || sreg == 1 || sreg == 2 || sreg == 3);
+	assert(sreg == 0 || sreg == 1 || sreg == 2 || sreg == 3 || sreg == 4 || sreg == 5);
 	return lnaddr_read(lnaddr, len);
 }
 
