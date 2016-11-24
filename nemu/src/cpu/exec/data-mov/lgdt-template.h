@@ -3,7 +3,7 @@
 #define instr lgdt
 
 make_helper(concat(lgdt_, SUFFIX)) {
-	int len = concat(decode_rm_, SUFFIX)(eip + 1);
+	int len = concat(decode_rm2r_, SUFFIX)(eip + 1);
 	printf("%x\n", op_src->val);
 	cpu.gdtr.limit = lnaddr_read(op_src->val, 2);
 	if (DATA_BYTE == 2) cpu.gdtr.base = lnaddr_read(op_src->val + 2, 3);
