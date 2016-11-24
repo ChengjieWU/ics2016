@@ -49,7 +49,8 @@ make_helper(movrm2s) {
 	cpu.sreg[op_src->reg]._16 = op_dest->val & 0xffff;
 	cpu.sreg[op_src->reg].cache.base_15_0 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 2, 2);
 	cpu.sreg[op_src->reg].cache.base_23_16 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 4, 1);
-	printf("%x\n", cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 7);
+	printf("%x\n", cpu.sreg[op_src->reg].INDEX);
+	printf("%x\n", cpu.gdtr.base + 8 * cpu.sreg[op_src->reg].INDEX + 7);
 	cpu.sreg[op_src->reg].cache.base_31_24 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 6, 1);
 	cpu.sreg[op_src->reg].cache.limit_15_0 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX, 2);
 	cpu.sreg[op_src->reg].cache.limit_19_16 = lnaddr_read(cpu.gdtr.base + cpu.sreg[op_src->reg].INDEX + 6, 1) & 0xf;
