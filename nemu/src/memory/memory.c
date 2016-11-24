@@ -36,6 +36,7 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
 	lnaddr_t ret_addr = addr;
 	if (cpu_cr0_protect_enable()) {
 		ret_addr += cpu_sreg_cache_base(sreg);
+		printf("%x\n", ret_addr);
 		/*int index = cpu_index(sreg);
 		unsigned buf1 = lnaddr_read(cpu_gdtr_base() + 8 * index, 4); 
 		unsigned buf2 = lnaddr_read(cpu_gdtr_base() + 8 * index + 4, 4);
