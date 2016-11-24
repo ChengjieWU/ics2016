@@ -34,7 +34,7 @@ make_helper(concat(jmp_rm_,SUFFIX)) {
 make_helper(concat(jmp_l_, SUFFIX)) {
 	swaddr_t offset = instr_fetch(eip + 1, DATA_BYTE);
 	uint16_t cs_new = instr_fetch(eip + 5, 2);
-	cpu.eip = offset - 7;
+	cpu.eip = offset - DATA_BYTE - 3;
 #if DATA_BYTE == 2
 	cpu.eip = cpu.eip & 0x0000ffff;
 #endif
