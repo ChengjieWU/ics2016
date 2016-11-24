@@ -62,3 +62,11 @@ lnaddr_t cpu_sreg_cache_base(uint8_t sreg)
 {
 	return cpu.sreg[sreg].cache.base_15_0 | (cpu.sreg[sreg].cache.base_23_16 << 16) | (cpu.sreg[sreg].cache.base_31_24 << 24);
 }
+
+void init_cs_cache() {
+	cpu.sreg[1].cache.base_15_0 = 0;
+	cpu.sreg[1].cache.base_23_16 = 0;
+	cpu.sreg[1].cache.base_31_24 = 0;
+	cpu.sreg[1].cache.limit_15_0 = 0xffff;
+	cpu.sreg[1].cache.limit_19_16 = 0xf;
+}

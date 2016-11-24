@@ -11,7 +11,7 @@ void init_regex();
 void init_wp_pool();
 void init_ddr3();
 void init_cache();
-
+void init_cs_cache();
 
 FILE *log_fp = NULL;
 
@@ -100,26 +100,5 @@ void restart() {
 
 	/* Initialize CR0 & CS.cache */
 	cpu.cr0.protect_enable = 0;
-	cpu.sreg[1].cache.base_15_0 = 0;
-	cpu.sreg[1].cache.base_23_16 = 0;
-	cpu.sreg[1].cache.base_31_24 = 0;
-	cpu.sreg[1].cache.limit_15_0 = 0xffff;
-	cpu.sreg[1].cache.limit_19_16 = 0xf;
-	/*
-	cpu.sreg[0].cache.base_15_0 = 0;
-	cpu.sreg[0].cache.base_23_16 = 0;
-	cpu.sreg[0].cache.base_31_24 = 0;
-	cpu.sreg[0].cache.limit_15_0 = 0xffff;
-	cpu.sreg[0].cache.limit_19_16 = 0xf;
-	cpu.sreg[2].cache.base_15_0 = 0;
-	cpu.sreg[2].cache.base_23_16 = 0;
-	cpu.sreg[2].cache.base_31_24 = 0;
-	cpu.sreg[2].cache.limit_15_0 = 0xffff;
-	cpu.sreg[2].cache.limit_19_16 = 0xf;
-	cpu.sreg[3].cache.base_15_0 = 0;
-	cpu.sreg[3].cache.base_23_16 = 0;
-	cpu.sreg[3].cache.base_31_24 = 0;
-	cpu.sreg[3].cache.limit_15_0 = 0xffff;
-	cpu.sreg[3].cache.limit_19_16 = 0xf;
-*/
+	init_cs_cache();
 }
