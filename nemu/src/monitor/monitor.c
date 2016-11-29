@@ -100,5 +100,6 @@ void restart() {
 
 	/* Initialize CR0 & CS.cache */
 	cpu.cr0.protect_enable = 0;
+	cpu.cr0.paging = 0;
 	init_cs_cache();
 }

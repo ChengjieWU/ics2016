@@ -24,12 +24,40 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	Cache_1_write(addr, len, data);
 }
 
-uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+hwaddr_t page_translate(lnaddr_t addr) {
+	return addr;
 }
 
+/*
+uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
+	return hwaddr_read(addr, len);
+}*/
+
+uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
+	assert(len == 1 || len == 2 || len == 4);
+	if ((addr & 0xfff) + len >= 0xfff) {
+			  /* this is a special case, you can handle it later. */
+		assert(0); 
+	}
+	else {
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_read(hwaddr, len);
+	}
+}
+
+/*
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
+}*/
+
+void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
+	if ((addr & 0xfff) + len >= 0xfff) {
+		assert(0);
+	}
+	else {
+		hwaddr_t hwaddr = page_translate(addr);
+		hwaddr_write(hwaddr, len, data);
+	}
 }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg) {
