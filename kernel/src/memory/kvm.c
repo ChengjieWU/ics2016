@@ -3,8 +3,8 @@
 #include "memory.h"
 #include <string.h>
 
-static PDE kpdir[NR_PDE] align_to_page;						// kernel page directory
-static PTE kptable[PHY_MEM / PAGE_SIZE] align_to_page;		// kernel page tables
+static PDE kpdir[NR_PDE] align_to_page;						// kernel page directory	since kernel is loaded into actual hwaddr
+static PTE kptable[PHY_MEM / PAGE_SIZE] align_to_page;		// kernel page tables		so it is actually in the hwaddr, seemingly lnaddr
 
 PDE* get_kpdir() { return kpdir; }
 
@@ -12,8 +12,8 @@ PDE* get_kpdir() { return kpdir; }
 void init_page(void) {
 	CR0 cr0;
 	CR3 cr3;
-	PDE *pdir = (PDE *)va_to_pa(kpdir);
-	PTE *ptable = (PTE *)va_to_pa(kptable);
+	PDE *pdir = (PDE *)va_to_pa(kpdir);				//point to the PDE in the hwaddr
+	PTE *ptable = (PTE *)va_to_pa(kptable);			//point to the PTE in the hwaddr
 	uint32_t pdir_idx;
 
 	/* make all PDEs invalid */
@@ -21,7 +21,7 @@ void init_page(void) {
 
 	/* fill PDEs */
 	for (pdir_idx = 0; pdir_idx < PHY_MEM / PT_SIZE; pdir_idx ++) {
-		pdir[pdir_idx].val = make_pde(ptable);
+		//pdir[pdir_idx].val = make_pde(ptable);
 		pdir[pdir_idx + KOFFSET / PT_SIZE].val = make_pde(ptable);
 
 		ptable += NR_PTE;
