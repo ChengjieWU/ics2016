@@ -72,7 +72,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if ((addr & 0xfff) + len >= 0xfff) {
-		//assert(0);
+		assert(0);
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
