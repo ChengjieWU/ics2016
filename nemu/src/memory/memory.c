@@ -29,7 +29,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 hwaddr_t page_translate(lnaddr_t addr) {
 	hwaddr_t hwaddr = addr;
-	if (cpu_cr0_paging()) {
+	if (cpu_cr0_paging() && cpu_cr0_protect_enable()) {
 		uint32_t dir = addr >> 22;
 		uint32_t page = (addr >> 12) & 0x000003ff;
 		uint32_t offset = addr & 0xfff;
