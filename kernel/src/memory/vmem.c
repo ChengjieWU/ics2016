@@ -20,7 +20,7 @@ void create_video_mapping() {
 	//panic("please implement me");
 	memset(uptable, 0, NR_PTE * sizeof(PTE));
 	PDE* updir = get_updir();
-	updir[(VMEM_ADDR >> 22) & 0x3ff].val = make_pde(&uptable - 0xc0000000);
+	updir[(VMEM_ADDR >> 22) & 0x3ff].val = make_pde(uptable-0xc0100000);
 	int start = (VMEM_ADDR >> 12) & 0x3ff;
 	int i = 0;
 	for (; i < SCR_SIZE / PAGE_SIZE + 1; i++) {
