@@ -1,4 +1,5 @@
 #include "common.h"
+#include <stdlib.h>
 
 #define BLOCK_BIT 6
 #define BLOCK_SIZE 64
@@ -131,6 +132,9 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 				x = i;
 				break;
 			}
+		if (i == WAY_NUM) {
+			x = rand() % WAY_NUM;
+		}
 		L1[group].cache[x].valid = true;
 		L1[group].cache[x].tag = tag;
 		for (i = 0; i < BLOCK_SIZE; i++) 
@@ -202,6 +206,9 @@ static uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 				x = i;
 				break;
 			}
+		if (i == WAY_NUM_2) {
+			x = rand() % WAY_NUM_2;
+		}
 		if (L2[group].cache[x].dirty)	//If the substituted cache is dirty, then we should update the memory one byte by one.
 			for (i = 0; i < BLOCK_SIZE_2; i++)
 				dram_write(addr_block + i, 1, L1[group].cache[x].data[i]);
@@ -254,6 +261,9 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 				x = i;
 				break;
 			}
+		if (i == WAY_NUM_2) {
+			x = rand() % WAY_NUM_2;
+		}
 		if (L2[group].cache[x].dirty)
 			for (i = 0; i < BLOCK_SIZE_2; i++)
 				dram_write(addr_block + i, 1, L1[group].cache[x].data[i]);
