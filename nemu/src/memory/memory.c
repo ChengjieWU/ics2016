@@ -1,4 +1,5 @@
 #include "common.h"
+#include "mmu.h"
 
 /* @uint32_t dram_read(hwaddr_t, size_t); */
 /* @void dram_write(hwaddr_t, size_t, uint32_t); */
@@ -11,6 +12,8 @@ bool cpu_cr0_protect_enable();
 int cpu_sreg_index(uint8_t);
 unsigned cpu_gdtr_base();
 lnaddr_t cpu_sreg_cache_base(uint8_t);
+bool cpu_cr0_paging();
+uint32_t cpu_cr3_page_directory_base();
 
 /* Memory accessing interfaces */
 
@@ -25,7 +28,23 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 hwaddr_t page_translate(lnaddr_t addr) {
-	return addr;
+	hwaddr_t hwaddr = addr;
+	if (cpu_cr0_paging()) {
+		uint32_t dir = addr >> 22;
+		uint32_t page = (addr >> 12) & 0x3ff;
+		uint32_t offset = addr & 0xfff;
+		hwaddr_t page_directory = cpu_cr3_page_directory_base();
+		page_directory = (page_directory << 12) | (dir << 2);
+		PDE pde;
+		pde.val = hwaddr_read(page_directory, 4);
+		assert(pde.present == 1);
+		hwaddr_t page_entry = pde.page_frame;
+		page_entry = (page_entry << 12) | (page << 2);
+		PTE pte;
+		pte.val = hwaddr_read(page_entry, 4);
+		hwaddr = offset | (pte.page_frame << 12);
+	}
+	return hwaddr;
 }
 
 /*

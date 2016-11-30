@@ -30,15 +30,29 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 #if DATA_BYTE == 4
 make_helper(movsr) {
 	int len = decode_r2rm_l(eip + 1);
-	REG(op_src->reg) = cpu.cr0.val;
-	print_asm("mov %%cr0,%s", op_src->str);
+	uint32_t code = instr_fetch(eip + 1, 1);
+	if ((code | 0x7) == 0x0) {
+		REG(op_src->reg) = cpu.cr0.val;
+		print_asm("mov %%cr0,%s", op_src->str);
+	}
+	else if ((code | 0x7) == 0x3) {
+		REG(op_src->reg) = cpu.cr3.val;
+		print_asm("mov %%cr3,%s", op_src->str);
+	}
 	return len + 1;
 }
 
 make_helper(movsrr) {
 	int len = decode_r2rm_l(eip + 1);
-	cpu.cr0.val = REG(op_src->reg);
-	print_asm("mov %s,%%cr0", op_src->str);
+	uint32_t code = instr_fetch(eip + 1, 1);
+	if ((code | 0x7) == 0) {
+		cpu.cr0.val = REG(op_src->reg);
+		print_asm("mov %s,%%cr0", op_src->str);
+	}
+	else if ((code | 0x7) == 3) {
+		cpu.cr3.val = REG(op_src->reg);
+		print_asm("mov %s,%%cr3", op_src->str);
+	}
 	return len + 1;
 }
 #endif

@@ -70,3 +70,14 @@ void init_cs_cache() {
 	cpu.sreg[1].cache.limit_15_0 = 0xffff;
 	cpu.sreg[1].cache.limit_19_16 = 0xf;
 }
+
+bool cpu_cr0_paging()
+{
+	if (cpu.cr0.paging != 0) return true;
+	else return false;
+}
+
+uint32_t cpu_cr3_page_directory_base()
+{
+	return cpu.cr3.page_directory_base;
+}
