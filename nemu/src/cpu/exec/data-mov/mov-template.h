@@ -32,11 +32,11 @@ make_helper(movsr) {
 	uint32_t code = instr_fetch(eip + 1, 1);
 	if (((code >> 3) & 0x7) == 0x0) {
 		REG(code & 0x7) = cpu.cr0.val;
-		//print_asm("mov %%cr0,%s", op_src->str);
+		print_asm("mov %%cr0,%s", REG_NAME(code & 0x7));
 	}
 	else if (((code >> 3) & 0x7) == 0x3) {
 		REG(code & 0x7) = cpu.cr3.val;
-		//print_asm("mov %%cr3,%s", op_src->str);
+		print_asm("mov %%cr3,%s", REG_NAME(code & 0x7));
 	}
 	return 2;
 }
@@ -45,11 +45,11 @@ make_helper(movsrr) {
 	uint32_t code = instr_fetch(eip + 1, 1);
 	if (((code >> 3) & 0x7) == 0) {
 		cpu.cr0.val = REG(code & 0x7);
-		//print_asm("mov %s,%%cr0", op_src->str);
+		print_asm("mov %s,%%cr0", REG_NAME(code & 0x7));
 	}
 	else if (((code >> 3) & 0x7) == 3) {
 		cpu.cr3.val = REG(code & 0x7);
-		//print_asm("mov %s,%%cr3", op_src->str);
+		print_asm("mov %s,%%cr3", REG_NAME(code & 0x7));
 	}
 	return 2;
 }
