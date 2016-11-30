@@ -31,7 +31,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	hwaddr_t hwaddr = addr;
 	if (cpu_cr0_paging()) {
 		uint32_t dir = addr >> 22;
-		uint32_t page = (addr >> 12) & 0x3ff;
+		uint32_t page = (addr >> 12) & 0x000003ff;
 		uint32_t offset = addr & 0xfff;
 		hwaddr_t page_directory = cpu_cr3_page_directory_base();
 		page_directory = (page_directory << 12) | (dir << 2);
@@ -45,6 +45,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 		assert(pte.present == 1);
 		hwaddr = offset | (pte.page_frame << 12);
 	}
+	printf("%x\n",addr);
 	return hwaddr;
 }
 
