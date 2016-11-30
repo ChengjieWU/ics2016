@@ -44,8 +44,8 @@ hwaddr_t page_translate(lnaddr_t addr) {
 		pte.val = hwaddr_read(page_entry, 4);
 		assert(pte.present == 1);
 		hwaddr = offset | (pte.page_frame << 12);
-	}
 	printf("%x\n",addr);
+	}
 	return hwaddr;
 }
 
