@@ -7,7 +7,6 @@
 
 static PTE uptable[NR_PTE] align_to_page;
 
-
 /* Use the function to get the start address of user page directory. */
 PDE* get_updir();
 
