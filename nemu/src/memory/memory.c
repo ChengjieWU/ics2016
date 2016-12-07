@@ -52,6 +52,11 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			hwaddr = offset | (pte.page_frame << 12);
 			TLB_update(addr, hwaddr);
 		}
+		else
+		{
+			uint32_t offset = addr & 0xfff;
+			hwaddr = (hwaddr & 0xfffff000) | offset;
+		}
 	}
 	return hwaddr;
 }
