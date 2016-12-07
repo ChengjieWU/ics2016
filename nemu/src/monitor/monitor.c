@@ -12,6 +12,7 @@ void init_wp_pool();
 void init_ddr3();
 void init_cache();
 void init_cs_cache();
+void TLB_flush();
 
 FILE *log_fp = NULL;
 
@@ -102,4 +103,7 @@ void restart() {
 	cpu.cr0.protect_enable = 0;
 	cpu.cr0.paging = 0;
 	init_cs_cache();
+
+	/* Initialize TLB */
+	TLB_flush();
 }

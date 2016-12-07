@@ -1,6 +1,8 @@
 #include "cpu/exec/template-start.h"
 #define instr mov
 
+void TLB_flush();
+
 static void do_execute() {
 	OPERAND_W(op_dest, op_src->val);
 	print_asm_template2();
@@ -49,6 +51,7 @@ make_helper(movsrr) {
 	}
 	else if (((code >> 3) & 0x7) == 3) {
 		cpu.cr3.val = REG(code & 0x7);
+		TLB_flush();
 		print_asm("mov %s,%%cr3", REG_NAME(code & 0x7));
 	}
 	return 2;
