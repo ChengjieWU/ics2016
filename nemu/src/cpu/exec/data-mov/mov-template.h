@@ -1,7 +1,6 @@
 #include "cpu/exec/template-start.h"
 #define instr mov
 
-void TLB_flush();
 
 static void do_execute() {
 	OPERAND_W(op_dest, op_src->val);
