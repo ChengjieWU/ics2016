@@ -51,7 +51,7 @@ make_helper(movsrr) {
 	}
 	else if (((code >> 3) & 0x7) == 3) {
 		cpu.cr3.val = REG(code & 0x7);
-		TLB_flush();
+		
 		print_asm("mov %s,%%cr3", REG_NAME(code & 0x7));
 	}
 	return 2;
