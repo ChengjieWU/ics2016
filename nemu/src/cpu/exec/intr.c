@@ -6,5 +6,8 @@ void raise_intr(uint8_t NO) {
 	 *    * That is, use ``NO'' to index the IDT.
 	 *       */
 	/* Jump back to cpu_exec() */
+
+	cpu.eip = 1;
+
 	longjmp(jbuf, 1);
 }
