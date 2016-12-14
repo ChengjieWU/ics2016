@@ -20,6 +20,7 @@ static void sys_write(TrapFrame *tf) {
 		char* buf = (char*)tf->ecx;
 		int len = tf->edx;
 		asm volatile (".byte 0xd6" : : "a"(2), "c"(buf), "d"(len));
+		tf->eax = len;
 	}
 }
 
