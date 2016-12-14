@@ -5,8 +5,9 @@
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(push_r_, SUFFIX)) {
 	int regnum = instr_fetch(eip, 1) & 0x7;
+	DATA_TYPE temp = REG(regnum);
 	cpu.esp -= DATA_BYTE;
-	MEM_W(cpu.esp, REG(regnum), 2);
+	MEM_W(cpu.esp, temp, 2);
 	print_asm("push %%%s", REG_NAME(regnum));
 	return 1;
 }
