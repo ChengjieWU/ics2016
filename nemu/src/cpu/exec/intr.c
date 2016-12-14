@@ -31,7 +31,6 @@ void raise_intr(uint8_t NO) {
 	uint16_t offset2 = lnaddr_read(cpu.idtr.base + 8 * NO + 6, 2);
 	uint32_t offset_total = (offset2 << 16) | offset1;
 
-	printf("0x%x\n", cpu.idtr.base);
 	cpu.eip = base_addr + offset_total;
 
 	longjmp(jbuf, 1);
