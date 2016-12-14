@@ -12,8 +12,8 @@ void raise_intr(uint8_t NO) {
 
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.eflags, 2);
-	//cpu.esp -= 2;
-	//swaddr_write(cpu.esp, 2, cpu.sreg[1], 2);
+	cpu.esp -= 2;
+	swaddr_write(cpu.esp, 2, cpu.sreg[1]._16, 2);
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.eip, 2);
 
