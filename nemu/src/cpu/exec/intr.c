@@ -1,6 +1,5 @@
 #include "nemu.h"
 #include "mmu.h"
-void swaddr_write(swaddr_t, size_t, uint32_t, uint8_t);
 
 #include <setjmp.h>
 extern jmp_buf jbuf;
