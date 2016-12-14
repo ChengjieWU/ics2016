@@ -12,6 +12,7 @@
 #include "data-mov/lidt.h"
 #include "data-mov/stdcld.h"
 #include "data-mov/pusha.h"
+#include "data-mov/popa.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
