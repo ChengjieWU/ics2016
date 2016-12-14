@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-#include <stdio.h>
 #define instr lgdt
 
 make_helper(concat(lgdt_, SUFFIX)) {
