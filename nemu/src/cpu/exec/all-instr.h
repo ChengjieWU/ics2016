@@ -50,3 +50,5 @@
 #include "ctf/ret.h"
 #include "ctf/jmp.h"
 #include "ctf/int.h"
+#include "ctf/iret.h"
+#include "ctf/cli.h"
