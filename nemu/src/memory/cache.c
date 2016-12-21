@@ -199,6 +199,8 @@ static uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 			break;
 		}
 
+	if (addr == 0x15d47e) printf("%x, %d, %d\n", addr, len, Hit);	
+	
 	if (!Hit)
 	{
 		for (i = 0; i < WAY_NUM_2; i++)
