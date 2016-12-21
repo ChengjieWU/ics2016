@@ -212,7 +212,7 @@ static uint32_t Cache_2_read(hwaddr_t addr, size_t len)
 			break;
 		}
 
-	if (addr == 0x15d47e) printf("%x, %d, %d\n", addr, len, Hit);	
+	//if (addr == 0x15d47e) printf("%x, %d, %d\n", addr, len, Hit);	
 	
 	if (!Hit)
 	{
@@ -277,11 +277,11 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 		for (i = 0; i < len; i++)
 			L2[group].cache[x].data[offset + i] = *(datap + i);
 		L2[group].cache[x].dirty = true;
-		/**/if (addr == 0x15d47e) 
+		/*if (addr == 0x15d47e) 
 		{
 			for (i = 0; i < len; i++)
 			printf("%hx\n", L2[group].cache[x].data[offset+i]);
-		}
+		}*/
 	}
 	else
 	{
