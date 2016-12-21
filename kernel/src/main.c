@@ -56,10 +56,10 @@ void init_cond() {
 	init_serial();
 
 	/* Initialize the IDE driver. */
-	assert(0);
 
 	init_ide();
 
+	assert(0);
 	/* Enable interrupts. */
 	sti();
 #endif
