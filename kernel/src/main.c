@@ -75,6 +75,7 @@ void init_cond() {
 	 */
 	
 	Log("Hello, Hello, Hello, Hello, NEMU world!");
+	Log("1234567890123456789012345678901234567890");
 
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Write some test data to the video memory. */
