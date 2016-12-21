@@ -9,7 +9,7 @@ void raise_intr(uint8_t NO) {
 	 *       */
 	/* Jump back to cpu_exec() */
 
-	//cpu.eip += 2;
+	cpu.eip += 2;
 
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.eflags, 2);
