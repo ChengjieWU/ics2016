@@ -83,7 +83,11 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	assert(len == 1 || len == 2 || len == 4);
 	if ((addr & 0xfff) + len - 1 > 0xfff) {
 			  /* this is a special case, you can handle it later. */
-		assert(0); 
+		int front = 0xfff - (addr & 0xfff) + 1;
+		int back = len - front;
+		uint32_t low = hwaddr_read(page_translate(addr), front);
+		uint32_t high = hwaddr_read(page_translate(addr + front), back);
+		return (high << (front * 8)) | low;
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
