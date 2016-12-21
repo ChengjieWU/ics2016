@@ -47,11 +47,11 @@ uint32_t loader() {
 			 */
 			//uint8_t buff[4096];
 			uint32_t addr = mm_malloc(ph->p_vaddr, ph->p_memsz);
-#ifdef HAS_DEVICE
+//#ifdef HAS_DEVICE
 			ide_read((void*)addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
-#else
-			ramdisk_read((void*)addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
-#endif
+//#else
+//			ramdisk_read((void*)addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
+//#endif
 			//memcpy((void*)ph->p_vaddr, buff, ph->p_filesz);
 
 			/* TODO: zero the memory region 
