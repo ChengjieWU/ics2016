@@ -111,6 +111,7 @@ uint32_t Cache_1_read(hwaddr_t addr, size_t len)
 	uint32_t group = mirror.group;
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT);
+
 	uint8_t temp[2 * BLOCK_SIZE];
 
 	int Hit = 0, x = 0;
@@ -154,10 +155,21 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 {
 	Cache_1 mirror;
 	mirror.addr = addr;
+	uint32_t offset = mirror.offset;
 	uint32_t group = mirror.group;
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT);
-	
+
+	if (offset + len - 1 > 0x3f) {
+		int front = 0x3f - offset + 1;
+		int back = len - front;
+		uint32_t high = data >> (8 * front);
+		uint32_t low = data & ((1 << (front * 8)) - 1);
+		Cache_1_write(addr, front, low);
+		Cache_1_write(addr + front, back, high);
+		return;
+	}
+
 	int Hit = 0, x = 0;
 	int i = 0;
 	for (i = 0; i < WAY_NUM; i++)
@@ -168,12 +180,13 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 			break;
 		}
 	
+
+
 	Cache_2_write(addr, len, data);	//update the memory
 	if (Hit)
 		for (i = 0; i < BLOCK_SIZE; i++)
 			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));	//read into cache one byte by one
 
-	if (addr == 0x15d47e) printf("%x, %d, %x, %d\n", addr, len, data, Hit);	
 }
 
 
@@ -238,6 +251,16 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT_2);
 
+	if (offset + len - 1 > 0x3f) {
+		int front = 0x3f - offset + 1;
+		int back = len - front;
+		uint32_t high = data >> (8 * front);
+		uint32_t low = data & ((1 << (front * 8)) - 1);
+		Cache_2_write(addr, front, low);
+		Cache_2_write(addr + front, back, high);
+		return;
+	}
+
 	int Hit = 0, x = 0;
 	int i = 0;
 	for (i = 0; i < WAY_NUM_2; i++)
@@ -247,9 +270,7 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 			x = i;
 			break;
 		}
-	
-	if (addr == 0x15d47e) printf("%x, %d, %x, %d\n", addr, len, data, Hit);	
-	
+		
 	if (Hit)
 	{
 		uint8_t* datap = (uint8_t *)(&data);	//If it hits, then only the cache is updated, and the dirty byte is set.
