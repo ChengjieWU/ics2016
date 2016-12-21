@@ -102,7 +102,12 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if ((addr & 0xfff) + len - 1 > 0xfff) {
-		assert(0);
+		int front = 0xfff - (addr & 0xfff) + 1;
+		int back = len - front;
+		uint32_t high = data >> (8 * front);
+		uint32_t low = data & ((1 << (front * 8)) - 1);
+		hwaddr_write(page_translate(addr), front, low);
+		hwaddr_write(page_translate(addr + front), back, high);
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
