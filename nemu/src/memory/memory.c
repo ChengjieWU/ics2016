@@ -36,6 +36,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	/* @dram_write(addr, len, data); */
 	int map_NO = is_mmio(addr);
 	if (map_NO == -1) {
+		if (addr == 0x15d47e) printf("%x, %d, %x\n", addr, len, data);	
 		Cache_1_write(addr, len, data);
 	}
 	else {
