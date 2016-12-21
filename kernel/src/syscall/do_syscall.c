@@ -2,6 +2,8 @@
 
 #include <sys/syscall.h>
 
+void serial_printc(char);
+
 void add_irq_handle(int, void (*)(void));
 uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
@@ -19,7 +21,11 @@ static void sys_write(TrapFrame *tf) {
 	if (fd == 1 || fd == 2) {
 		char* buf = (char*)tf->ecx;
 		int len = tf->edx;
-		asm volatile (".byte 0xd6" : : "a"(2), "c"(buf), "d"(len));
+		//asm volatile (".byte 0xd6" : : "a"(2), "c"(buf), "d"(len));
+		int i = 0;
+		for (i = 0; i < len; i++) {
+			serial_printc(buf[i]);
+		}
 		tf->eax = len;
 	}
 }
