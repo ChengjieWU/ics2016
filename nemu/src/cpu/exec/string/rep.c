@@ -57,7 +57,6 @@ make_helper(repnz) {
 		if (cpu.ZF == 1) break;
 
 		/* TODO: Jump out of the while loop if necessary. */
-
 	}
 
 #ifdef DEBUG
