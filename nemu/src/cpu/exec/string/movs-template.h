@@ -15,8 +15,9 @@ make_helper(concat(movs_, SUFFIX)) {
 	}
 #else
 	int x = DATA_BYTE;
-	DATA_TYPE temp = MEM_R(REG(R_ESI), 3);
-	MEM_W(REG(R_EDI), temp, 0);
+	uint32_t temp = MEM_R(REG(R_ESI), 3);
+	//MEM_W(REG(R_EDI), temp, 0);
+	swaddr_write(REG(R_EDI), x, temp, 0);
 	//MEM_W(REG(R_EDI), MEM_R(REG(R_ESI), 3), 0);
 	if (REG(R_EDI) == 0xc015d47e)
 	{
