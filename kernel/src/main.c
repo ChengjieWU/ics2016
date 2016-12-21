@@ -62,7 +62,7 @@ void init_cond() {
 	/* Enable interrupts. */
 	sti();
 #endif
-	Log("haha");
+
 #ifdef IA32_PAGE
 	/* Initialize the memory manager. */
 	
@@ -73,7 +73,7 @@ void init_cond() {
 	 * Note that the output is actually performed only when
 	 * the serial port is available in NEMU.
 	 */
-	assert(0);
+	
 	Log("Hello, NEMU world!");
 
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
