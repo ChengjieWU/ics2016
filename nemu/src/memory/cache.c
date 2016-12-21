@@ -235,7 +235,7 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 	uint32_t group = mirror.group;
 	uint32_t tag = mirror.tag;
 	hwaddr_t addr_block = addr & (~0u << BLOCK_BIT_2);
-	
+
 	int Hit = 0, x = 0;
 	int i = 0;
 	for (i = 0; i < WAY_NUM_2; i++)
@@ -245,6 +245,8 @@ static void Cache_2_write(hwaddr_t addr, size_t len, uint32_t data)
 			x = i;
 			break;
 		}
+	
+	if (addr == 0x15d47e) printf("%x, %d, %x, %d\n", addr, len, data, Hit);	
 	
 	if (Hit)
 	{
