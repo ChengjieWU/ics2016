@@ -135,6 +135,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len) {
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
+	if (addr == 0x804813a) printf("%x", lnaddr);
 	return lnaddr_read(lnaddr, len);
 }
 
