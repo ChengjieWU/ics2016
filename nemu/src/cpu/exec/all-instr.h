@@ -57,3 +57,4 @@
 #include "ctf/cli.h"
 
 #include "io/in.h"
+#include "io/out.h"
