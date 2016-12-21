@@ -104,6 +104,7 @@ static int cmd_info(char *args) {
 		printf("ds_cache %hx\n", cpu.sreg[3].cache.base_15_0);
 		printf("gdtr\t%hx\t%x\n", cpu.gdtr.limit, cpu.gdtr.base);
 		printf("cpu.cr0\t%x\tcpu.cr3\t%x\n", cpu.cr0.val, cpu.cr3.val);
+		printf("cpu.INTR\t%x\n", cpu.INTR);
 	}
 	else if (strcmp(args, "w") == 0) {
 		print_wp();		
