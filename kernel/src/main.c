@@ -59,13 +59,14 @@ void init_cond() {
 
 	init_ide();
 
-	assert(0);
 	/* Enable interrupts. */
 	sti();
 #endif
 
 #ifdef IA32_PAGE
 	/* Initialize the memory manager. */
+	
+	assert(0);
 	init_mm();
 #endif
 
