@@ -14,10 +14,13 @@ make_helper(concat(movs_, SUFFIX)) {
 		cpu.esi -= 1;
 	}
 #else
-	MEM_W(REG(R_EDI), MEM_R(REG(R_ESI), 3), 0);
+	int x = DATA_BYTE;
+	DATA_TYPE temp = MEM_R(REG(R_ESI), 3);
+	MEM_W(REG(R_EDI), temp, 0);
+	//MEM_W(REG(R_EDI), MEM_R(REG(R_ESI), 3), 0);
 	if (REG(R_EDI) == 0xc015d47e)
 	{
-		printf("%x, %x, %x\n", REG(R_ESI), MEM_R(REG(R_ESI), 3), MEM_R(REG(R_EDI), 3));
+		printf("%d, %x, %x, %x\n", x, REG(R_ESI), temp, MEM_R(REG(R_EDI), 3));
 	}
 	if (cpu.DF == 0) {
 		REG(R_ESI) += DATA_BYTE;
