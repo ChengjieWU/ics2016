@@ -91,6 +91,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
+		if (addr == 0x804813a) printf("%x", hwaddr);
 		return hwaddr_read(hwaddr, len);
 	}
 }
