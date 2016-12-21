@@ -1,5 +1,6 @@
 #include "common.h"
 #include "mmu.h"
+#include "device/mmio.h"
 
 /* @uint32_t dram_read(hwaddr_t, size_t); */
 /* @void dram_write(hwaddr_t, size_t, uint32_t); */
@@ -22,12 +23,24 @@ void TLB_update(lnaddr_t, hwaddr_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	/* @return dram_read(addr, len) & (~0u >> ((4 - len) << 3)); */
-	return Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3));
+	int map_NO = is_mmio(addr);
+	if (map_NO == -1) {
+		return Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3));
+	}
+	else {
+		return mmio_read(addr, len, map_NO) & (~0u >> ((4 - len) << 3));
+	}
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	/* @dram_write(addr, len, data); */
-	Cache_1_write(addr, len, data);
+	int map_NO = is_mmio(addr);
+	if (map_NO == -1) {
+		Cache_1_write(addr, len, data);
+	}
+	else {
+		mmio_write(addr, len, data, map_NO);
+	}
 }
 
 hwaddr_t page_translate(lnaddr_t addr) {
