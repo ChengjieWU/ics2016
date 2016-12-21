@@ -24,7 +24,7 @@ void TLB_update(lnaddr_t, hwaddr_t);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	/* @return dram_read(addr, len) & (~0u >> ((4 - len) << 3)); */
 	int map_NO = is_mmio(addr);
-	if (addr == 0x804813a) printf("%d", map_NO);
+	if (addr == 0x100013a) printf("%d", map_NO);
 	if (map_NO == -1) {
 		if (addr == 0x804813a) printf("%x", Cache_1_read(addr, len));
 		return Cache_1_read(addr, len) & (~0u >> ((4 - len) << 3));
