@@ -87,13 +87,10 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		int back = len - front;
 		uint32_t low = hwaddr_read(page_translate(addr), front);
 		uint32_t high = hwaddr_read(page_translate(addr + front), back);
-		if (addr == 0x804813a) printf("hehe\n");
 		return (high << (front * 8)) | low;
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
-		if (addr == 0x8048139) printf("%x", hwaddr);
-		if (addr == 0x804813a) printf("%x", hwaddr);
 		return hwaddr_read(hwaddr, len);
 	}
 }
