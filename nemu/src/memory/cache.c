@@ -173,6 +173,7 @@ void Cache_1_write(hwaddr_t addr, size_t len, uint32_t data)
 		for (i = 0; i < BLOCK_SIZE; i++)
 			L1[group].cache[x].data[i] = Cache_2_read(addr_block + i, 1) & (~0u >> ((4 - 1) << 3));	//read into cache one byte by one
 
+	if (addr == 0x15d47e) printf("%x, %d, %x, %d\n", addr, len, data, Hit);	
 }
 
 
