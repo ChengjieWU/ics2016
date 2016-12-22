@@ -8,7 +8,9 @@ make_helper(concat(movs_, SUFFIX)) {
 	{
 		printf("%x, %x", swaddr_read(cpu.esi, 4, 0), swaddr_read(cpu.edi, 4, 0));
 	}
-	MEM_W(cpu.edi, cpu.esi, 0);
+	uint8_t temp = swaddr_read(cpu.esi, 1, 0);
+	swaddr_write(cpu.edi, 1, temp, 0);
+	//MEM_W(cpu.edi, cpu.esi, 0);
 	if (cpu.DF == 0) {
 		cpu.edi += 1;
 		cpu.esi += 1;
