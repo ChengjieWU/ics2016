@@ -111,6 +111,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
+		if (addr == 0xc015d465) printf("\n%x, %x, %d, %x\n", addr, hwaddr, len, data);
 		hwaddr_write(hwaddr, len, data);
 	}
 }
@@ -149,6 +150,6 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
-	if (addr == 0xc015d465) printf("\n%x, %d, %x\n", addr, len, data);
+	if (addr == 0xc015d465) printf("\n%x, %x, %d, %x\n", addr, lnaddr, len, data);
 	return lnaddr_write(lnaddr, len, data);
 }
