@@ -4,11 +4,12 @@
 
 make_helper(concat(movs_, SUFFIX)) {
 #if DATA_BYTE == 1
-	if (cpu.esi == 0xc0102f83) 
+	/*if (cpu.esi == 0xc0102f83)	once dubug
 	{
 		printf("%x, %x", swaddr_read(cpu.esi, 4, 0), swaddr_read(cpu.edi, 4, 0));
-	}
-	uint8_t temp = swaddr_read(cpu.esi, 1, 0);
+	}*/
+	uint32_t temp = swaddr_read(cpu.esi, 1, 0);
+	if (cpu.esi == 0xc0102f83) printf("%x", temp);
 	swaddr_write(cpu.edi, 1, temp, 0);
 	//MEM_W(cpu.edi, cpu.esi, 0);
 	if (cpu.DF == 0) {
