@@ -36,8 +36,6 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	/* @dram_write(addr, len, data); */
 	int map_NO = is_mmio(addr);
 	if (map_NO == -1) {
-		if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", addr, len, data);
-		if (addr == 0xbffffedd) printf("0x%x, %d, 0x%x\n", addr, len, data);
 		Cache_1_write(addr, len, data);
 	}
 	else {
@@ -114,9 +112,8 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
-		if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", hwaddr, len, data);
-		if (addr == 0xbffffedd) printf("0x%x, %d, 0x%x\n", hwaddr, len, data);
 		hwaddr_write(hwaddr, len, data);
+		if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", hwaddr, len, data);
 	}
 }
 
@@ -155,6 +152,5 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
 	if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", lnaddr, len, data);
-	if (addr == 0xbffffedd) printf("0x%x, %d, 0x%x\n", lnaddr, len, data);
 	return lnaddr_write(lnaddr, len, data);
 }
