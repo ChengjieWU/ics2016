@@ -38,7 +38,7 @@ make_helper(concat(movs_, SUFFIX)) {
 	print_asm("movsw %%ds:(%%esi),%%es:(%%edi)");
 #endif
 #if DATA_BYTE == 4
-	print_asm("movsl %%ds:(%%esi),%%es:(%%edi)");
+	//print_asm("movsl %%ds:(%%esi),%%es:(%%edi)");
 #endif
 	return 1;
 }
