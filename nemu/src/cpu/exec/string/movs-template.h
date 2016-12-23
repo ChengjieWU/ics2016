@@ -11,26 +11,7 @@ make_helper(concat(movs_, SUFFIX)) {
 	//uint32_t temp = swaddr_read(cpu.esi, 1, 0);
 	//swaddr_write(cpu.edi, 1, temp, 0);
 	//MEM_W(cpu.edi, cpu.esi, 0);
-	{MEM_W(cpu.edi, MEM_R(cpu.esi, 3), 0);
-	if (cpu.DF == 0) {
-		cpu.edi += 1;
-		cpu.esi += 1;
-	}
-	else {
-		cpu.edi -= 1;
-		cpu.esi -= 1;
-	}
-	}
-	else {
-	MEM_W(REG(R_EDI), MEM_R(REG(R_ESI), 3), 0);
-	if (cpu.DF == 0) {
-		REG(R_ESI) += DATA_BYTE;
-		REG(R_EDI) += DATA_BYTE;
-	}
-	else {
-		REG(R_ESI) -= DATA_BYTE;
-		REG(R_EDI) -= DATA_BYTE;
-	}}*/
+	*/
 	MEM_W(cpu.edi, MEM_R(cpu.esi, 3), 0);
 	if (cpu.DF == 0) {
 		cpu.esi += DATA_BYTE;
@@ -40,7 +21,6 @@ make_helper(concat(movs_, SUFFIX)) {
 		cpu.esi -= DATA_BYTE;
 		cpu.edi -= DATA_BYTE;
 	}
-	
 #if DATA_BYTE == 1
 	print_asm("movsb %%ds:(%%esi),%%es:(%%edi)");
 #endif
