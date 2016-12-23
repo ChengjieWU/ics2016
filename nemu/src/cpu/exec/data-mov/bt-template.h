@@ -10,17 +10,17 @@ make_helper(concat(bt_i2rm_, SUFFIX)) {
 	else cpu.CF = 0;
 	return 1 + len;
 }
-/*
+
 make_helper(concat(bt_r2rm_, SUFFIX)) {
 	int len = concat(decode_r2rm_, SUFFIX)(eip + 1);
 	uint32_t mask = 1;
-	mask = mask << (op_src->val % DATA_BYTE);
+	mask = mask << (op_src->val % (8 * DATA_BYTE));
 	if (op_dest->val & mask) cpu.CF = 1;
 	else cpu.CF = 0;
 	return 1 + len;
 }
-*/
 
+/*
 make_helper(concat(bt_r2rm_, SUFFIX)) {
 	int len = concat(decode_r2rm_, SUFFIX)(eip + 1);
 	if (op_dest->type == OP_TYPE_REG)
@@ -36,6 +36,6 @@ make_helper(concat(bt_r2rm_, SUFFIX)) {
 	}
 	return 1 + len;
 }
-
+*/
 
 #include "cpu/exec/template-end.h"
