@@ -61,7 +61,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			page_entry = (page_entry << 12) | (page << 2);
 			PTE pte;
 			pte.val = hwaddr_read(page_entry, 4);
-			if (pte.present != 1) printf("0x%x\n", addr);
+			/* DUBUG */if (pte.present != 1) printf("0x%x\n", addr);
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
 			TLB_update(addr, hwaddr);
@@ -113,7 +113,6 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
 		hwaddr_write(hwaddr, len, data);
-		if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", hwaddr, len, data);
 	}
 }
 
@@ -151,6 +150,5 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr = seg_translate(addr, len, sreg);
-	if (addr == 0xbffffee1) printf("0x%x, %d, 0x%x\n", lnaddr, len, data);
 	return lnaddr_write(lnaddr, len, data);
 }
