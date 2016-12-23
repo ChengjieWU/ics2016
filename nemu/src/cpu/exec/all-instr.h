@@ -14,6 +14,7 @@
 #include "data-mov/pusha.h"
 #include "data-mov/popa.h"
 #include "data-mov/sti.h"
+#include "data-mov/bt.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
