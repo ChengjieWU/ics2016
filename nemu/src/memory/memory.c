@@ -61,6 +61,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			page_entry = (page_entry << 12) | (page << 2);
 			PTE pte;
 			pte.val = hwaddr_read(page_entry, 4);
+			if (pte.present != 1) printf("%x\n", addr);
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
 			TLB_update(addr, hwaddr);
