@@ -33,12 +33,12 @@ make_helper(concat(movs_, SUFFIX)) {
 	}}*/
 	MEM_W(cpu.edi, MEM_R(cpu.esi, 3), 0);
 	if (cpu.DF == 0) {
-		REG(R_ESI) += DATA_BYTE;
-		REG(R_EDI) += DATA_BYTE;
+		cpu.esi += DATA_BYTE;
+		cpu.edi += DATA_BYTE;
 	}
 	else {
-		REG(R_ESI) -= DATA_BYTE;
-		REG(R_EDI) -= DATA_BYTE;
+		cpu.esi -= DATA_BYTE;
+		cpu.edi -= DATA_BYTE;
 	}
 	
 #if DATA_BYTE == 1
