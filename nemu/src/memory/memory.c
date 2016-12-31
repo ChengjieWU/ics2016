@@ -37,6 +37,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	/* @dram_write(addr, len, data); */
+	if (addr == 0)return;
 	int map_NO = is_mmio(addr);
 	if (map_NO == -1) {
 		Cache_1_write(addr, len, data);
@@ -67,6 +68,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			/* DUBUG */
 			if (pte.present != 1) {
 				printf("\n0x%x\t0x%x\t0x%x\t0x%x\t0x%x\t0x%x\n", addr, cpu.eip, cpu.eax, cpu.ebx, cpu.esp, cpu.ebp);
+				return 0;
 			}
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
