@@ -7,11 +7,13 @@ void serial_printc(char);
 void add_irq_handle(int, void (*)(void));
 uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
-int fs_open(const char *pathname, int flags);
-int fs_read(int fd, void *buf, size_t len);
-int fs_write(int fd, const void *buf, size_t len);
-off_t fs_lseek(int fd, off_t offset, int whence);
-int fs_close(int fd);
+
+int fs_open(const char*, int flags);
+int fs_read(int, void*, size_t);
+int fs_write(int, const void*, size_t);
+off_t fs_lseek(int, off_t, int);
+int fs_close(int);
+
 
 static void sys_brk(TrapFrame *tf) {
 	tf->eax = mm_brk(tf->ebx);
@@ -39,29 +41,23 @@ static void sys_write(TrapFrame *tf) {
 	}
 }
 
-static void sys_open(TrapFrame *tf) {
-	const char *pathname = (const char *)tf->ebx;
-	int flags = tf->ecx;
-	tf->eax = fs_open(pathname, flags);
+static void sys_open(TrapFrame *tf) 
+{
+	tf->eax = fs_open((const char*)tf->ebx, tf->ecx);
 }
 
-static void sys_close(TrapFrame *tf) {
-	int fd = tf->ebx;
-	tf->eax = fs_close(fd);
+static void sys_close(TrapFrame *tf) 
+{
+	tf->eax = fs_close(tf->ebx);
 }
 
-static void sys_read(TrapFrame *tf) {
-	int fd = tf->ebx;
-	char *buf = (char *) tf->ecx;
-	size_t len = tf->edx;
-	tf->eax = fs_read(fd, buf, len);
+static void sys_read(TrapFrame *tf) 
+{
+	tf->eax = fs_read(tf->ebx, (char*)tf->ecx, tf->edx);
 }
 
 static void sys_lseek(TrapFrame *tf) {
-	int fd = tf->ebx;
-	off_t offset = tf->ecx;
-	int whence = tf->edx;
-	tf->eax = fs_lseek(fd, offset, whence);
+	tf->eax = fs_lseek(tf->ebx, tf->ecx, tf->edx);
 }
 
 
