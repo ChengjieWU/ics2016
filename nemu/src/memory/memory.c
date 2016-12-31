@@ -1,6 +1,7 @@
 #include "common.h"
 #include "mmu.h"
 #include "device/mmio.h"
+#include "reg.h"
 
 /* @uint32_t dram_read(hwaddr_t, size_t); */
 /* @void dram_write(hwaddr_t, size_t, uint32_t); */
@@ -8,6 +9,8 @@ uint32_t Cache_1_read(hwaddr_t, size_t);
 void Cache_1_write(hwaddr_t, size_t, uint32_t);
 uint32_t Cache_2_read(hwaddr_t, size_t);
 void Cache_2_write(hwaddr_t, size_t, uint32_t);
+
+CPU_state cpu;
 
 bool cpu_cr0_protect_enable();
 int cpu_sreg_index(uint8_t);
@@ -61,7 +64,10 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			page_entry = (page_entry << 12) | (page << 2);
 			PTE pte;
 			pte.val = hwaddr_read(page_entry, 4);
-			/* DUBUG */if (pte.present != 1) printf("0x%x\n", addr);
+			/* DUBUG */
+			if (pte.present != 1) {
+				printf("\n0x%x\t0x%x\t0x%x\t0x%x\t0x%x\t0x%x\n", addr, cpu.eip, cpu.eax, cpu.ebx, cpu.esp, cpu.ebp);
+			}
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
 			TLB_update(addr, hwaddr);
