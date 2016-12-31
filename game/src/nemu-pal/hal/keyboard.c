@@ -25,6 +25,18 @@ keyboard_event(void) {
 		if (keycode_array[i] == scancode)
 			break;
 	if (i == NR_KEYS) return;
+	volatile int state = key_state[i];
+	switch (state)
+	{
+		case KEY_STATE_EMPTY:
+			key_state[i] = KEY_STATE_PRESS;
+			break;
+		case KEY_STATE_WAIT_RELEASE:
+			key_state[i] = KEY_STATE_RELEASE;
+			break;
+		default:
+			break;
+	}
 }
 
 static inline int
@@ -61,6 +73,27 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
+	int i;
+	bool found = false;
+	for (i = 0; i < NR_KEYS; i++)
+	{
+		volatile int state = query_key(i);
+		switch (state)
+		{
+			case KEY_STATE_PRESS:
+				found = true;
+				key_press_callback(get_keycode(i));
+				release_key(i);
+				break;
+			case KEY_STATE_RELEASE:
+				found = true;
+				key_release_callback(get_keycode(i));
+				key_state[i] = KEY_STATE_EMPTY;
+				break;
+			default:
+				break;
+		}
+	}
 	sti();
-	return false;
+	return found;
 }
