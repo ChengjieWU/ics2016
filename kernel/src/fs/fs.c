@@ -1,4 +1,5 @@
 #include "common.h"
+#include <string.h>
 #include <sys/ioctl.h>
 
 typedef struct {
@@ -39,7 +40,7 @@ void ide_write(uint8_t *, uint32_t, uint32_t);
 /* TODO: implement a simplified file system here. */
 
 
-typedef struct {
+struct {
 	bool opened;
 	uint32_t offset;
 } Fstate[NR_FILES + 3];
@@ -73,7 +74,7 @@ int fs_write(int fd, const void *buf, size_t len)
 	if (fd < 3) return 0;
 	assert(file_table[fd - 3].size >= Fstate[fd].offset);
 	if (file_table[fd - 3].size - Fstate[fd].offset < len) len = file_table[fd - 3].size - Fstate[fd].offset;
-	ide_write(buf, file_table[fd - 3].disk_offset + Fstate[fd].offset, len);
+	ide_write((uint8_t*)buf, file_table[fd - 3].disk_offset + Fstate[fd].offset, len);
 	Fstate[fd].offset += len;
 	return len;
 }
@@ -99,6 +100,6 @@ off_t fs_lseek(int fd, off_t offset, int whence)
 
 int fs_close(int fd) 
 {
-	f_state[fd].opened = false;
+	Fstate[fd].opened = false;
 	return 0;
 }
