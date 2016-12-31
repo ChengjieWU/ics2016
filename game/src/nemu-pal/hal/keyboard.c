@@ -1,5 +1,7 @@
 #include "hal.h"
 
+#include "x86.h"
+
 #define NR_KEYS 18
 
 enum {KEY_STATE_EMPTY, KEY_STATE_WAIT_RELEASE, KEY_STATE_RELEASE, KEY_STATE_PRESS};
@@ -17,7 +19,12 @@ static int key_state[NR_KEYS];
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	assert(0);
+	volatile uint8_t scancode = in_byte(0x60);
+	int i;
+	for (i = 0; i < NR_KEYS; i++)
+		if (keycode_array[i] == scancode)
+			break;
+	if (i == NR_KEYS) return;
 }
 
 static inline int
@@ -54,8 +61,6 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-
-	assert(0);
 	sti();
 	return false;
 }
