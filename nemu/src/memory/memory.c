@@ -68,7 +68,6 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			/* DUBUG */
 			if (pte.present != 1) {
 				printf("\n0x%x\t0x%x\t0x%x\t0x%x\t0x%x\t0x%x\n", addr, cpu.eip, cpu.eax, cpu.ebx, cpu.esp, cpu.ebp);
-				return 0;
 			}
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
