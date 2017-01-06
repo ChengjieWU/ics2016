@@ -617,7 +617,7 @@ PAL_SpriteGetFrame(
 --*/
 {
    int imagecount, offset;
-
+	Log("%x", lpSprite);
    if (lpSprite == NULL)
    {
       return NULL;
