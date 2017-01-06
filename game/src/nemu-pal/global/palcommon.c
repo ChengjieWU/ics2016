@@ -22,7 +22,7 @@
 //
 
 #include "palcommon.h"
-
+void set_bp();	////////
 INT
 PAL_RLEBlitToSurface(
    LPCBITMAPRLE      lpBitmapRLE,
@@ -618,6 +618,7 @@ PAL_SpriteGetFrame(
 {
    int imagecount, offset;
 	Log("%x", lpSprite);
+	set_bp();
    if (lpSprite == NULL)
    {
       return NULL;
