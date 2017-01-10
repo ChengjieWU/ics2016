@@ -25,20 +25,21 @@ keyboard_event(void) {
 		if (keycode_array[i] == (scancode & 0x7f))
 			break;
 	if (i == NR_KEYS) return;
+	bool press = !(scancode & 0x80);
 	volatile int state = key_state[i];
 	switch (state)
 	{
 		case KEY_STATE_EMPTY:
-			if (!(scancode & 0x80))
+			if (press)
 			{
-				Log("press\n");
+				Log("press");
 				key_state[i] = KEY_STATE_PRESS;
 			}
 			break;
 		case KEY_STATE_WAIT_RELEASE:
-			if (scancode & 0x80)
+			if (!press)
 			{
-				Log("release\n");
+				Log("release");
 				key_state[i] = KEY_STATE_RELEASE;
 			}
 			break;
