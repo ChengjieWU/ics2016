@@ -22,10 +22,12 @@ keyboard_event(void) {
 	volatile uint8_t scancode = in_byte(0x60);
 	int i;
 	for (i = 0; i < NR_KEYS; i++)
-		if (keycode_array[i] == scancode)
+		if (keycode_array[i] == (scancode & 0x7f))
 			break;
 	if (i == NR_KEYS) return;
-	volatile int state = key_state[i];
+	if (scancode & 0x80) key_state[i] = KEY_STATE_RELEASE;
+	else key_state[i] = KEY_STATE_PRESS;
+	/*volatile int state = key_state[i];
 	switch (state)
 	{
 		case KEY_STATE_EMPTY:
@@ -36,7 +38,8 @@ keyboard_event(void) {
 			break;
 		default:
 			break;
-	}
+	}*/
+	
 }
 
 static inline int
@@ -88,7 +91,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 			case KEY_STATE_RELEASE:
 				found = true;
 				key_release_callback(get_keycode(i));
-				key_state[i] = KEY_STATE_EMPTY;
+				clear_key(i);
 				break;
 			default:
 				break;
