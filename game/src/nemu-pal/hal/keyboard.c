@@ -30,11 +30,17 @@ keyboard_event(void) {
 	{
 		case KEY_STATE_EMPTY:
 			if (!(scancode & 0x80))
+			{
+				Log("press\n");
 				key_state[i] = KEY_STATE_PRESS;
+			}
 			break;
 		case KEY_STATE_WAIT_RELEASE:
 			if (scancode & 0x80)
+			{
+				Log("release\n");
 				key_state[i] = KEY_STATE_RELEASE;
+			}
 			break;
 		default:
 			break;
