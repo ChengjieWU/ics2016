@@ -26,26 +26,26 @@ keyboard_event(void) {
 			break;
 	if (i == NR_KEYS) return;
 	bool press = !(scancode & 0x80);
-	//volatile int state = key_state[i];
-	//switch (state)
-	//{
-		//case KEY_STATE_EMPTY:
+	volatile int state = key_state[i];
+	switch (state)
+	{
+		case KEY_STATE_EMPTY:
 			if (press)
 			{
 				Log("press");
 				key_state[i] = KEY_STATE_PRESS;
 			}
-			//break;
-		//case KEY_STATE_WAIT_RELEASE:
+			break;
+		case KEY_STATE_WAIT_RELEASE:
 			if (!press)
 			{
 				Log("release");
-				key_state[i] = KEY_STATE_RELEASE;
+				//key_state[i] = KEY_STATE_RELEASE;
 			}
-			//break;
-		//default:
-			//break;
-	//}
+			break;
+		default:
+			break;
+	}
 	
 }
 
@@ -93,7 +93,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 			case KEY_STATE_PRESS:
 				found = true;
 				key_press_callback(get_keycode(i));
-				release_key(i);
+				clear_key(i);
 				break;
 			case KEY_STATE_RELEASE:
 				found = true;
