@@ -39,12 +39,12 @@ keyboard_event(void) {
 	int state = key_state[i];
 	if (state == KEY_STATE_EMPTY && press)
 	{
-		Log("press");
+		//Log("press");
 		key_state[i] = KEY_STATE_PRESS;
 	}
 	else if (state == KEY_STATE_WAIT_RELEASE && !press)
 	{
-		Log("release");
+		//Log("release");
 		key_state[i] = KEY_STATE_RELEASE;
 	}
 }

@@ -65,10 +65,12 @@ hwaddr_t page_translate(lnaddr_t addr) {
 			page_entry = (page_entry << 12) | (page << 2);
 			PTE pte;
 			pte.val = hwaddr_read(page_entry, 4);
-			/* DUBUG */
+/* DUBUG */
+#ifdef DEBUG
 			if (pte.present != 1) {
 				printf("\n0x%x\t0x%x\t0x%x\t0x%x\t0x%x\t0x%x\n", addr, cpu.eip, cpu.eax, cpu.ebx, cpu.esp, cpu.ebp);
 			}
+#endif
 			assert(pte.present == 1);
 			hwaddr = offset | (pte.page_frame << 12);
 			TLB_update(addr, hwaddr);
