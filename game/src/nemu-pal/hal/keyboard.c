@@ -26,8 +26,16 @@ keyboard_event(void) {
 			break;
 	if (i == NR_KEYS) return;
 	bool press = !(scancode & 0x80);
-	if (press) key_state[i] = KEY_STATE_PRESS;
-	else key_state[i] = KEY_STATE_RELEASE;
+	if (press) 
+	{
+		Log("press");
+		key_state[i] = KEY_STATE_PRESS;
+	}
+	else
+	{
+		Log("release");
+		key_state[i] = KEY_STATE_RELEASE;
+	}
 	/*volatile int state = key_state[i];
 	switch (state)
 	{
