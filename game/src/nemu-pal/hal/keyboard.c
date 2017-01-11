@@ -36,7 +36,7 @@ keyboard_event(void) {
 		Log("release");
 		key_state[i] = KEY_STATE_RELEASE;
 	}*/
-	volatile int state = key_state[i];
+	int state = key_state[i];
 	if (state == KEY_STATE_EMPTY && press)
 	{
 		Log("press");
@@ -88,20 +88,17 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	for (i = 0; i < NR_KEYS; i++)
 	{
 		volatile int state = query_key(i);
-		switch (state)
+		if (state == KEY_STATE_PRESS)
 		{
-			case KEY_STATE_PRESS:
-				found = true;
-				key_press_callback(get_keycode(i));
-				release_key(i);
-				break;
-			case KEY_STATE_RELEASE:
-				found = true;
-				key_release_callback(get_keycode(i));
-				clear_key(i);
-				break;
-			default:
-				break;
+			found = true;
+			key_press_callback(get_keycode(i));
+			release_key(i);
+		}
+		else if (state == KEY_STATE_RELEASE)
+		{
+			found = true;
+			key_release_callback(get_keycode(i));
+			clear_key(i);
 		}
 	}
 	sti();
